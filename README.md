@@ -119,7 +119,3 @@ Se implementará un **diagrama de Gantt** para planificar las tareas y una carpe
 🔗 [Repositorio FastFix en GitHub](https://github.com/GiovanniBarroso/FastFix)
 
 ---
-
-## Acceso a la Memoria Documental
-
-Se compartirá una carpeta de Google Drive con la tutora (Usuario: `olga3emes`) con los documentos en formato `.md` según necesidades. Se facilitará acceso al equipo y se actualizará regularmente.
