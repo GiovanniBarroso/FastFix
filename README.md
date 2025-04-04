@@ -71,8 +71,8 @@ Desarrollar una plataforma web intuitiva y eficiente que ofrezca servicios de re
 
 ## Tecnologías a Usar (Estado del Arte)
 
-**Backend:** Laravel (?) + MySQL o MS SQL Server  
-**Frontend:** Vue.js, Bootstrap, HTML5, CSS3, JavaScript ES6  
+**Backend:** Laravel + MySQL  
+**Frontend:** Vue.js, Bootstrap, HTML5, CSS3, JavaScript  
 **Control de versiones:** Git, GitHub  
 **Herramientas de desarrollo:** Visual Studio Code, Postman, Trello, Draw.io, Canva, Figma  
 **Metodología:** Kanban con Trello + Git Flow
