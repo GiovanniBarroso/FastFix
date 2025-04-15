@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import api from '@/utils/axios'
+import api from '@/services/api'
 import { useRouter } from 'vue-router'
 
 const email = ref('')
@@ -47,11 +47,10 @@ const login = async () => {
 
     router.push('/')
   } catch (error) {
-    errorMessage.value = error.response?.data?.error || 'Error al iniciar sesión.'
+    errorMessage.value = error.response?.data?.message || 'Error inesperado al iniciar sesión.'
   }
 }
 </script>
 
 <style scoped>
-@import './AuthStyles.css';
 </style>

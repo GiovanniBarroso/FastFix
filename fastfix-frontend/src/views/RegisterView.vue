@@ -67,5 +67,4 @@ const register = async () => {
 </script>
 
 <style scoped>
-@import './AuthStyles.css';
 </style>

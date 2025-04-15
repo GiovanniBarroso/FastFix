@@ -14,11 +14,11 @@ return [
     */
 
     'guards' => [
-    'api' => [
-        'driver' => 'jwt',
-        'provider' => 'users',
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
-],
 
 
     /*
@@ -38,12 +38,12 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-    ],
+    // 'guards' => [
+    //     'web' => [
+    //         'driver' => 'session',
+    //         'provider' => 'users',
+    //     ],
+    // ],
 
     /*
     |--------------------------------------------------------------------------

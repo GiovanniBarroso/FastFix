@@ -45,6 +45,6 @@
   </script>
   
   <style scoped>
-  @import './AuthStyles.css';
+
   </style>
   
