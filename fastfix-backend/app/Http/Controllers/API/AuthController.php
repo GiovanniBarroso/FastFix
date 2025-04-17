@@ -13,13 +13,15 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
 
+        logger('TOKEN GENERADO: ' . $token);
+
         return response()->json([
             'token' => $token,
-            'user' => auth()->user()
+            'user' => auth('api')->user()
         ]);
     }
 
@@ -37,7 +39,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        $token = auth()->login($user);
+        $token = auth('api')->login($user);
 
         return response()->json([
             'token' => $token,
@@ -47,12 +49,12 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        auth('api')->logout();
         return response()->json(['message' => 'Sesión cerrada correctamente']);
     }
 
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth('api')->user());
     }
 }

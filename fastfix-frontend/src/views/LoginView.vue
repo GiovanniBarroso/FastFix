@@ -39,6 +39,10 @@ const login = async () => {
       password: password.value
     })
 
+    console.log('Response completa:', response)
+    console.log('Token recibido:', response.data.token)
+
+
     const token = response.data.token
     const user = response.data.user
 
@@ -52,5 +56,4 @@ const login = async () => {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
