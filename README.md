@@ -88,9 +88,13 @@ El equipo está conformado por:
 - Roberto Gómez
 - Tutora: Olga (olga3emes)
 
-Seguimos la metodología ágil **Kanban** mediante Trello. Usamos **Git Flow** como estrategia de control de versiones y colaboramos usando GitHub.
+Con el objetivo de mantener una estructura de trabajo clara, colaborativa y flexible, hemos optado por seguir una metodología de desarrollo ágil, concretamente el modelo **Kanban**, utilizando la herramienta **Trello** para la gestión de tareas. Esta metodología permite una visualización continua del estado de los distintos procesos, una priorización eficiente y una adaptación rápida a los cambios durante el ciclo de vida del desarrollo.
 
-Se implementará un **diagrama de Gantt** para planificar las tareas y una carpeta compartida de Google Drive donde se almacenarán las entregas y avances.
+En cuanto al control de versiones y la colaboración entre los miembros del equipo, se emplea la estrategia **Git Flow**, apoyada en la plataforma GitHub, lo que garantiza un control riguroso del código fuente, una organización efectiva de las ramas del repositorio y una integración segura de nuevas funcionalidades.
+
+Asimismo, se ha desarrollado un **diagrama de Gantt** que proporciona una planificación temporal detallada del proyecto, distribuyendo de manera equilibrada las distintas tareas y estableciendo hitos concretos a lo largo del calendario de trabajo. 
+
+Para facilitar la colaboración, el almacenamiento de entregas y el intercambio de material de trabajo, se ha creado una carpeta compartida en Google Drive, donde se centralizan todos los documentos relevantes y se realiza un seguimiento de las versiones de cada archivo.
 
 🔗 [Diagrama de Gantt](https://www.notion.so/1c60faac9c3b80188e0cc02f5e923e80?v=1c60faac9c3b80ea8bc4000c6c3bcc50)
 
