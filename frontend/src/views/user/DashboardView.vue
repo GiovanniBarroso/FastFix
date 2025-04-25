@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import AppLayout from '@/components/Layout/AppLayout.vue'
+import AppLayout from '@/components/layout/AppLayout.vue'
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import { useRouter } from 'vue-router'
