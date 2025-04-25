@@ -27,6 +27,10 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        if ($request->email === 'admin@fastfix.com') {
+            return response()->json(['error' => 'Este correo está reservado para administración'], 403);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
@@ -55,6 +59,15 @@ class AuthController extends Controller
 
     public function me()
     {
-        return response()->json(auth('api')->user());
+        $user = auth('api')->user();
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            // Simulación del rol admin (puedes cambiar esto si usas una columna real)
+            'is_admin' => $user->email === 'admin@fastfix.com'
+        ]);
     }
+
 }

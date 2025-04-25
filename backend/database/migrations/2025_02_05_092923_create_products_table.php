@@ -1,28 +1,33 @@
 <?php
+namespace App\Models;
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-return new class extends Migration {
-    public function up()
+class Product extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'nombre',
+        'description',
+        'precio',
+        'stock',
+        'activo',
+        'categories_id',
+        'brands_id',
+        'image'
+    ];
+
+    // Relaciones
+    public function category()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre', 100);
-            $table->text('description')->nullable();
-            $table->decimal('precio', 10, 2);
-            $table->integer('stock');
-            $table->boolean('activo')->default(true);
-            $table->foreignId('categories_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('brands_id')->constrained('brands')->onDelete('cascade');
-            $table->string('image')->nullable(); 
-            $table->timestamps();
-        });
+        return $this->belongsTo(Category::class, 'categories_id');
     }
 
     public function down()
     {
         Schema::dropIfExists('products');
     }
-};
+}
+;

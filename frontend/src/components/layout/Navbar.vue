@@ -20,7 +20,8 @@
 
                 <template v-if="isAuthenticated">
                     <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
-                    <router-link v-if="user?.roles_id === 1" to="/admin" class="nav-link">Admin</router-link>
+                    <router-link v-if="isAdmin" to="/admin" class="nav-link">Admin</router-link>
+
 
                     <!-- User dropdown -->
                     <div class="relative" ref="dropdownRef">
@@ -61,7 +62,8 @@
 
             <template v-if="isAuthenticated">
                 <router-link to="/dashboard" class="nav-link block">Dashboard</router-link>
-                <router-link v-if="user?.roles_id === 1" to="/admin" class="nav-link block">Admin</router-link>
+                <router-link v-if="isAdmin" to="/admin" class="nav-link block">Admin</router-link>
+
                 <button @click="logout" class="nav-link block text-left text-red-500">Cerrar sesión</button>
             </template>
 
@@ -122,6 +124,11 @@ const logout = async () => {
         router.push('/login')
     }
 }
+
+const isAdmin = computed(() => {
+    return localStorage.getItem('is_admin') === 'true'
+})
+
 </script>
 
 <style scoped>

@@ -22,10 +22,15 @@ onMounted(async () => {
   try {
     const res = await api.get('/me')
     user.value = res.data
+
+    // Guardar flag de admin (simulado si no existe en backend)
+    const esAdmin = res.data.is_admin ?? res.data.email === 'admin@fastfix.com'
+    localStorage.setItem('is_admin', esAdmin)
   } catch (e) {
     console.error('Error cargando usuario', e)
     localStorage.clear()
     router.push('/login')
   }
 })
+
 </script>
