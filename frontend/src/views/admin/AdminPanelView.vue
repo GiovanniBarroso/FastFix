@@ -1,7 +1,7 @@
 <template>
-    <section class="py-12 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <section class="py-12  bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white mb-10 text-center">
+        <h1 class="text-4xl font-extrabold   mb-10 text-center">
           🛠️ Panel de Administración
         </h1>
   
@@ -9,13 +9,13 @@
           <div
             v-for="panel in adminPanels"
             :key="panel.nombre"
-            class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-lg transition p-6 cursor-pointer text-center"
+            class=" dark:bg-gray-800 -2xl -md  transition  cursor-pointer text-center"
             @click="router.push(panel.ruta)"
           >
             <div class="text-5xl mb-4 text-blue-600 dark:text-blue-400">
               {{ panel.icono }}
             </div>
-            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+            <h2 class="text-xl font-bold   mb-2">
               {{ panel.nombre }}
             </h2>
             <p class="text-gray-600 dark:text-gray-300 text-sm">

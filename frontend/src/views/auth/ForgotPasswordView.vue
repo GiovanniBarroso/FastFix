@@ -7,7 +7,7 @@
   
       <form @submit.prevent="sendResetLink" class="space-y-4">
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+          <label for="email" class="block text-sm  text-gray-700">Correo electrónico</label>
           <input
             v-model="email"
             type="email"
@@ -61,7 +61,7 @@
     padding: 2rem;
     background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    box-: 0 0 12px rgba(0, 0, 0, 0.05);
   }
   
   .input {

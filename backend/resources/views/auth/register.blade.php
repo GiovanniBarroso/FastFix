@@ -6,8 +6,8 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- 🟠 Tarjeta de Registro -->
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-header bg-warning text-dark fw-bold text-center fs-4 rounded-top-4">
+                <div class="card -lg border-0 -4">
+                    <div class="card-header bg-warning text-dark fw-bold text-center fs-4 -top-4">
                         <i class="fas fa-user-plus"></i> Crear una Cuenta
                     </div>
 
@@ -22,7 +22,7 @@
                                     <i class="fas fa-user"></i> Nombre
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-secondary">
+                                    <span class="input-group-text  border-secondary">
                                         <i class="fas fa-user"></i>
                                     </span>
                                     <input id="name" type="text"
@@ -42,7 +42,7 @@
                                     <i class="fas fa-user"></i> Apellidos
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-secondary">
+                                    <span class="input-group-text  border-secondary">
                                         <i class="fas fa-user"></i>
                                     </span>
                                     <input id="apellidos" type="text"
@@ -62,7 +62,7 @@
                                     <i class="fas fa-envelope"></i> Correo Electrónico
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-secondary">
+                                    <span class="input-group-text  border-secondary">
                                         <i class="fas fa-envelope"></i>
                                     </span>
                                     <input id="email" type="email"
@@ -82,7 +82,7 @@
                                     <i class="fas fa-lock"></i> Contraseña
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-secondary">
+                                    <span class="input-group-text  border-secondary">
                                         <i class="fas fa-key"></i>
                                     </span>
                                     <input id="password" type="password"
@@ -106,7 +106,7 @@
                                     <i class="fas fa-lock"></i> Confirmar Contraseña
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-secondary">
+                                    <span class="input-group-text  border-secondary">
                                         <i class="fas fa-key"></i>
                                     </span>
                                     <input id="password-confirm" type="password" class="form-control custom-input"
@@ -121,7 +121,7 @@
                             <!-- 🟡 Botón de Registro -->
                             <div class="text-center">
                                 <button type="submit"
-                                    class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm btn-register">
+                                    class="btn btn-warning text-dark fw-bold   -pill -sm btn-register">
                                     <i class="fas fa-user-plus"></i> Registrarse
                                 </button>
                             </div>
@@ -151,7 +151,7 @@
 
         .custom-input:focus {
             border-color: #ff9800;
-            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+            box-: 0 0 10px rgba(255, 152, 0, 0.5);
             outline: none;
         }
 

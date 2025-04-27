@@ -6,8 +6,8 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- 🟠 Tarjeta de Verificación de Email -->
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-header bg-warning text-dark fw-bold text-center fs-4 rounded-top-4">
+                <div class="card -lg border-0 -4">
+                    <div class="card-header bg-warning text-dark fw-bold text-center fs-4 -top-4">
                         <i class="fas fa-envelope"></i> Verificación de Correo Electrónico
                     </div>
 
@@ -33,7 +33,7 @@
                         <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
                             @csrf
                             <button type="submit"
-                                class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm btn-resend">
+                                class="btn btn-warning text-dark fw-bold   -pill -sm btn-resend">
                                 <i class="fas fa-paper-plane"></i> Reenviar Verificación
                             </button>
                         </form>

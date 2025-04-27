@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen bg-gray-50 text-gray-800">
     <Navbar />
-    <main class="min-h-screen pt-16">
+    <main class="flex-1 pt-16">
       <router-view />
     </main>
     <Footer />

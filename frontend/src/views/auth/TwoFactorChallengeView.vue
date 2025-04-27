@@ -4,12 +4,12 @@
   
       <form @submit.prevent="submit" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700">Código de autenticación</label>
+          <label class="block text-sm  text-gray-700">Código de autenticación</label>
           <input v-model="code" type="text" class="input" autocomplete="one-time-code" />
         </div>
   
         <div>
-          <label class="block text-sm font-medium text-gray-700">Código de recuperación</label>
+          <label class="block text-sm  text-gray-700">Código de recuperación</label>
           <input v-model="recovery_code" type="text" class="input" />
         </div>
   

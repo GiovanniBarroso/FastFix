@@ -1,13 +1,13 @@
 <template>
-    <nav class="bg-white dark:bg-gray-800 shadow fixed w-full z-50">
+    <nav class=" dark:bg-gray-800 shadow fixed w-full z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo -->
-            <router-link to="/" class="text-2xl font-bold text-gray-800 dark:text-white">
+            <router-link to="/" class="text-2xl font-bold  ">
                 FastFix
             </router-link>
 
             <!-- Mobile menu toggle -->
-            <button @click="toggleMobileMenu" class="sm:hidden text-gray-800 dark:text-white">
+            <button @click="toggleMobileMenu" class="sm:hidden  ">
                 <span v-if="!mobileMenuOpen">☰</span>
                 <span v-else>✖</span>
             </button>
@@ -26,7 +26,7 @@
                     <!-- User dropdown -->
                     <div class="relative" ref="dropdownRef">
                         <button @click="toggleMenu"
-                            class="flex items-center space-x-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+                            class="flex items-center space-x-2 bg-gray-100       hover:bg-gray-200 dark:hover:bg-gray-600 transition"
                             :aria-expanded="showMenu" aria-haspopup="true">
                             <span>{{ user.name }}</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -36,10 +36,10 @@
 
                         <transition name="fade">
                             <div v-if="showMenu"
-                                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded shadow z-50"
+                                class="absolute right-0 mt-2 w-48   border dark:border-gray-600  shadow z-50"
                                 role="menu">
                                 <button @click="logout"
-                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-white">
+                                    class="block w-full text-left px-4  text-sm hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 ">
                                     Cerrar sesión
                                 </button>
                             </div>
@@ -133,7 +133,7 @@ const isAdmin = computed(() => {
 
 <style scoped>
 .nav-link {
-    @apply text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 font-medium px-3 py-2 transition duration-200;
+    @apply        transition duration-200;
 }
 
 .fade-enter-active,

@@ -1,7 +1,7 @@
 <template>
-    <section class="py-10 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <section class="py-10  bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white mb-6 text-center">
+        <h1 class="text-4xl font-extrabold   mb-6 text-center">
           🔧 Servicios de reparación
         </h1>
   
@@ -21,7 +21,7 @@
   </template>
   
   <script setup>
-  import RepairCard from '@/components/repairs/RepairCard.vue'
+  import RepairCard from '@/components/products/RepairCard.vue'
   
   const repairs = [
     {

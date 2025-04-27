@@ -4,12 +4,12 @@
 
     <form @submit.prevent="login" class="space-y-4">
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        <label for="email" class="block text-sm  text-gray-700">Correo electrónico</label>
         <input v-model="email" type="email" id="email" required class="input" />
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+        <label for="password" class="block text-sm  text-gray-700">Contraseña</label>
         <input v-model="password" type="password" id="password" required class="input" />
       </div>
 

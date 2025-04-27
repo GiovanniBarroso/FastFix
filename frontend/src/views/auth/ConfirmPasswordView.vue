@@ -7,7 +7,7 @@
   
       <form @submit.prevent="confirmPassword" class="space-y-4">
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+          <label for="password" class="block text-sm  text-gray-700">Contraseña</label>
           <input v-model="password" type="password" id="password" required class="input" />
         </div>
   

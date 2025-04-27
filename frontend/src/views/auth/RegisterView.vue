@@ -4,22 +4,22 @@
 
     <form @submit.prevent="register" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
+        <label class="block text-sm  text-gray-700">Nombre completo</label>
         <input v-model="name" type="text" required class="input" />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        <label class="block text-sm  text-gray-700">Correo electrónico</label>
         <input v-model="email" type="email" required class="input" />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700">Contraseña</label>
+        <label class="block text-sm  text-gray-700">Contraseña</label>
         <input v-model="password" type="password" required class="input" />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
+        <label class="block text-sm  text-gray-700">Confirmar contraseña</label>
         <input v-model="password_confirmation" type="password" required class="input" />
       </div>
 

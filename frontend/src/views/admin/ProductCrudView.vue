@@ -1,19 +1,19 @@
 <template>
-  <section class="py-10 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <section class="py-10  bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto">
       <div class="flex justify-between items-center mb-8">
-        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">
+        <h1 class="text-4xl font-extrabold  ">
           🛠️ Gestión de productos
         </h1>
         <button @click="showModal = true"
-          class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded transition">
+          class="bg-green-600 hover:bg-green-700 text-white px-6   transition">
           + Añadir producto
         </button>
       </div>
 
       <!-- Tabla de productos -->
-      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow">
-        <table class="min-w-full text-sm text-gray-800 dark:text-gray-200">
+      <div class="overflow-x-auto  dark:bg-gray-800 -xl ">
+        <table class="min-w-full text-sm  dark:text-gray-200">
           <thead class="bg-yellow-400 text-gray-900">
             <tr>
               <th class="p-4 text-left">#</th>
@@ -28,18 +28,18 @@
               class="border-t border-gray-200 dark:border-gray-700">
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="product.image" class="w-12 h-12 rounded" alt="Producto" />
+                <img :src="product.image" class="w-12 h-12 " alt="Producto" />
                 <span>{{ product.nombre }}</span>
               </td>
               <td class="p-4">€{{ product.precio.toFixed(2) }}</td>
               <td class="p-4">{{ product.stock }}</td>
               <td class="p-4 flex gap-2">
                 <button @click="editar(product)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs transition">
+                  class="bg-blue-500 hover:bg-blue-600 text-white  py-1  text-xs transition">
                   Editar
                 </button>
                 <button @click="eliminar(product.id)"
-                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition">
+                  class="bg-red-500 hover:bg-red-600 text-white  py-1  text-xs transition">
                   Eliminar
                 </button>
               </td>

@@ -1,18 +1,18 @@
 <template>
-  <section class="py-12 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <section class="py-12  bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-5xl mx-auto">
-      <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white mb-8 text-center">
+      <h1 class="text-4xl font-extrabold   mb-8 text-center">
         👥 Sobre nosotros
       </h1>
 
       <div class="grid md:grid-cols-2 gap-10 items-center">
         <div>
           <img src="https://via.placeholder.com/600x400" alt="Equipo FastFix"
-            class="rounded-2xl shadow-lg w-full object-cover" />
+            class="-2xl -lg w-full object-cover" />
         </div>
 
         <div>
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+          <h2 class="text-2xl font-bold   mb-4">
             FastFix: Reparaciones y confianza desde el primer clic
           </h2>
           <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">

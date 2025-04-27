@@ -6,8 +6,8 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- 🟠 Tarjeta de Restablecimiento -->
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-header bg-warning text-dark fw-bold text-center fs-4 rounded-top-4">
+                <div class="card -lg border-0 -4">
+                    <div class="card-header bg-warning text-dark fw-bold text-center fs-4 -top-4">
                         <i class="fas fa-key"></i> Recupera tu Acceso
                     </div>
 
@@ -34,7 +34,7 @@
                                     <i class="fas fa-envelope"></i> Correo Electrónico
                                 </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white border-secondary">
+                                    <span class="input-group-text  border-secondary">
                                         <i class="fas fa-envelope"></i>
                                     </span>
                                     <input id="email" type="email"
@@ -51,7 +51,7 @@
                             <!-- 🔘 Botón de Enviar -->
                             <div class="text-center">
                                 <button type="submit"
-                                    class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm btn-reset">
+                                    class="btn btn-warning text-dark fw-bold   -pill -sm btn-reset">
                                     <i class="fas fa-paper-plane"></i> Enviar Enlace
                                 </button>
                             </div>
@@ -81,7 +81,7 @@
 
         .custom-input:focus {
             border-color: #ff9800;
-            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+            box-: 0 0 10px rgba(255, 152, 0, 0.5);
             outline: none;
         }
 

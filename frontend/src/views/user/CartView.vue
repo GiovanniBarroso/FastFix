@@ -1,12 +1,12 @@
 <template>
-  <section class="py-10 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <section class="py-10  bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-6xl mx-auto">
-      <h1 class="text-3xl font-extrabold text-gray-800 dark:text-white mb-8">
+      <h1 class="text-3xl font-extrabold   mb-8">
         🛒 Carrito de compras
       </h1>
 
-      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow">
-        <table class="min-w-full text-sm text-gray-800 dark:text-gray-200">
+      <div class="overflow-x-auto  dark:bg-gray-800 -xl ">
+        <table class="min-w-full text-sm  dark:text-gray-200">
           <thead class="bg-yellow-400 text-gray-900">
             <tr>
               <th class="p-4 text-left">#</th>
@@ -21,7 +21,7 @@
             <tr v-for="(item, index) in cart" :key="index" class="border-t border-gray-200 dark:border-gray-700">
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="item.imagen" class="w-12 h-12 rounded" alt="Producto" />
+                <img :src="item.imagen" class="w-12 h-12 " alt="Producto" />
                 <span>{{ item.nombre }}</span>
               </td>
               <td class="p-4">€{{ item.precio.toFixed(2) }}</td>
@@ -32,7 +32,7 @@
               <td class="p-4">
                 <button
                   @click="eliminar(index)"
-                  class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold rounded transition"
+                  class=" py-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold  transition"
                 >
                   Eliminar
                 </button>
@@ -43,10 +43,10 @@
       </div>
 
       <div class="flex justify-between items-center mt-8">
-        <span class="text-xl font-bold text-gray-800 dark:text-white">
+        <span class="text-xl font-bold  ">
           Total: €{{ total.toFixed(2) }}
         </span>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6   transition">
           Finalizar compra
         </button>
       </div>

@@ -1,12 +1,12 @@
 <template>
-    <section class="py-12 px-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <section class="py-12  bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white mb-8 text-center">
+        <h1 class="text-4xl font-extrabold   mb-8 text-center">
           🛡️ Gestión de Garantías
         </h1>
   
-        <div v-if="garantias.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow">
-          <table class="min-w-full text-sm text-gray-800 dark:text-gray-200">
+        <div v-if="garantias.length" class="overflow-x-auto  dark:bg-gray-800 -xl ">
+          <table class="min-w-full text-sm  dark:text-gray-200">
             <thead class="bg-green-500 text-white">
               <tr>
                 <th class="p-4 text-left">#</th>
@@ -32,7 +32,7 @@
                 <td class="p-4">
                   <span
                     :class="[
-                      'px-3 py-1 rounded-full text-xs font-semibold',
+                      ' py-1 -full text-xs font-semibold',
                       garantia.estado === 'Activa'
                         ? 'bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-100'
                         : 'bg-red-100 text-red-700 dark:bg-red-700 dark:text-red-100'
@@ -43,7 +43,7 @@
                 </td>
                 <td class="p-4">
                   <button
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs transition"
+                    class="bg-blue-500 hover:bg-blue-600 text-white  py-1  text-xs transition"
                   >
                     Ver detalle
                   </button>

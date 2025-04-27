@@ -27,7 +27,7 @@
         <h3 class="text-lg font-semibold mb-2">Síguenos</h3>
         <div class="flex space-x-4">
           <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-            <i class="fab fa-facebook-f hover:text-blue-600"></i>
+            <i class="fab fa-facebook-f "></i>
           </a>
           <a href="https://twitter.com" target="_blank" aria-label="Twitter">
             <i class="fab fa-twitter hover:text-blue-400"></i>

@@ -6,7 +6,7 @@
         <input type="hidden" v-model="token" />
   
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+          <label for="email" class="block text-sm  text-gray-700">Correo electrónico</label>
           <input
             v-model="email"
             type="email"
@@ -17,7 +17,7 @@
         </div>
   
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Nueva contraseña</label>
+          <label for="password" class="block text-sm  text-gray-700">Nueva contraseña</label>
           <input
             v-model="password"
             type="password"
@@ -28,7 +28,7 @@
         </div>
   
         <div>
-          <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
+          <label for="password_confirmation" class="block text-sm  text-gray-700">Confirmar contraseña</label>
           <input
             v-model="password_confirmation"
             type="password"
