@@ -1,24 +1,33 @@
 <template>
-  <div class="auth-container">
-    <h1 class="text-2xl font-bold text-center mb-6">Iniciar Sesión</h1>
+  <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+    <div class="w-full max-w-md space-y-8">
+      <h1 class="text-3xl font-bold text-center text-primary mb-8">Iniciar Sesión</h1>
 
-    <form @submit.prevent="login" class="space-y-4">
-      <div>
-        <label for="email" class="block text-sm  text-gray-700">Correo electrónico</label>
-        <input v-model="email" type="email" id="email" required class="input" />
-      </div>
+      <form @submit.prevent="login" class="bg-card p-8 rounded-xl shadow space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-foreground mb-1">Correo electrónico</label>
+          <input v-model="email" type="email" id="email" required
+            class="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            placeholder="Tu correo" />
+        </div>
 
-      <div>
-        <label for="password" class="block text-sm  text-gray-700">Contraseña</label>
-        <input v-model="password" type="password" id="password" required class="input" />
-      </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-foreground mb-1">Contraseña</label>
+          <input v-model="password" type="password" id="password" required
+            class="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            placeholder="Tu contraseña" />
+        </div>
 
-      <div v-if="errorMessage" class="text-red-600 text-sm text-center">
-        {{ errorMessage }}
-      </div>
+        <div v-if="errorMessage" class="text-center text-red-500 text-sm">
+          {{ errorMessage }}
+        </div>
 
-      <button type="submit" class="btn-primary w-full">Entrar</button>
-    </form>
+        <button type="submit"
+          class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition font-semibold">
+          Entrar
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -39,10 +48,6 @@ const login = async () => {
       password: password.value
     })
 
-    console.log('Response completa:', response)
-    console.log('Token recibido:', response.data.token)
-
-
     const token = response.data.token
     const user = response.data.user
 
@@ -56,4 +61,6 @@ const login = async () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* No es necesario usar @apply */
+</style>
