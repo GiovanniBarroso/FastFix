@@ -1,9 +1,18 @@
 <?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Voucher;
+
 class Shoppingcart extends Model
 {
     use HasFactory;
 
-    protected $table = 'shoppingcart';
+    protected $table = 'shoppingcart'; // ✅ Verifica que tu tabla realmente se llama así
 
     protected $fillable = ['fecha_creacion', 'estado', 'user_id', 'voucher_id'];
 
@@ -15,7 +24,8 @@ class Shoppingcart extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'shoppingcart_products')
-            ->withPivot('quantity', 'precio_unitario')->withTimestamps();
+            ->withPivot('quantity', 'precio_unitario')
+            ->withTimestamps();
     }
 
     public function voucher()
@@ -23,5 +33,3 @@ class Shoppingcart extends Model
         return $this->belongsTo(Voucher::class);
     }
 }
-
-?>

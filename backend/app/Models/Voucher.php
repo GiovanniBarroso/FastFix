@@ -4,25 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Product;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Shoppingcart;
 
-class Discount extends Model
+class Voucher extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'codigo',
         'descripcion',
-        'tipo',
+        'tipo', // por ejemplo: porcentaje o fijo
         'valor',
         'fecha_inicio',
         'fecha_fin',
-        'product_id',
         'activo'
     ];
 
-    public function product()
+    public function orders()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Order::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Shoppingcart::class);
     }
 }

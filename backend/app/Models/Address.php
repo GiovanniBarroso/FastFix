@@ -7,17 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use App\Models\Order;
 
-class Invoice extends Model
+class Address extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'asunto',
-        'descripcion',
-        'estado',
-        'fecha_emision',
         'user_id',
-        'order_id'
+        'calle',
+        'numero',
+        'ciudad',
+        'provincia',
+        'codigo_postal',
+        'pais'
     ];
 
     public function user()
@@ -25,8 +26,8 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function order()
+    public function orders()
     {
-        return $this->belongsTo(Order::class);
+        return $this->hasMany(Order::class);
     }
 }

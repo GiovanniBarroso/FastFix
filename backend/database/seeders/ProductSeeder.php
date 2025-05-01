@@ -16,8 +16,8 @@ class ProductSeeder extends Seeder
                 'precio' => 129.99,
                 'stock' => 50,
                 'activo' => true,
-                'categories_id' => 1,
-                'brands_id' => 1,
+                'category_id' => 1,
+                'brand_id' => 1,
                 'image' => 'pantalla-iphone13.jpg'
             ],
             [
@@ -26,8 +26,8 @@ class ProductSeeder extends Seeder
                 'precio' => 89.99,
                 'stock' => 30,
                 'activo' => true,
-                'categories_id' => 2,
-                'brands_id' => 2,
+                'category_id' => 2,
+                'brand_id' => 2,
                 'image' => 'ssd-1tb.jpg'
             ],
         ]);

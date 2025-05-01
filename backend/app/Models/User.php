@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Role;
+use App\Models\Address;
+use App\Models\Favorite;
+use App\Models\Shoppingcart;
+use App\Models\Order;
+use App\Models\Invoice;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -31,7 +37,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password' => 'hashed', // Solo si usas Laravel 10+
         ];
     }
 
