@@ -5,14 +5,16 @@
       <router-view />
     </main>
     <Footer />
+    <ToastContainer />
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
+import ToastContainer from '@/views/components/ToastContainer.vue'
 
 export default {
-  components: { Navbar, Footer }
+  components: { Navbar, Footer, ToastContainer }
 }
 </script>

@@ -6,7 +6,8 @@ use App\Http\Controllers\API\{
     ProductController,
     CategoryController,
     BrandController,
-    FavoriteController
+    FavoriteController,
+    CartController
 };
 
 use Laravel\Fortify\Http\Controllers\{
@@ -45,4 +46,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites', [FavoriteController::class, 'store']);
     Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
+
+    // 🛒 Carrito
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart', [CartController::class, 'store']);
+    Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+    Route::post('/cart/clear', [CartController::class, 'clear']);
 });

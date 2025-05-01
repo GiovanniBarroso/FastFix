@@ -1,95 +1,61 @@
 <template>
-    <div class="auth-container">
-      <h1 class="text-2xl font-bold text-center mb-6">¿Olvidaste tu contraseña?</h1>
-      <p class="text-sm text-gray-600 mb-4 text-center">
-        No hay problema. Indícanos tu dirección de correo electrónico y te enviaremos un enlace para que puedas restablecer tu contraseña.
-      </p>
-  
-      <form @submit.prevent="sendResetLink" class="space-y-4">
-        <div>
-          <label for="email" class="block text-sm  text-gray-700">Correo electrónico</label>
-          <input
-            v-model="email"
-            type="email"
-            id="email"
-            required
-            class="input"
-            placeholder="ejemplo@correo.com"
-          />
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+      <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Recuperar contraseña</h1>
+
+      <form @submit.prevent="sendResetLink" class="space-y-5">
+        <!-- Campo email -->
+        <FormField v-model="email" label="Correo electrónico" placeholder="tucorreo@fastfix.com" type="email"
+          autocomplete="email" />
+
+        <!-- Estado / Error -->
+        <AlertMessage v-if="status" type="success" :message="status" />
+        <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
+
+        <!-- Botón enviar -->
+        <BaseButton :loading="loading" fullWidth>
+          Enviar enlace de recuperación
+        </BaseButton>
+
+        <!-- Volver a login -->
+        <div class="text-center">
+          <router-link to="/login" class="text-sm text-blue-600 hover:underline">
+            Volver a iniciar sesión
+          </router-link>
         </div>
-  
-        <div v-if="status" class="text-green-600 text-sm text-center">
-          {{ status }}
-        </div>
-  
-        <div v-if="errorMessage" class="text-red-600 text-sm text-center">
-          {{ errorMessage }}
-        </div>
-  
-        <button type="submit" class="btn-primary w-full">Enviar enlace</button>
       </form>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue'
-  import axios from '@/utils/axios'
-  
-  const email = ref('')
-  const status = ref('')
-  const errorMessage = ref('')
-  
-  const sendResetLink = async () => {
-    try {
-      const response = await axios.post('/forgot-password', {
-        email: email.value,
-      })
-      status.value = response.data.status
-      errorMessage.value = ''
-    } catch (error) {
-      console.error(error)
-      status.value = ''
-      errorMessage.value = error.response?.data?.message || 'Ha ocurrido un error.'
-    }
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import axios from '@/utils/axios'
+
+import FormField from '@/views/components/FormField.vue'
+import BaseButton from '@/views/components/BaseButton.vue'
+import AlertMessage from '@/views/components/AlertMessage.vue'
+
+const email = ref('')
+const status = ref('')
+const errorMessage = ref('')
+const loading = ref(false)
+
+const sendResetLink = async () => {
+  status.value = ''
+  errorMessage.value = ''
+  loading.value = true
+
+  try {
+    const response = await axios.post('/forgot-password', {
+      email: email.value
+    })
+
+    status.value = response.data.message || 'Revisa tu correo electrónico.'
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'No se pudo enviar el enlace.'
+  } finally {
+    loading.value = false
   }
-  </script>
-  
-  <style scoped>
-  .auth-container {
-    max-width: 400px;
-    margin: 4rem auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-: 0 0 12px rgba(0, 0, 0, 0.05);
-  }
-  
-  .input {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  
-  .input:focus {
-    border-color: #6366f1;
-  }
-  
-  .btn-primary {
-    background-color: #6366f1;
-    color: white;
-    padding: 0.6rem;
-    font-weight: bold;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #4f46e5;
-  }
-  </style>
-  
+}
+</script>

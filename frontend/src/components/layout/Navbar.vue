@@ -22,8 +22,6 @@
                     nosotros</router-link>
 
                 <template v-if="isAuthenticated">
-                    <router-link to="/dashboard"
-                        class="text-foreground hover:text-[var(--color-red-500)] transition">Dashboard</router-link>
                     <router-link v-if="isAdmin" to="/admin"
                         class="text-foreground hover:text-[var(--color-red-500)] transition">Admin</router-link>
 

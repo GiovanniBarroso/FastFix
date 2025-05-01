@@ -1,28 +1,29 @@
 <template>
-  <section class="py-10  bg-gray-50 dark:bg-gray-900 min-h-screen">
-    <div class="max-w-6xl mx-auto">
-      <h1 class="text-3xl font-extrabold   mb-8">
+  <section class="py-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-3xl font-extrabold text-gray-800 dark:text-white mb-8">
         🛒 Carrito de compras
       </h1>
 
-      <div class="overflow-x-auto  dark:bg-gray-800 -xl ">
-        <table class="min-w-full text-sm  dark:text-gray-200">
-          <thead class="bg-yellow-400 text-gray-900">
+      <div v-if="cart.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+        <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
+          <thead class="bg-yellow-400 text-gray-900 font-semibold">
             <tr>
-              <th class="p-4 text-left">#</th>
-              <th class="p-4 text-left">Producto</th>
-              <th class="p-4 text-left">Precio</th>
-              <th class="p-4 text-left">Cantidad</th>
-              <th class="p-4 text-left">Subtotal</th>
-              <th class="p-4 text-left">Acciones</th>
+              <th class="p-4">#</th>
+              <th class="p-4">Producto</th>
+              <th class="p-4">Precio</th>
+              <th class="p-4">Cantidad</th>
+              <th class="p-4">Subtotal</th>
+              <th class="p-4">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in cart" :key="index" class="border-t border-gray-200 dark:border-gray-700">
+            <tr v-for="(item, index) in cart" :key="item.id"
+              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="item.imagen" class="w-12 h-12 " alt="Producto" />
-                <span>{{ item.nombre }}</span>
+                <img :src="item.imagen" class="w-12 h-12 rounded object-cover" alt="Producto" />
+                <span class="font-medium text-gray-800 dark:text-white">{{ item.nombre }}</span>
               </td>
               <td class="p-4">€{{ item.precio.toFixed(2) }}</td>
               <td class="p-4">{{ item.cantidad }}</td>
@@ -30,10 +31,8 @@
                 €{{ (item.precio * item.cantidad).toFixed(2) }}
               </td>
               <td class="p-4">
-                <button
-                  @click="eliminar(index)"
-                  class=" py-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold  transition"
-                >
+                <button @click="eliminarDelCarrito(item.id)"
+                  class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded transition">
                   Eliminar
                 </button>
               </td>
@@ -42,41 +41,64 @@
         </table>
       </div>
 
-      <div class="flex justify-between items-center mt-8">
-        <span class="text-xl font-bold  ">
+      <div v-else class="text-center text-gray-500 mt-10">
+        Tu carrito está vacío.
+      </div>
+
+      <div v-if="cart.length" class="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4">
+        <span class="text-xl font-bold text-gray-800 dark:text-white">
           Total: €{{ total.toFixed(2) }}
         </span>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6   transition">
+        <BaseButton :loading="loading" @click="finalizarCompra" fullWidth class="sm:w-auto">
           Finalizar compra
-        </button>
+        </BaseButton>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import axios from '@/utils/axios'
+import BaseButton from '@/views/components/BaseButton.vue'
 
-const cart = ref([
-  {
-    nombre: 'Cargador rápido USB-C',
-    cantidad: 1,
-    precio: 14.99,
-    imagen: 'https://via.placeholder.com/100'
-  },
-  {
-    nombre: 'Funda iPhone 13',
-    cantidad: 2,
-    precio: 9.99,
-    imagen: 'https://via.placeholder.com/100'
+const cart = ref([])
+const loading = ref(false)
+
+const getCart = async () => {
+  try {
+    const response = await axios.get('/cart')
+    cart.value = response.data.cart || []
+  } catch (error) {
+    console.error('Error al obtener el carrito', error)
   }
-])
+}
+
+const eliminarDelCarrito = async (id) => {
+  try {
+    await axios.delete(`/cart/${id}`)
+    cart.value = cart.value.filter(item => item.id !== id)
+  } catch (error) {
+    console.error('Error al eliminar del carrito', error)
+  }
+}
+
+const finalizarCompra = async () => {
+  loading.value = true
+  try {
+    const response = await axios.post('/checkout')
+    cart.value = []
+    alert('Compra finalizada correctamente')
+  } catch (error) {
+    alert('Error al finalizar la compra')
+  } finally {
+    loading.value = false
+  }
+}
 
 const total = computed(() =>
   cart.value.reduce((sum, item) => sum + item.precio * item.cantidad, 0)
 )
 
-const eliminar = (index) => {
-  cart.value.splice(index, 1)
-}
+onMounted(getCart)
 </script>

@@ -17,7 +17,6 @@ import VerifyEmailView from '@/views/auth/VerifyEmailView.vue'
 import TwoFactorChallengeView from '@/views/auth/TwoFactorChallengeView.vue'
 
 // 👤 Vistas para usuario autenticado
-import DashboardView from '@/views/user/DashboardView.vue'
 import FavoritesView from '@/views/user/FavoritesView.vue'
 import CartView from '@/views/user/CartView.vue'
 import OrderHistoryView from '@/views/user/OrderHistoryView.vue'
@@ -36,32 +35,92 @@ const routes = [
   { path: '/', name: 'home', component: HomeView, meta: { requiresAuth: false } },
   { path: '/about', name: 'about', component: AboutView, meta: { requiresAuth: false } },
   { path: '/contact', name: 'contact', component: ContactUsView, meta: { requiresAuth: false } },
-  { path: '/budget', name: 'budget-request', component: BudgetRequestView, meta: { requiresAuth: false } },
+  {
+    path: '/budget',
+    name: 'budget-request',
+    component: BudgetRequestView,
+    meta: { requiresAuth: false },
+  },
   { path: '/repairs', name: 'repairs', component: RepairsView, meta: { requiresAuth: false } },
 
   // 🔐 Autenticación
   { path: '/login', name: 'login', component: LoginView, meta: { requiresAuth: false } },
   { path: '/register', name: 'register', component: RegisterView, meta: { requiresAuth: false } },
-  { path: '/forgot-password', name: 'forgot-password', component: ForgotPasswordView, meta: { requiresAuth: false } },
-  { path: '/reset-password', name: 'reset-password', component: ResetPasswordView, meta: { requiresAuth: false } },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPasswordView,
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: ResetPasswordView,
+    meta: { requiresAuth: false },
+  },
 
   // ✅ Rutas protegidas (requieren token JWT)
-  { path: '/confirm-password', name: 'confirm-password', component: ConfirmPasswordView, meta: { requiresAuth: true } },
-  { path: '/verify-email', name: 'verify-email', component: VerifyEmailView, meta: { requiresAuth: true } },
-  { path: '/two-factor-challenge', name: 'two-factor-challenge', component: TwoFactorChallengeView, meta: { requiresAuth: true } },
-  { path: '/dashboard', name: 'dashboard', component: DashboardView, meta: { requiresAuth: true } },
+  {
+    path: '/confirm-password',
+    name: 'confirm-password',
+    component: ConfirmPasswordView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/verify-email',
+    name: 'verify-email',
+    component: VerifyEmailView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/two-factor-challenge',
+    name: 'two-factor-challenge',
+    component: TwoFactorChallengeView,
+    meta: { requiresAuth: true },
+  },
+
   { path: '/favorites', name: 'favorites', component: FavoritesView, meta: { requiresAuth: true } },
   { path: '/cart', name: 'cart', component: CartView, meta: { requiresAuth: true } },
-  { path: '/orders', name: 'order-history', component: OrderHistoryView, meta: { requiresAuth: true } },
+  {
+    path: '/orders',
+    name: 'order-history',
+    component: OrderHistoryView,
+    meta: { requiresAuth: true },
+  },
   { path: '/guarantee', name: 'guarantee', component: GuaranteeView, meta: { requiresAuth: true } },
 
   // 🛠️ Panel admin (puede usarse requiresAdmin más adelante)
   { path: '/admin', name: 'admin-panel', component: AdminPanelView, meta: { requiresAuth: true } },
-  { path: '/admin/products', name: 'product-crud', component: ProductCrudView, meta: { requiresAuth: true } },
-  { path: '/admin/product-list', name: 'product-list', component: ProductListView, meta: { requiresAuth: true } },
-  { path: '/admin/orders', name: 'order-list', component: OrderListView, meta: { requiresAuth: true } },
-  { path: '/admin/budgets', name: 'budget-list', component: BudgetListView, meta: { requiresAuth: true } },
-  { path: '/admin/guarantees', name: 'guarantee-list', component: GuaranteeListView, meta: { requiresAuth: true } },
+  {
+    path: '/admin/products',
+    name: 'product-crud',
+    component: ProductCrudView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/product-list',
+    name: 'product-list',
+    component: ProductListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/orders',
+    name: 'order-list',
+    component: OrderListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/budgets',
+    name: 'budget-list',
+    component: BudgetListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/guarantees',
+    name: 'guarantee-list',
+    component: GuaranteeListView,
+    meta: { requiresAuth: true },
+  },
 ]
 
 const router = createRouter({
@@ -80,7 +139,8 @@ router.beforeEach((to, from, next) => {
 
   // 🚫 Rutas login/register con token → redirigir al dashboard
   if ((to.name === 'login' || to.name === 'register') && token) {
-    return next({ name: 'dashboard' })
+    const isAdmin = localStorage.getItem('role') === 'admin'
+    return next({ name: isAdmin ? 'admin-panel' : 'home' })
   }
 
   // ✅ Permitir navegación

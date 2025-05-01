@@ -1,52 +1,72 @@
 <template>
-  <div class="auth-container">
-    <h1 class="text-2xl font-bold text-center mb-6">Crear cuenta</h1>
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+      <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Crear cuenta</h1>
 
-    <form @submit.prevent="register" class="space-y-4">
-      <div>
-        <label class="block text-sm  text-gray-700">Nombre completo</label>
-        <input v-model="name" type="text" required class="input" />
-      </div>
+      <form @submit.prevent="handleRegister" class="space-y-5">
+        <!-- Nombre -->
+        <FormField v-model="name" label="Nombre completo" placeholder="Juan Pérez" type="text" autocomplete="name" />
 
-      <div>
-        <label class="block text-sm  text-gray-700">Correo electrónico</label>
-        <input v-model="email" type="email" required class="input" />
-      </div>
+        <!-- Email -->
+        <FormField v-model="email" label="Correo electrónico" placeholder="tucorreo@fastfix.com" type="email"
+          autocomplete="email" />
 
-      <div>
-        <label class="block text-sm  text-gray-700">Contraseña</label>
-        <input v-model="password" type="password" required class="input" />
-      </div>
+        <!-- Contraseña -->
+        <FormField v-model="password" label="Contraseña" placeholder="••••••••" type="password"
+          autocomplete="new-password" />
 
-      <div>
-        <label class="block text-sm  text-gray-700">Confirmar contraseña</label>
-        <input v-model="password_confirmation" type="password" required class="input" />
-      </div>
+        <!-- Confirmar contraseña -->
+        <FormField v-model="password_confirmation" label="Confirmar contraseña" placeholder="••••••••" type="password"
+          autocomplete="new-password" />
 
-      <div v-if="errorMessage" class="text-red-600 text-sm text-center">
-        {{ errorMessage }}
-      </div>
+        <!-- Error -->
+        <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
-      <button type="submit" class="btn-primary w-full">Registrarse</button>
-    </form>
+        <!-- Botón registrar -->
+        <BaseButton :loading="loading" fullWidth>
+          Registrarse
+        </BaseButton>
+
+        <!-- Ya tienes cuenta -->
+        <div class="text-center">
+          <router-link to="/login" class="text-sm text-blue-600 hover:underline">
+            ¿Ya tienes cuenta? Inicia sesión
+          </router-link>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import api from '@/utils/axios'
 import { useRouter } from 'vue-router'
+import axios from '@/utils/axios'
+
+import FormField from '@/views/components/FormField.vue'
+import BaseButton from '@/views/components/BaseButton.vue'
+import AlertMessage from '@/views/components/AlertMessage.vue'
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const password_confirmation = ref('')
 const errorMessage = ref('')
+const loading = ref(false)
 const router = useRouter()
 
-const register = async () => {
+const handleRegister = async () => {
+  errorMessage.value = ''
+  loading.value = true
+
+  if (password.value !== password_confirmation.value) {
+    errorMessage.value = 'Las contraseñas no coinciden.'
+    loading.value = false
+    return
+  }
+
   try {
-    const response = await api.post('/register', {
+    const response = await axios.post('/register', {
       name: name.value,
       email: email.value,
       password: password.value,
@@ -54,17 +74,16 @@ const register = async () => {
     })
 
     const token = response.data.token
-    const user = response.data.user
+    const role = response.data.role || 'user'
 
     localStorage.setItem('token', token)
-    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('role', role)
 
-    router.push('/')
+    router.push(role === 'admin' ? '/admin' : '/')
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || 'Error al registrarse.'
+    errorMessage.value = error.response?.data?.message || 'Error al registrar el usuario.'
+  } finally {
+    loading.value = false
   }
 }
 </script>
-
-<style scoped>
-</style>
