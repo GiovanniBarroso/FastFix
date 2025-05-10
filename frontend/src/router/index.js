@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // 🟢 Vistas públicas
-import HomeView from '@/views/public/HomeView.vue'
+import DashboardView from '@/views/public/DashboardView.vue'
 import AboutView from '@/views/public/AboutUsView.vue'
 import ContactUsView from '@/views/public/ContactUsView.vue'
 import BudgetRequestView from '@/views/public/BudgetRequestView.vue'
@@ -32,7 +32,7 @@ import GuaranteeListView from '@/views/admin/GuaranteeListView.vue'
 
 const routes = [
   // 🟢 Públicas
-  { path: '/', name: 'home', component: HomeView, meta: { requiresAuth: false } },
+  { path: '/', name: 'home', component: DashboardView, meta: { requiresAuth: false } },
   { path: '/about', name: 'about', component: AboutView, meta: { requiresAuth: false } },
   { path: '/contact', name: 'contact', component: ContactUsView, meta: { requiresAuth: false } },
   {
