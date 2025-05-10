@@ -6,6 +6,10 @@
       </h1>
 
       <div v-if="cart.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+        <button @click="vaciarCarrito"
+          class="bg-gray-500 hover:bg-gray-600 text-white text-xs px-3 py-1 rounded transition">
+          Vaciar carrito
+        </button>
         <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
           <thead class="bg-yellow-400 text-gray-900 font-semibold">
             <tr>
@@ -86,15 +90,27 @@ const eliminarDelCarrito = async (id) => {
 const finalizarCompra = async () => {
   loading.value = true
   try {
-    const response = await axios.post('/checkout')
+    const response = await axios.post('/orders')
     cart.value = []
-    alert('Compra finalizada correctamente')
+    alert('✅ Compra realizada correctamente. Pedido ID: ' + response.data.order.id)
   } catch (error) {
-    alert('Error al finalizar la compra')
+    alert('❌ Error al finalizar la compra. Intenta de nuevo.')
+    console.error(error)
   } finally {
     loading.value = false
   }
 }
+
+
+const vaciarCarrito = async () => {
+  try {
+    await axios.post('/cart/clear')
+    cart.value = []
+  } catch (error) {
+    console.error('Error al vaciar carrito', error)
+  }
+}
+
 
 const total = computed(() =>
   cart.value.reduce((sum, item) => sum + item.precio * item.cantidad, 0)

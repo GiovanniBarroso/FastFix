@@ -40,6 +40,20 @@ class GuaranteeController extends Controller
         return response()->json(['message' => 'Garantía creada', 'data' => $garantia], 201);
     }
 
+    public function searchByOrder($orderId)
+    {
+        $guarantee = Guarantee::with('product')
+            ->where('user_id', auth()->id())
+            ->where('order_id', $orderId) // Si guardas la order_id
+            ->first();
+
+        if (!$guarantee) {
+            return response()->json(['message' => 'No se encontró garantía'], 404);
+        }
+
+        return response()->json($guarantee);
+    }
+
     // Eliminar garantía (si se implementa panel admin)
     public function destroy($id)
     {

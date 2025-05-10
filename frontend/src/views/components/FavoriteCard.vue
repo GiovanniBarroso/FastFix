@@ -1,25 +1,48 @@
 <template>
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition overflow-hidden">
-    <img :src="product.imagen" alt="producto" class="w-full h-48 object-cover" />
-    <div class="p-4">
-      <h2 class="text-lg font-bold text-gray-800 dark:text-white truncate">{{ product.nombre }}</h2>
-      <p class="text-sm text-gray-600 dark:text-gray-300 mt-2 mb-4">{{ product.descripcion }}</p>
-      <div class="flex justify-between items-center">
-        <span class="text-blue-600 dark:text-blue-400 font-bold">
-          €{{ product.precio.toFixed(2) }}
-        </span>
-        <button @click="removeFromFavorites" class="text-red-500 text-xs hover:underline transition">
-          Quitar
-        </button>
+  <section class="py-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-4xl font-extrabold mb-6 text-center">
+        ❤️ Tus favoritos
+      </h1>
+
+      <div v-if="favorites.length" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <FavoriteCard v-for="(fav, index) in favorites" :key="index" :favorite="fav" @removed="removeFavorite" />
+      </div>
+
+      <div v-else class="text-center text-gray-600 dark:text-gray-400 mt-20">
+        No tienes productos en favoritos.
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
-defineProps(['product'])
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import FavoriteCard from '@/components/products/FavoriteCard.vue'
 
-const removeFromFavorites = () => {
-  alert('Producto eliminado de favoritos (simulado)')
+const favorites = ref([])
+
+const loadFavorites = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await axios.get(
+      import.meta.env.VITE_API_URL + '/favorites',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    favorites.value = response.data
+  } catch (error) {
+    console.error('Error al cargar favoritos:', error)
+  }
 }
+
+const removeFavorite = (id) => {
+  favorites.value = favorites.value.filter(fav => fav.id !== id)
+}
+
+onMounted(loadFavorites)
 </script>

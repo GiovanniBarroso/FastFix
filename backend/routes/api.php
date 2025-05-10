@@ -73,6 +73,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/guarantees', [GuaranteeController::class, 'index']);
     Route::post('/guarantees', [GuaranteeController::class, 'store']);
     Route::delete('/guarantees/{id}', [GuaranteeController::class, 'destroy']);
+    Route::get('/guarantees/by-order/{id}', [GuaranteeController::class, 'searchByOrder']);
 
     // Budgets
     Route::get('/budgets', [BudgetController::class, 'index']); // admin
@@ -113,5 +114,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/addresses', [AddressController::class, 'store']);
     Route::put('/addresses/{id}', [AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
+
+
 
 });
