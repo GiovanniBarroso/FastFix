@@ -18,7 +18,7 @@
       <!-- Menú Desktop -->
       <div class="hidden sm:flex items-center gap-6">
         <router-link to="/" class="hover:text-red-400 transition-colors">Inicio</router-link>
-        <router-link to="/product-list" class="hover:text-red-400 transition-colors">Productos</router-link>
+        <router-link to="/products" class="hover:text-red-400 transition-colors">Productos</router-link>
         <router-link to="/about" class="hover:text-red-400 transition-colors">Sobre nosotros</router-link>
 
         <template v-if="isAuthenticated">
@@ -65,7 +65,7 @@
     <!-- Menú Mobile -->
     <div v-if="mobileMenuOpen" class="sm:hidden px-6 pt-4 pb-6 bg-gray-900 text-white space-y-4">
       <router-link to="/" class="block hover:text-red-400 transition">Inicio</router-link>
-      <router-link to="/product-list" class="block hover:text-red-400 transition">Productos</router-link>
+      <router-link to="/products" class="block hover:text-red-400 transition">Productos</router-link>
       <router-link to="/about" class="block hover:text-red-400 transition">Sobre nosotros</router-link>
 
       <template v-if="isAuthenticated">

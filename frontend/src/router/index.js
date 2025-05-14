@@ -6,6 +6,8 @@ import AboutView from '@/views/public/AboutUsView.vue'
 import ContactUsView from '@/views/public/ContactUsView.vue'
 import BudgetRequestView from '@/views/public/BudgetRequestView.vue'
 import RepairsView from '@/views/public/RepairsView.vue'
+import ProductsView from '@/views/public/ProductsView.vue'
+
 
 // 🔐 Vistas de autenticación
 import LoginView from '@/views/auth/LoginView.vue'
@@ -42,6 +44,14 @@ const routes = [
     meta: { requiresAuth: false },
   },
   { path: '/repairs', name: 'repairs', component: RepairsView, meta: { requiresAuth: false } },
+
+  {
+    path: '/products',
+    name: 'products',
+    component: ProductsView,
+    meta: { requiresAuth: false }
+  },
+  
 
   // 🔐 Autenticación
   { path: '/login', name: 'login', component: LoginView, meta: { requiresAuth: false } },
