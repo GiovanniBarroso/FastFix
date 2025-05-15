@@ -1,31 +1,32 @@
 <template>
-    <section class="py-12  bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl font-extrabold   mb-10 text-center">
-          🛠️ Panel de Administración
-        </h1>
-  
-        <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-          <div
-            v-for="panel in adminPanels"
-            :key="panel.nombre"
-            class=" dark:bg-gray-800 -2xl -md  transition  cursor-pointer text-center"
-            @click="router.push(panel.ruta)"
-          >
-            <div class="text-5xl mb-4 text-blue-600 dark:text-blue-400">
-              {{ panel.icono }}
-            </div>
-            <h2 class="text-xl font-bold   mb-2">
-              {{ panel.nombre }}
-            </h2>
-            <p class="text-gray-600 dark:text-gray-300 text-sm">
-              {{ panel.descripcion }}
-            </p>
+  <section class="py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="max-w-6xl mx-auto px-6">
+      <h1 class="text-5xl font-extrabold text-center text-gray-800 dark:text-white mb-16">
+        🛠️ Panel de Administración
+      </h1>
+
+      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          v-for="panel in adminPanels"
+          :key="panel.nombre"
+          @click="router.push(panel.ruta)"
+          class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl text-center shadow-md hover:shadow-xl transform transition-all hover:-translate-y-1 hover:scale-[1.02] cursor-pointer"
+        >
+          <div class="text-5xl mb-4 text-blue-600 dark:text-blue-400">
+            {{ panel.icono }}
           </div>
+          <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+            {{ panel.nombre }}
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
+            {{ panel.descripcion }}
+          </p>
         </div>
       </div>
-    </section>
-  </template>
+    </div>
+  </section>
+</template>
+
   
   <script setup>
   import { useRouter } from 'vue-router'

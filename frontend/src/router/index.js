@@ -27,10 +27,10 @@ import GuaranteeView from '@/views/user/GuaranteeView.vue'
 // 🛠️ Vistas del panel de administración
 import AdminPanelView from '@/views/admin/AdminPanelView.vue'
 import ProductCrudView from '@/views/admin/ProductCrudView.vue'
-import ProductListView from '@/views/admin/ProductListView.vue'
 import OrderListView from '@/views/admin/OrderListView.vue'
 import BudgetListView from '@/views/admin/BudgetListView.vue'
 import GuaranteeListView from '@/views/admin/GuaranteeListView.vue'
+import UserListView from '@/views/admin/UserListView.vue'
 
 const routes = [
   // 🟢 Públicas
@@ -108,12 +108,6 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/admin/product-list',
-    name: 'product-list',
-    component: ProductListView,
-    meta: { requiresAuth: true },
-  },
-  {
     path: '/admin/orders',
     name: 'order-list',
     component: OrderListView,
@@ -129,6 +123,12 @@ const routes = [
     path: '/admin/guarantees',
     name: 'guarantee-list',
     component: GuaranteeListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/users',
+    name: 'users-list',
+    component: UserListView,
     meta: { requiresAuth: true },
   },
 ]
