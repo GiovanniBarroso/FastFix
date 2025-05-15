@@ -9,9 +9,9 @@ return new class extends Migration {
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('name');
             $table->text('description'); // 👈 Usa el nombre correcto en español
-            $table->decimal('precio', 8, 2);
+            $table->decimal('price', 8, 2);
             $table->integer('stock');
             $table->boolean('activo')->default(true);
             $table->string('image')->nullable(); // 👈 Campo añadido

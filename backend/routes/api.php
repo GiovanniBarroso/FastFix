@@ -5,6 +5,7 @@ use App\Http\Controllers\API\{
     GuaranteeController,
     OrderController,
     AuthController,
+    RepairController,
     ImageController,
     InvoiceController,
     ProductController,
@@ -115,6 +116,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/addresses/{id}', [AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
 
+    // Repairs
+    Route::apiResource('repairs', RepairController::class);
 
 
 });

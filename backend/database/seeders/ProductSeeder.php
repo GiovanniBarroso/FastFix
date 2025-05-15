@@ -11,9 +11,9 @@ class ProductSeeder extends Seeder
     {
         DB::table('products')->insert([
             [
-                'nombre' => 'Pantalla iPhone 13',
+                'name' => 'Pantalla iPhone 13',
                 'description' => 'Pantalla OLED compatible con iPhone 13.',
-                'precio' => 129.99,
+                'price' => 129.99,
                 'stock' => 50,
                 'activo' => true,
                 'category_id' => 1,
@@ -21,9 +21,9 @@ class ProductSeeder extends Seeder
                 'image' => 'pantalla-iphone13.jpg'
             ],
             [
-                'nombre' => 'Disco SSD 1TB',
+                'name' => 'Disco SSD 1TB',
                 'description' => 'Disco sólido rápido para portátiles o PC.',
-                'precio' => 89.99,
+                'price' => 89.99,
                 'stock' => 30,
                 'activo' => true,
                 'category_id' => 2,
