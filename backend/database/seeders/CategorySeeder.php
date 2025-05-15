@@ -10,8 +10,8 @@ class CategorySeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
-            ['nombre' => 'Móviles', 'description' => 'Smartphones y accesorios', 'activo' => true],
-            ['nombre' => 'Ordenadores', 'description' => 'Portátiles, sobremesa y componentes', 'activo' => true],
+            ['name' => 'Móviles', 'description' => 'Smartphones y accesorios', 'activo' => true],
+            ['name' => 'Ordenadores', 'description' => 'Portátiles, sobremesa y componentes', 'activo' => true],
         ]);
     }
 }
