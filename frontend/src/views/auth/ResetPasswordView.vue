@@ -39,7 +39,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
@@ -67,7 +67,7 @@ const resetPassword = async () => {
   loading.value = true
 
   try {
-    const response = await axios.post('/reset-password', {
+    const response = await api.post('/reset-password', {
       token: token.value,
       email: email.value,
       password: password.value,

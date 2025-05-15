@@ -45,7 +45,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 // 🧩 Importamos nuestros componentes
 import FormField from '@/views/components/FormField.vue'
@@ -63,7 +63,7 @@ const handleLogin = async () => {
   loading.value = true
 
   try {
-    const response = await axios.post('/login', {
+    const response = await api.post('/login', {
       email: email.value,
       password: password.value
     })

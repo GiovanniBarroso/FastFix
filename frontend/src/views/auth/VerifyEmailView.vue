@@ -26,7 +26,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
@@ -41,7 +41,7 @@ const resendVerification = async () => {
   loading.value = true
 
   try {
-    const response = await axios.post('/email/verification-notification')
+    const response = await api.post('/email/verification-notification')
     status.value = response.data.status || '¡Correo reenviado con éxito!'
   } catch (error) {
     errorMessage.value = error.response?.data?.message || 'Error al reenviar el correo.'

@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
@@ -43,7 +43,7 @@ const confirmPassword = async () => {
   loading.value = true
 
   try {
-    await axios.post('/user/confirm-password', {
+    await api.post('/user/confirm-password', {
       password: password.value
     })
 

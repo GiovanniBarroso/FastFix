@@ -31,6 +31,7 @@ import OrderListView from '@/views/admin/OrderListView.vue'
 import BudgetListView from '@/views/admin/BudgetListView.vue'
 import GuaranteeListView from '@/views/admin/GuaranteeListView.vue'
 import UserListView from '@/views/admin/UserListView.vue'
+import RepairListView from '@/views/admin/RepairListView.vue'
 
 const routes = [
   // 🟢 Públicas
@@ -129,6 +130,12 @@ const routes = [
     path: '/admin/users',
     name: 'users-list',
     component: UserListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/admin/repairs',
+    name: 'repair-list',
+    component: RepairListView,
     meta: { requiresAuth: true },
   },
 ]

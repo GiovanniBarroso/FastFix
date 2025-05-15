@@ -39,7 +39,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import api from '@/services/api'
 
 const form = ref({ pedido: '' })
 const garantia = ref(null)
@@ -50,7 +50,7 @@ const garantiaEncontrada = computed(() => garantia.value !== null)
 const buscarGarantia = async () => {
   try {
     const token = localStorage.getItem('token')
-    const response = await axios.get(
+    const response = await api.get(
       import.meta.env.VITE_API_URL + `/guarantees/by-order/${form.value.pedido}`,
       {
         headers: {

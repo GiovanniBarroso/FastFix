@@ -41,7 +41,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
@@ -66,7 +66,7 @@ const handleRegister = async () => {
   }
 
   try {
-    const response = await axios.post('/register', {
+    const response = await api.post('/register', {
       name: name.value,
       email: email.value,
       password: password.value,

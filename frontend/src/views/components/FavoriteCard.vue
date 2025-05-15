@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/services/api'
 import FavoriteCard from '@/components/products/FavoriteCard.vue'
 
 const favorites = ref([])
@@ -26,7 +26,7 @@ const favorites = ref([])
 const loadFavorites = async () => {
   try {
     const token = localStorage.getItem('token')
-    const response = await axios.get(
+    const response = await api.get(
       import.meta.env.VITE_API_URL + '/favorites',
       {
         headers: {

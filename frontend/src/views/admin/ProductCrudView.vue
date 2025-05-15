@@ -32,7 +32,7 @@
             >
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="product.image" class="w-12 h-12 rounded object-cover" alt="Producto" />
+                <img :src="getImageUrl(product.image)" class="w-12 h-12 rounded object-cover" alt="Producto" />
                 <span class="font-medium">{{ product.nombre }}</span>
               </td>
               <td class="p-4">€{{ product.precio.toFixed(2) }}</td>
@@ -67,36 +67,12 @@
   </section>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import ProductFormModal from '@/components/products/ProductFormModal.vue'
 
-const products = ref([
-  {
-    id: 1,
-    nombre: 'Pantalla iPhone 13',
-    precio: 129.99,
-    stock: 50,
-    image: 'https://via.placeholder.com/60x60?text=Pantalla'
-  },
-  {
-    id: 2,
-    nombre: 'SSD 1TB Samsung',
-    precio: 89.99,
-    stock: 30,
-    image: 'https://via.placeholder.com/60x60?text=SSD'
-  },
-  {
-    id: 3,
-    nombre: 'Cable USB-C Baseus',
-    precio: 5.95,
-    stock: 100,
-    image: 'https://via.placeholder.com/60x60?text=Cable'
-  }
-])
-
+const products = ref([])
 const showModal = ref(false)
 const productToEdit = ref(null)
 
@@ -110,8 +86,8 @@ const fetchProducts = async () => {
 }
 
 const editar = (product) => {
-  productToEdit.value = product // Asignamos el producto a editar
-  showModal.value = true // Mostramos el modal
+  productToEdit.value = product
+  showModal.value = true
 }
 
 const eliminar = async (id) => {
@@ -123,6 +99,10 @@ const eliminar = async (id) => {
       console.error('Error al eliminar producto:', error)
     }
   }
+}
+
+const getImageUrl = (filename) => {
+  return filename?.startsWith('http') ? filename : `/images/${filename}`
 }
 
 onMounted(() => {

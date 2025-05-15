@@ -1,9 +1,7 @@
-import axios from 'axios'
-
-const API_URL = 'http://localhost:8000/api'
+import api from '@/services/api' // o '../services/api' según tu estructura
 
 export const login = async (email, password) => {
-  const response = await axios.post(`${API_URL}/login`, {
+  const response = await api.post('/login', {
     email,
     password,
   })
@@ -11,7 +9,7 @@ export const login = async (email, password) => {
 }
 
 export const register = async (name, email, password) => {
-  const response = await axios.post(`${API_URL}/register`, {
+  const response = await api.post('/register', {
     name,
     email,
     password,
@@ -19,11 +17,7 @@ export const register = async (name, email, password) => {
   return response.data
 }
 
-export const getUser = async (token) => {
-  const response = await axios.get(`${API_URL}/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+export const getUser = async () => {
+  const response = await api.get('/me')
   return response.data
 }

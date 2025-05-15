@@ -78,7 +78,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 import BaseButton from '@/views/components/BaseButton.vue'
 
 const cart = ref([])
@@ -86,7 +86,7 @@ const loading = ref(false)
 
 const getCart = async () => {
   try {
-    const response = await axios.get('/cart')
+    const response = await api.get('/cart')
     cart.value = response.data.cart?.length ? response.data.cart : mockProducts
   } catch {
     cart.value = mockProducts // Modo prueba si falla o backend sin conexión
@@ -95,7 +95,7 @@ const getCart = async () => {
 
 const eliminarDelCarrito = async (id) => {
   try {
-    await axios.delete(`/cart/${id}`)
+    await api.delete(`/cart/${id}`)
     cart.value = cart.value.filter((item) => item.id !== id)
   } catch (error) {
     console.error('Error al eliminar del carrito', error)
@@ -104,7 +104,7 @@ const eliminarDelCarrito = async (id) => {
 
 const vaciarCarrito = async () => {
   try {
-    await axios.post('/cart/clear')
+    await api.post('/cart/clear')
     cart.value = []
   } catch (error) {
     console.error('Error al vaciar carrito', error)
@@ -114,7 +114,7 @@ const vaciarCarrito = async () => {
 const finalizarCompra = async () => {
   loading.value = true
   try {
-    const response = await axios.post('/orders')
+    const response = await api.post('/orders')
     cart.value = []
     alert('✅ Compra realizada correctamente. Pedido ID: ' + response.data.order.id)
   } catch (error) {

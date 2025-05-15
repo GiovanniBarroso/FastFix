@@ -24,7 +24,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
@@ -41,7 +41,7 @@ const submit = async () => {
   loading.value = true
 
   try {
-    const response = await axios.post('/two-factor-challenge', {
+    const response = await api.post('/two-factor-challenge', {
       code: code.value,
       recovery_code: recovery_code.value,
     })

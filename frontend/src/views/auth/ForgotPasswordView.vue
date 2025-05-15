@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from '@/utils/axios'
+import api from '@/services/api'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
@@ -47,7 +47,7 @@ const sendResetLink = async () => {
   loading.value = true
 
   try {
-    const response = await axios.post('/forgot-password', {
+    const response = await api.post('/forgot-password', {
       email: email.value
     })
 

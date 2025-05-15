@@ -52,14 +52,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/services/api'
 
 const orders = ref([])
 
 const loadOrders = async () => {
   try {
     const token = localStorage.getItem('token')
-    const response = await axios.get(
+    const response = await api.get(
       import.meta.env.VITE_API_URL + '/orders',
       {
         headers: {
