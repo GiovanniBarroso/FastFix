@@ -26,7 +26,7 @@ const products = [
     descripcion: 'Carga rápida y segura para tus dispositivos.'
   },
   {
-    nombre: 'Funda antigolpes iPhone 13',
+    nombre: 'Funda antigolpes iPhone 14',
     precio: 9.99,
     marca: 'Spigen',
     imagen: 'https://via.placeholder.com/300x200',

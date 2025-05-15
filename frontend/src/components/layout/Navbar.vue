@@ -20,14 +20,24 @@
         <router-link to="/" class="hover:text-red-400 transition-colors">Inicio</router-link>
         <router-link to="/products" class="hover:text-red-400 transition-colors">Productos</router-link>
         <router-link to="/about" class="hover:text-red-400 transition-colors">Sobre nosotros</router-link>
+        <router-link to="/cart" class="hover:text-red-400 transition-colors">Carrito</router-link>
+
 
         <template v-if="isAuthenticated">
-          <router-link v-if="isAdmin" to="/admin" class="hover:text-red-400 transition-colors">Admin</router-link>
+          <router-link
+            v-if="isAdmin"
+            to="/admin"
+            class="hover:text-red-400 transition-colors"
+          >
+            Admin
+          </router-link>
 
           <!-- Dropdown usuario -->
           <div class="relative" ref="dropdownRef">
-            <button @click="toggleMenu"
-              class="flex items-center space-x-1 hover:text-red-400 transition">
+            <button
+              @click="toggleMenu"
+              class="flex items-center space-x-1 hover:text-red-400 transition"
+            >
               <span>{{ user.name }}</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -35,10 +45,14 @@
             </button>
 
             <transition name="fade">
-              <div v-if="showMenu"
-                class="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-600 rounded shadow-lg z-50">
-                <button @click="logout"
-                  class="w-full text-left px-4 py-2 text-white hover:bg-red-600 transition">
+              <div
+                v-if="showMenu"
+                class="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-600 rounded shadow-lg z-50"
+              >
+                <button
+                  @click="logout"
+                  class="w-full text-left px-4 py-2 text-white hover:bg-red-600 transition"
+                >
                   Cerrar sesión
                 </button>
               </div>
@@ -47,18 +61,21 @@
         </template>
 
         <template v-else>
-  <div class="flex gap-2">
-    <router-link to="/login"
-      class="bg-white text-gray-900 font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-200 hover:shadow-lg">
-      Iniciar sesión
-    </router-link>
-    <router-link to="/register"
-      class="bg-red-600 text-white font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-700 hover:shadow-lg">
-      Registrarse
-    </router-link>
-  </div>
-</template>
-
+          <div class="flex gap-2">
+            <router-link
+              to="/login"
+              class="bg-white text-gray-900 font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-200 hover:shadow-lg"
+            >
+              Iniciar sesión
+            </router-link>
+            <router-link
+              to="/register"
+              class="bg-red-600 text-white font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-700 hover:shadow-lg"
+            >
+              Registrarse
+            </router-link>
+          </div>
+        </template>
       </div>
     </div>
 
@@ -67,12 +84,15 @@
       <router-link to="/" class="block hover:text-red-400 transition">Inicio</router-link>
       <router-link to="/products" class="block hover:text-red-400 transition">Productos</router-link>
       <router-link to="/about" class="block hover:text-red-400 transition">Sobre nosotros</router-link>
+      <router-link to="/cart" class="block hover:text-red-400 transition">🛒 Carrito</router-link>
 
       <template v-if="isAuthenticated">
         <router-link to="/dashboard" class="block hover:text-red-400 transition">Dashboard</router-link>
         <router-link v-if="isAdmin" to="/admin" class="block hover:text-red-400 transition">Admin</router-link>
-        <button @click="logout"
-          class="block text-left w-full text-red-400 hover:text-red-200 transition">
+        <button
+          @click="logout"
+          class="block text-left w-full text-red-400 hover:text-red-200 transition"
+        >
           Cerrar sesión
         </button>
       </template>
