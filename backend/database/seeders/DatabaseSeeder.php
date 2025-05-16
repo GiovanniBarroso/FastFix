@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             ProductSeeder::class,
             BudgetSeeder::class,
+            GuaranteeSeeder::class,
+
         ]);
     }
 

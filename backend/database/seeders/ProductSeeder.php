@@ -31,9 +31,9 @@ class ProductSeeder extends Seeder
                 'image' => 'ssd-1tb.jpg'
             ],
             [
-                'nombre' => 'Cable USB-C trenzado',
+                'name' => 'Cable USB-C trenzado',
                 'description' => 'Cable reforzado para carga rápida.',
-                'precio' => 5.95,
+                'price' => 5.95,
                 'stock' => 120,
                 'activo' => true,
                 'category_id' => 1,
@@ -41,9 +41,9 @@ class ProductSeeder extends Seeder
                 'image' => 'cable-usbc.jpg'
             ],
             [
-                'nombre' => 'Funda antigolpes iPhone 14',
+                'name' => 'Funda antigolpes iPhone 14',
                 'description' => 'Protección extra resistente y flexible.',
-                'precio' => 12.50,
+                'price' => 12.50,
                 'stock' => 75,
                 'activo' => true,
                 'category_id' => 1,

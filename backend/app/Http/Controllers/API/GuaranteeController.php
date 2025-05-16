@@ -12,14 +12,23 @@ class GuaranteeController extends Controller
 {
     // Listar garantías del usuario autenticado
     public function index()
-    {
+{
+    // Si es admin, mostrar todas
+    if (Auth::user()->is_admin) {
+        $garantias = Guarantee::with(['product', 'user'])
+            ->orderByDesc('created_at')
+            ->get();
+    } else {
+        // Usuario normal solo ve sus garantías
         $garantias = Guarantee::with('product')
             ->where('user_id', Auth::id())
             ->orderByDesc('created_at')
             ->get();
-
-        return response()->json($garantias);
     }
+
+    return response()->json($garantias);
+}
+
 
     // Crear una garantía manualmente (por ahora para pruebas)
     public function store(Request $request)

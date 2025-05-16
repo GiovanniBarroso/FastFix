@@ -21,22 +21,22 @@
           <tbody>
             <tr
               v-for="(garantia, index) in garantias"
-              :key="index"
+              :key="garantia.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
-              <td class="p-4">{{ garantia.cliente }}</td>
-              <td class="p-4">{{ garantia.producto }}</td>
-              <td class="p-4">{{ formatDate(garantia.inicio) }}</td>
-              <td class="p-4">{{ formatDate(garantia.fin) }}</td>
+              <td class="p-4">{{ garantia.user?.name ?? 'Sin nombre' }}</td>
+              <td class="p-4">{{ garantia.product?.nombre ?? 'Sin producto' }}</td>
+              <td class="p-4">{{ formatDate(garantia.fecha_inicio) }}</td>
+              <td class="p-4">{{ formatDate(garantia.fecha_fin) }}</td>
               <td class="p-4">
                 <span
                   class="px-3 py-1 rounded-full text-xs font-semibold"
-                  :class="garantia.estado === 'Activa'
+                  :class="isActive(garantia.fecha_fin)
                     ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
                     : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100'"
                 >
-                  {{ garantia.estado }}
+                  {{ isActive(garantia.fecha_fin) ? 'Activa' : 'Expirada' }}
                 </span>
               </td>
               <td class="p-4">
@@ -59,26 +59,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import api from '@/services/api'
 
-const garantias = ref([
-  {
-    cliente: 'María Rodríguez',
-    producto: 'Cambio de batería - iPhone XR',
-    inicio: '2024-10-05',
-    fin: '2025-10-05',
-    estado: 'Activa'
-  },
-  {
-    cliente: 'Pedro Ruiz',
-    producto: 'Reparación de cámara - Galaxy S21',
-    inicio: '2023-12-01',
-    fin: '2024-12-01',
-    estado: 'Expirada'
+const garantias = ref([])
+
+const formatDate = (fecha) => new Date(fecha).toLocaleDateString('es-ES')
+
+const isActive = (fechaFin) => new Date(fechaFin) > new Date()
+
+onMounted(async () => {
+  try {
+    const response = await api.get('/guarantees')
+     console.log('Garantías recibidas:', response.data)
+    garantias.value = response.data
+  } catch (error) {
+    console.error('Error al cargar garantías:', error)
   }
-])
-
-const formatDate = (fecha) => {
-  return new Date(fecha).toLocaleDateString('es-ES')
-}
+})
 </script>
