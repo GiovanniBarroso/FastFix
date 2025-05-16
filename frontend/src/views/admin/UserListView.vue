@@ -26,22 +26,21 @@
           <tbody>
             <tr
               v-for="(user, index) in users"
-              :key="index"
+              :key="user.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4">{{ index + 1 }}</td>
-              <td class="p-4 font-medium">{{ user.nombre }}</td>
+              <td class="p-4 font-medium">{{ user.name }}</td>
               <td class="p-4">{{ user.email }}</td>
               <td class="p-4">
                 <span
-                  :class="[
-                    'px-3 py-1 rounded-full text-xs font-semibold',
-                    user.rol === 'admin'
+                  :class="[ 'px-3 py-1 rounded-full text-xs font-semibold',
+                    user.role?.nombre === 'admin'
                       ? 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white'
                       : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white'
                   ]"
                 >
-                  {{ user.rol }}
+                  {{ user.role?.nombre || 'Sin rol' }}
                 </span>
               </td>
               <td class="p-4 flex gap-2">
@@ -61,23 +60,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import api from '@/services/api'
 
-const users = ref([
-  {
-    nombre: 'Admin FastFix',
-    email: 'admin@fastfix.com',
-    rol: 'admin'
-  },
-  {
-    nombre: 'Laura Gómez',
-    email: 'laura.gomez@example.com',
-    rol: 'cliente'
-  },
-  {
-    nombre: 'Pedro Martínez',
-    email: 'pedro.martinez@example.com',
-    rol: 'cliente'
+const users = ref([])
+
+onMounted(async () => {
+  try {
+    const response = await api.get('/users')
+    users.value = response.data
+    console.log('Usuarios cargados:', users.value)
+  } catch (error) {
+    console.error('Error al cargar usuarios:', error)
   }
-])
+})
 </script>

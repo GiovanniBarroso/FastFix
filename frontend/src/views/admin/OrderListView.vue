@@ -20,23 +20,22 @@
           <tbody>
             <tr
               v-for="(order, index) in orders"
-              :key="index"
+              :key="order.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4">{{ index + 1 }}</td>
-              <td class="p-4 font-medium">{{ order.usuario }}</td>
-              <td class="p-4">{{ formatDate(order.fecha) }}</td>
-              <td class="p-4 font-mono font-bold">€{{ order.total.toFixed(2) }}</td>
+              <td class="p-4 font-medium">{{ order.user?.name || 'Sin nombre' }}</td>
+              <td class="p-4">{{ formatDate(order.fecha_pedido) }}</td>
+              <td class="p-4 font-mono font-bold">€{{ parseFloat(order.total).toFixed(2) }}</td>
               <td class="p-4">
                 <span
-                  :class="[
-                    'px-3 py-1 rounded-full text-xs font-semibold',
-                    order.estado === 'Entregado'
+                  :class="[ 'px-3 py-1 rounded-full text-xs font-semibold',
+                    traducirEstado(order.estado) === 'Entregado'
                       ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-white'
                       : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-white'
                   ]"
                 >
-                  {{ order.estado }}
+                  {{ traducirEstado(order.estado) }}
                 </span>
               </td>
               <td class="p-4">
@@ -59,25 +58,33 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import api from '@/services/api'
 
-const orders = ref([
-  {
-    usuario: 'Carlos Pérez',
-    fecha: '2025-04-20',
-    total: 149.99,
-    estado: 'Entregado'
-  },
-  {
-    usuario: 'Lucía Martínez',
-    fecha: '2025-04-23',
-    total: 79.49,
-    estado: 'En proceso'
-  }
-])
+const orders = ref([])
 
 const formatDate = (fecha) => {
-  const [year, month, day] = fecha.split('-')
-  return `${day}/${month}/${year}`
+  const date = new Date(fecha)
+  return date.toLocaleDateString('es-ES')
 }
+
+const traducirEstado = (estado) => {
+  const map = {
+    pendiente: 'En proceso',
+    pagado: 'Entregado',
+    enviado: 'Enviado',
+    cancelado: 'Cancelado'
+  }
+  return map[estado] || estado
+}
+
+onMounted(async () => {
+  try {
+    const response = await api.get('/orders')
+    console.log('Pedidos cargados:', response.data)
+    orders.value = response.data
+  } catch (error) {
+    console.error('Error al cargar pedidos:', error)
+  }
+})
 </script>
