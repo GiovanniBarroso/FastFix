@@ -1,14 +1,23 @@
 <template>
-  <section class="py-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
-    <div class="max-w-7xl mx-auto">
-      <h1 class="text-4xl font-extrabold mb-6 text-center">
-        Explora nuestros productos
-      </h1>
-      <p class="text-center text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto">
-        Accesorios, componentes y repuestos de calidad para móviles, consolas, ordenadores y más.
-      </p>
-      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <ProductCard v-for="(product, index) in products" :key="index" :product="product" />
+  <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Encabezado -->
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-extrabold text-gray-900 dark:text-white mb-4">
+          🛍 Explora nuestros productos
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Accesorios, componentes y repuestos de calidad para móviles, consolas, ordenadores y más.
+        </p>
+      </div>
+
+      <!-- Grid de productos -->
+      <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ProductCard
+          v-for="(product, index) in products"
+          :key="index"
+          :product="product"
+        />
       </div>
     </div>
   </section>

@@ -80,7 +80,7 @@
     <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">
       Solicita presupuesto sin compromiso y recibe atención personalizada hoy mismo.    </p>
     <router-link
-      to="/budget-request"
+      to="/budget"
       class="inline-block bg-red-600 hover:bg-red-700 text-white text-base font-medium px-6 py-3 rounded-md transition transform hover:scale-105 shadow"
     >
       Solicitar presupuesto
