@@ -8,7 +8,7 @@
             <form @submit.prevent="handleSubmit" class="space-y-4">
                 <div>
                     <label class="block mb-1 text-gray-700 dark:text-gray-300">Nombre</label>
-                    <input v-model="form.nombre" type="text" required class="input" />
+                    <input v-model="form.name" type="text" required class="input" />
                 </div>
 
                 <div>
@@ -19,7 +19,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block mb-1 text-gray-700 dark:text-gray-300">Precio (€)</label>
-                        <input v-model="form.precio" type="number" step="0.01" required class="input" />
+                        <input v-model="form.price" type="number" step="0.01" required class="input" />
                     </div>
 
                     <div>
@@ -73,9 +73,9 @@ const emit = defineEmits(['close', 'saved'])
 
 const form = ref({
     id: null,
-    nombre: '',
+    name: '',
     description: '',
-    precio: 0,
+    price: 0,
     stock: 0,
     image: '',
     categories_id: null,

@@ -33,9 +33,9 @@
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
                 <img :src="getImageUrl(product.image)" class="w-12 h-12 rounded object-cover" alt="Producto" />
-                <span class="font-medium">{{ product.nombre }}</span>
+                <span class="font-medium">{{ product.name }}</span>
               </td>
-              <td class="p-4">€{{ product.precio.toFixed(2) }}</td>
+              <td class="p-4">€{{ product.price }}</td>
               <td class="p-4">{{ product.stock }}</td>
               <td class="p-4 flex gap-2">
                 <button
