@@ -23,6 +23,9 @@ import FavoritesView from '@/views/user/FavoritesView.vue'
 import CartView from '@/views/user/CartView.vue'
 import OrderHistoryView from '@/views/user/OrderHistoryView.vue'
 import GuaranteeView from '@/views/user/GuaranteeView.vue'
+import HomeView from '@/views/user/HomeView.vue'
+
+
 
 // 🛠️ Vistas del panel de administración
 import AdminPanelView from '@/views/admin/AdminPanelView.vue'
@@ -52,6 +55,12 @@ const routes = [
     component: ProductsView,
     meta: { requiresAuth: false }
   },
+  {
+    path: '/home',
+    name: 'user-home',
+    component: HomeView,
+    meta: { requiresAuth: true },
+  },  
   
 
   // 🔐 Autenticación

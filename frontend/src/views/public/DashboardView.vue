@@ -2,20 +2,29 @@
   <div class="pt-20 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
     <!-- Hero -->
-    <section class="text-center py-24 px-6 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 animate-fade">
-      <h1 class="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
-        Bienvenido a <span class="text-red-600">FastFix</span>
-      </h1>
-      <p class="text-xl sm:text-2xl max-w-2xl mx-auto mb-10 text-gray-700 dark:text-gray-300">
-        Reparaciones profesionales con calidad, rapidez y garantía de excelencia.
-      </p>
-      <router-link
-        to="/products"
-        class="inline-block bg-red-600 hover:bg-red-700 text-white text-lg font-semibold px-8 py-4 rounded-full transition-transform transform hover:scale-105 shadow-lg"
-      >
-        Ver productos
-      </router-link>
-    </section>
+<section class="text-center py-24 px-6 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 animate-fade">
+  <h1 class="text-5xl sm:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
+    Bienvenido a <span class="text-red-600">FastFix</span>
+  </h1>
+  <p class="text-xl sm:text-2xl max-w-2xl mx-auto mb-10 text-gray-700 dark:text-gray-300">
+    Reparaciones profesionales con calidad, rapidez y garantía de excelencia.
+  </p>
+  <div class="flex flex-col sm:flex-row justify-center gap-4">
+    <router-link
+      to="/products"
+      class="inline-block bg-red-600 hover:bg-red-700 text-white text-lg font-semibold px-8 py-4 rounded-full transition-transform transform hover:scale-105 shadow-lg"
+    >
+      Ver productos
+    </router-link>
+    <router-link
+      to="/home"
+      class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold px-8 py-4 rounded-full transition-transform transform hover:scale-105 shadow-lg"
+    >
+      Ir al panel de usuario
+    </router-link>
+  </div>
+</section>
+
 
     <!-- ¿Qué reparamos? -->
     <section class="py-20 bg-gray-100 dark:bg-gray-800">
