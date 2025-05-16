@@ -5,6 +5,7 @@
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">🔧 Servicios de reparación</h1>
         <button
+          @click="abrirModal()"
           class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
         >
           + Añadir servicio
@@ -38,10 +39,16 @@
               <td class="p-4 font-mono">€{{ reparacion.repair_cost !== null ? reparacion.repair_cost : '—' }}</td>
               <td class="p-4">{{ formatDuracion(reparacion.received_at, reparacion.delivered_at) }}</td>
               <td class="p-4 flex gap-2">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold">
+                <button
+                  @click="abrirModal(reparacion)"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold"
+                >
                   Editar
                 </button>
-                <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold">
+                <button
+                  @click="eliminarReparacion(reparacion.id)"
+                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold"
+                >
                   Eliminar
                 </button>
               </td>
@@ -50,21 +57,52 @@
         </table>
       </div>
     </div>
+
+    <RepairFormModal
+      :show="showModal"
+      :repairToEdit="repairToEdit"
+      @close="cerrarModal"
+      @saved="fetchReparaciones"
+    />
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
+import RepairFormModal from '@/components/repairs/RepairFormModal.vue'
 
 const reparaciones = ref([])
+const showModal = ref(false)
+const repairToEdit = ref(null)
 
 const fetchReparaciones = async () => {
   try {
-    const response = await api.get('/repairs') // <- asegúrate que esta ruta existe y funciona con auth
+    const response = await api.get('/repairs')
     reparaciones.value = response.data
   } catch (error) {
     console.error('Error al cargar servicios de reparación:', error)
+  }
+}
+
+const abrirModal = (reparacion = null) => {
+  repairToEdit.value = reparacion
+  showModal.value = true
+}
+
+const cerrarModal = () => {
+  repairToEdit.value = null
+  showModal.value = false
+}
+
+const eliminarReparacion = async (id) => {
+  if (confirm('¿Estás seguro de que quieres eliminar esta reparación?')) {
+    try {
+      await api.delete(`/repairs/${id}`)
+      fetchReparaciones()
+    } catch (error) {
+      console.error('Error al eliminar reparación:', error)
+    }
   }
 }
 
