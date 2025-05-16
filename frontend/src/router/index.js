@@ -8,7 +8,6 @@ import BudgetRequestView from '@/views/public/BudgetRequestView.vue'
 import RepairsView from '@/views/public/RepairsView.vue'
 import ProductsView from '@/views/public/ProductsView.vue'
 
-
 // 🔐 Vistas de autenticación
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
@@ -25,8 +24,6 @@ import OrderHistoryView from '@/views/user/OrderHistoryView.vue'
 import GuaranteeView from '@/views/user/GuaranteeView.vue'
 import HomeView from '@/views/user/HomeView.vue'
 
-
-
 // 🛠️ Vistas del panel de administración
 import AdminPanelView from '@/views/admin/AdminPanelView.vue'
 import ProductCrudView from '@/views/admin/ProductCrudView.vue'
@@ -41,112 +38,35 @@ const routes = [
   { path: '/', name: 'home', component: DashboardView, meta: { requiresAuth: false } },
   { path: '/about', name: 'about', component: AboutView, meta: { requiresAuth: false } },
   { path: '/contact', name: 'contact', component: ContactUsView, meta: { requiresAuth: false } },
-  {
-    path: '/budget',
-    name: 'budget-request',
-    component: BudgetRequestView,
-    meta: { requiresAuth: false },
-  },
+  { path: '/budget', name: 'budget-request', component: BudgetRequestView, meta: { requiresAuth: false } },
   { path: '/repairs', name: 'repairs', component: RepairsView, meta: { requiresAuth: false } },
+  { path: '/products', name: 'products', component: ProductsView, meta: { requiresAuth: false } },
 
-  {
-    path: '/products',
-    name: 'products',
-    component: ProductsView,
-    meta: { requiresAuth: false }
-  },
-  {
-    path: '/home',
-    name: 'user-home',
-    component: HomeView,
-    meta: { requiresAuth: true },
-  },  
-  
+  // 👤 Usuario autenticado
+  { path: '/home', name: 'user-home', component: HomeView, meta: { requiresAuth: true } },
+  { path: '/favorites', name: 'favorites', component: FavoritesView, meta: { requiresAuth: true } },
+  { path: '/cart', name: 'cart', component: CartView, meta: { requiresAuth: true } },
+  { path: '/orders', name: 'order-history', component: OrderHistoryView, meta: { requiresAuth: true } },
+  { path: '/guarantee', name: 'guarantee', component: GuaranteeView, meta: { requiresAuth: true } },
 
   // 🔐 Autenticación
   { path: '/login', name: 'login', component: LoginView, meta: { requiresAuth: false } },
   { path: '/register', name: 'register', component: RegisterView, meta: { requiresAuth: false } },
-  {
-    path: '/forgot-password',
-    name: 'forgot-password',
-    component: ForgotPasswordView,
-    meta: { requiresAuth: false },
-  },
-  {
-    path: '/reset-password',
-    name: 'reset-password',
-    component: ResetPasswordView,
-    meta: { requiresAuth: false },
-  },
+  { path: '/forgot-password', name: 'forgot-password', component: ForgotPasswordView, meta: { requiresAuth: false } },
+  { path: '/reset-password', name: 'reset-password', component: ResetPasswordView, meta: { requiresAuth: false } },
+  { path: '/confirm-password', name: 'confirm-password', component: ConfirmPasswordView, meta: { requiresAuth: true } },
+  { path: '/verify-email', name: 'verify-email', component: VerifyEmailView, meta: { requiresAuth: true } },
+  { path: '/two-factor-challenge', name: 'two-factor-challenge', component: TwoFactorChallengeView, meta: { requiresAuth: true } },
 
-  // ✅ Rutas protegidas (requieren token JWT)
-  {
-    path: '/confirm-password',
-    name: 'confirm-password',
-    component: ConfirmPasswordView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/verify-email',
-    name: 'verify-email',
-    component: VerifyEmailView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/two-factor-challenge',
-    name: 'two-factor-challenge',
-    component: TwoFactorChallengeView,
-    meta: { requiresAuth: true },
-  },
-
-  { path: '/favorites', name: 'favorites', component: FavoritesView, meta: { requiresAuth: true } },
-  { path: '/cart', name: 'cart', component: CartView, meta: { requiresAuth: true } },
-  {
-    path: '/orders',
-    name: 'order-history',
-    component: OrderHistoryView,
-    meta: { requiresAuth: true },
-  },
-  { path: '/guarantee', name: 'guarantee', component: GuaranteeView, meta: { requiresAuth: true } },
-
-  // 🛠️ Panel admin (puede usarse requiresAdmin más adelante)
+  // 🛠️ Admin
   { path: '/admin', name: 'admin-panel', component: AdminPanelView, meta: { requiresAuth: true } },
-  {
-    path: '/admin/products',
-    name: 'product-crud',
-    component: ProductCrudView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/orders',
-    name: 'order-list',
-    component: OrderListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/budgets',
-    name: 'budget-list',
-    component: BudgetListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/guarantees',
-    name: 'guarantee-list',
-    component: GuaranteeListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/users',
-    name: 'users-list',
-    component: UserListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/repairs',
-    name: 'repair-list',
-    component: RepairListView,
-    meta: { requiresAuth: true },
-  },
+  { path: '/admin/products', name: 'product-crud', component: ProductCrudView, meta: { requiresAuth: true } },
+  { path: '/admin/orders', name: 'order-list', component: OrderListView, meta: { requiresAuth: true } },
+  { path: '/admin/budgets', name: 'budget-list', component: BudgetListView, meta: { requiresAuth: true } },
+  { path: '/admin/guarantees', name: 'guarantee-list', component: GuaranteeListView, meta: { requiresAuth: true } },
+  { path: '/admin/users', name: 'users-list', component: UserListView, meta: { requiresAuth: true } },
+  { path: '/admin/repairs', name: 'repair-list', component: RepairListView, meta: { requiresAuth: true } },
+
 ]
 
 const router = createRouter({

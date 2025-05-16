@@ -19,33 +19,29 @@
               <th class="p-4 text-left">#</th>
               <th class="p-4 text-left">Nombre</th>
               <th class="p-4 text-left">Descripción</th>
-              <th class="p-4 text-left">Precio base</th>
-              <th class="p-4 text-left">Duración estimada</th>
+              <th class="p-4 text-left">Precio</th>
+              <th class="p-4 text-left">Duración</th>
               <th class="p-4 text-left">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="(servicio, index) in servicios"
-              :key="index"
+              v-for="(reparacion, index) in reparaciones"
+              :key="reparacion.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4">{{ index + 1 }}</td>
-              <td class="p-4 font-medium">{{ servicio.nombre }}</td>
-              <td class="p-4 max-w-md truncate" :title="servicio.descripcion">
-                {{ servicio.descripcion }}
+              <td class="p-4 font-medium">{{ reparacion.device_type }} {{ reparacion.model }}</td>
+              <td class="p-4 max-w-md truncate" :title="reparacion.problem_description">
+                {{ reparacion.problem_description }}
               </td>
-              <td class="p-4 font-mono">€{{ servicio.precio.toFixed(2) }}</td>
-              <td class="p-4">{{ servicio.duracion }}</td>
+              <td class="p-4 font-mono">€{{ reparacion.repair_cost !== null ? reparacion.repair_cost : '—' }}</td>
+              <td class="p-4">{{ formatDuracion(reparacion.received_at, reparacion.delivered_at) }}</td>
               <td class="p-4 flex gap-2">
-                <button
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold"
-                >
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold">
                   Editar
                 </button>
-                <button
-                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold"
-                >
+                <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold">
                   Eliminar
                 </button>
               </td>
@@ -58,26 +54,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import api from '@/services/api'
 
-const servicios = ref([
-  {
-    nombre: 'Cambio de pantalla iPhone 11',
-    descripcion: 'Sustitución completa de pantalla rota por una nueva (incluye diagnóstico).',
-    precio: 89.99,
-    duracion: '1-2 días'
-  },
-  {
-    nombre: 'Reparación de placa base MacBook Pro',
-    descripcion: 'Diagnóstico y reparación de fallos en la lógica principal del dispositivo.',
-    precio: 149.99,
-    duracion: '3-5 días'
-  },
-  {
-    nombre: 'Reemplazo de batería Samsung Galaxy S21',
-    descripcion: 'Instalación de batería nueva con componentes originales y prueba de carga.',
-    precio: 49.90,
-    duracion: '24 horas'
+const reparaciones = ref([])
+
+const fetchReparaciones = async () => {
+  try {
+    const response = await api.get('/repairs') // <- asegúrate que esta ruta existe y funciona con auth
+    reparaciones.value = response.data
+  } catch (error) {
+    console.error('Error al cargar servicios de reparación:', error)
   }
-])
+}
+
+const formatDuracion = (start, end) => {
+  if (!start || !end) return '—'
+  const inicio = new Date(start)
+  const fin = new Date(end)
+  const dias = Math.round((fin - inicio) / (1000 * 60 * 60 * 24))
+  return `${dias} día${dias === 1 ? '' : 's'}`
+}
+
+onMounted(() => {
+  fetchReparaciones()
+})
 </script>

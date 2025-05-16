@@ -20,7 +20,7 @@
           <tbody>
             <tr
               v-for="(solicitud, index) in budgets"
-              :key="index"
+              :key="solicitud.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
@@ -52,20 +52,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import api from '@/services/api' // Asegúrate de tener tu instancia Axios configurada
 
-const budgets = ref([
-  {
-    nombre: 'Juan García',
-    email: 'juan@example.com',
-    telefono: '612345678',
-    mensaje: 'Mi iPhone 11 tiene la pantalla rota, ¿cuánto costaría repararla?'
-  },
-  {
-    nombre: 'Ana López',
-    email: 'ana@example.com',
-    telefono: '699876543',
-    mensaje: '¿Podríais revisar la batería de mi Samsung Galaxy S20?'
+const budgets = ref([])
+
+onMounted(async () => {
+  try {
+    const response = await api.get('/budgets') // GET /api/budgets
+    budgets.value = response.data
+  } catch (error) {
+    console.error('Error al cargar presupuestos:', error)
   }
-])
+})
 </script>
