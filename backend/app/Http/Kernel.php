@@ -36,5 +36,6 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth:api' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class, // 👈 Este es clave
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'is_admin' => \App\Http\Middleware\IsAdmin::class,
     ];
 }
