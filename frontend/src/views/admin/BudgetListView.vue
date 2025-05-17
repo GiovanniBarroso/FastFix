@@ -34,6 +34,7 @@
               </td>
               <td class="p-4">
                 <button
+                  @click="openModal(solicitud)"
                   class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded text-xs transition"
                 >
                   📩 Contactar
@@ -48,18 +49,34 @@
         No hay solicitudes de presupuesto todavía.
       </div>
     </div>
+
+    <!-- Modal para contactar -->
+    <BudgetContactModal :show="showModal" :cliente="selectedCliente" @close="closeModal" />
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api' // Asegúrate de tener tu instancia Axios configurada
+import api from '@/services/api'
+import BudgetContactModal from '@/components/budgets/BudgetContactModal.vue'
 
 const budgets = ref([])
+const showModal = ref(false)
+const selectedCliente = ref(null)
+
+const openModal = (cliente) => {
+  selectedCliente.value = cliente
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  selectedCliente.value = null
+}
 
 onMounted(async () => {
   try {
-    const response = await api.get('/budgets') // GET /api/budgets
+    const response = await api.get('/budgets')
     budgets.value = response.data
   } catch (error) {
     console.error('Error al cargar presupuestos:', error)

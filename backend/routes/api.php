@@ -79,6 +79,8 @@ Route::middleware('auth:api')->group(function () {
     // Budgets
     Route::get('/budgets', [BudgetController::class, 'index']); // admin
     Route::get('/budgets/{id}', [BudgetController::class, 'show']); //admin
+    Route::post('/budgets/{id}/reply', [BudgetController::class, 'reply']); // admin | responder por email
+
 
     // Usuario
     Route::put('/profile', [UserController::class, 'update']); // usuario
