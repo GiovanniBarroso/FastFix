@@ -10,7 +10,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    // ✅ Perfil del usuario autenticado: actualizar
+    // ✅ Actualizar perfil del usuario autenticado
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -64,5 +64,49 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'Usuario eliminado']);
+    }
+
+    // ✅ Admin: crear usuario
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user = User::create($validated);
+
+        return response()->json($user, 201);
+    }
+
+    // ✅ Admin: actualizar usuario por ID
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return response()->json($user);
     }
 }

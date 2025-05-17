@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->string('password', 255);
             $table->string('telefono', 15)->nullable();
             $table->timestamp('fecha_registro')->useCurrent();
-            $table->unsignedBigInteger('roles_id')->default(2);
-            $table->foreign('roles_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->unsignedBigInteger('role_id')->default(2);
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }

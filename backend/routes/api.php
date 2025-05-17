@@ -17,7 +17,8 @@ use App\Http\Controllers\API\{
     FavoriteController,
     CartController,
     BudgetController,
-    UserController
+    UserController,
+    RoleController
 };
 
 use Laravel\Fortify\Http\Controllers\{
@@ -35,6 +36,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
 Route::post('/budgets', [BudgetController::class, 'store']); // pública
+// 🔓 Obtener roles disponibles para formularios (sin auth)
+Route::get('/roles', [RoleController::class, 'index']);
 
 // 🔐 Rutas protegidas con JWT
 Route::middleware('auth:api')->group(function () {
@@ -87,6 +90,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/users', [UserController::class, 'index']);    // admin
     Route::get('/users/{id}', [UserController::class, 'show']); // admin
     Route::delete('/users/{id}', [UserController::class, 'destroy']); // admin
+    Route::post('/users', [UserController::class, 'store']); // Crear usuario (admin)
+    Route::put('/users/{id}', [UserController::class, 'updateUser']); // Editar usuario (admin)
+
 
     // Descuentos
     Route::get('/discounts', [DiscountController::class, 'index']);
@@ -120,6 +126,6 @@ Route::middleware('auth:api')->group(function () {
 
     // Repairs
     Route::apiResource('repairs', RepairController::class);
-
+    
 
 });

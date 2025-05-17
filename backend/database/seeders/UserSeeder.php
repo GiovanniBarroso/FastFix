@@ -14,14 +14,14 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@fastfix.com',
             'password' => Hash::make('password'),
-            'roles_id' => 1 // admin
+            'role_id' => 1 // admin
         ]);
 
         User::create([
             'name' => 'Cliente Test',
             'email' => 'cliente@fastfix.com',
             'password' => Hash::make('password'),
-            'roles_id' => 2 // cliente
+            'role_id' => 2 // cliente
         ]);
     }
 }

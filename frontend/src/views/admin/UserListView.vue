@@ -5,6 +5,7 @@
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">👥 Gestión de usuarios</h1>
         <button
+          @click="openForCreate"
           class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
         >
           + Añadir usuario
@@ -35,19 +36,25 @@
               <td class="p-4">
                 <span
                   :class="[ 'px-3 py-1 rounded-full text-xs font-semibold',
-                    user.role?.nombre === 'admin'
+                    user.role?.name === 'admin'
                       ? 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white'
                       : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white'
                   ]"
                 >
-                  {{ user.role?.nombre || 'Sin rol' }}
+                  {{ user.role?.name || 'Sin rol' }}
                 </span>
               </td>
               <td class="p-4 flex gap-2">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold">
+                <button
+                  @click="openForEdit(user)"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold"
+                >
                   Editar
                 </button>
-                <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold">
+                <button
+                  @click="deleteUser(user.id)"
+                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold"
+                >
                   Eliminar
                 </button>
               </td>
@@ -56,22 +63,55 @@
         </table>
       </div>
     </div>
+
+    <!-- Modal -->
+    <UserFormModal
+      :show="showModal"
+      :userToEdit="selectedUser"
+      @close="showModal = false"
+      @saved="fetchUsers"
+    />
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
+import UserFormModal from '@/components/users/UserFormModal.vue'
 
 const users = ref([])
+const showModal = ref(false)
+const selectedUser = ref(null)
 
-onMounted(async () => {
+const fetchUsers = async () => {
   try {
     const response = await api.get('/users')
     users.value = response.data
-    console.log('Usuarios cargados:', users.value)
   } catch (error) {
     console.error('Error al cargar usuarios:', error)
   }
-})
+}
+
+const openForCreate = () => {
+  selectedUser.value = null
+  showModal.value = true
+}
+
+const openForEdit = (user) => {
+  selectedUser.value = user
+  showModal.value = true
+}
+
+const deleteUser = async (id) => {
+  if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+    try {
+      await api.delete(`/users/${id}`)
+      await fetchUsers()
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error)
+    }
+  }
+}
+
+onMounted(fetchUsers)
 </script>
