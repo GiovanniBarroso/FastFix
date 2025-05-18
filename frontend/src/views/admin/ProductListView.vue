@@ -21,8 +21,8 @@
               <th class="p-4 text-left font-semibold tracking-wide">Producto</th>
               <th class="p-4 text-left font-semibold tracking-wide">Precio</th>
               <th class="p-4 text-left font-semibold tracking-wide">Stock</th>
-              <th class="p-4 text-left font-semibold tracking-wide">Marca ID</th>
-              <th class="p-4 text-left font-semibold tracking-wide">Categoría ID</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Marca</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Categoría</th>
               <th class="p-4 text-left font-semibold tracking-wide">Acciones</th>
             </tr>
           </thead>
@@ -34,13 +34,27 @@
             >
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="getImageUrl(product.image)" class="w-12 h-12 rounded object-cover" alt="Producto" />
+                <a :href="getImageUrl(product.image)" target="_blank" title="Ver imagen">
+                  <img
+                    :src="getImageUrl(product.image)"
+                    class="w-12 h-12 rounded object-cover border border-gray-300 dark:border-gray-600 hover:scale-105 transition"
+                    alt="Producto"
+                  />
+                </a>
                 <span class="font-medium">{{ product.name }}</span>
               </td>
               <td class="p-4">€{{ product.price }}</td>
               <td class="p-4">{{ product.stock }}</td>
-              <td class="p-4">{{ product.brand_id }}</td>
-              <td class="p-4">{{ product.category_id }}</td>
+              <td class="p-4">
+                <span class="inline-block bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white text-xs font-semibold px-2 py-1 rounded">
+                  {{ product.brand?.name || '—' }}
+                </span>
+              </td>
+              <td class="p-4">
+                <span class="inline-block bg-green-100 text-green-800 dark:bg-green-700 dark:text-white text-xs font-semibold px-2 py-1 rounded">
+                  {{ product.category?.name || '—' }}
+                </span>
+              </td>
               <td class="p-4 flex gap-2">
                 <button
                   @click="editar(product)"
@@ -61,14 +75,13 @@
       </div>
     </div>
 
-    <!-- Modal para añadir o editar -->
+    <!-- Modal -->
     <ProductFormModal
       :show="showModal"
       :productToEdit="productToEdit"
       @close="showModal = false"
       @saved="fetchProducts"
     />
-
   </section>
 </template>
 
@@ -91,7 +104,7 @@ const fetchProducts = async () => {
 }
 
 const openForCreate = () => {
-  productToEdit.value = null  // 🔧 esto es lo que faltaba
+  productToEdit.value = null
   showModal.value = true
 }
 
@@ -113,9 +126,8 @@ const eliminar = async (id) => {
 
 const getImageUrl = (filename) => {
   if (!filename) return '/images/default.jpg'
-  return filename.startsWith('http') ? filename : `/images/${filename}`
+  return filename.startsWith('http') ? filename : `/storage/${filename}`
 }
 
 onMounted(fetchProducts)
 </script>
-
