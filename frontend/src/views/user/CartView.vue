@@ -16,7 +16,7 @@
           </button>
         </div>
 
-        <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
+        <table class="min-w-full text-sm text-left text-gray-800 dark:text-gray-200">
           <thead class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium">
             <tr>
               <th class="p-4">#</th>
@@ -37,8 +37,8 @@
               <td class="p-4 flex items-center gap-4">
                 <img :src="item.imagen" class="w-14 h-14 rounded object-cover" alt="Producto" />
                 <div>
-                  <span class="block font-semibold">{{ item.nombre }}</span>
-                  <span class="text-xs text-gray-500">{{ item.marca }}</span>
+                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.nombre }}</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.marca }}</span>
                 </div>
               </td>
               <td class="p-4">€{{ item.precio.toFixed(2) }}</td>
@@ -75,6 +75,7 @@
     </div>
   </section>
 </template>
+
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'

@@ -9,7 +9,7 @@
 
       <!-- Tabla de pedidos -->
       <div v-if="orders.length" class="overflow-x-auto rounded-xl shadow-md bg-white dark:bg-neutral-800">
-        <table class="min-w-full text-sm">
+        <table class="min-w-full text-sm text-gray-800 dark:text-gray-100">
           <thead class="bg-blue-600 text-white">
             <tr>
               <th class="text-left px-6 py-4">#</th>
@@ -20,13 +20,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(order, index) in orders" :key="order.id"
-                class="border-t border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-700 transition">
+            <tr
+              v-for="(order, index) in orders"
+              :key="order.id"
+              class="border-t border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-700 transition"
+            >
               <td class="px-6 py-4 font-medium">{{ index + 1 }}</td>
               <td class="px-6 py-4">{{ formatDate(order.fecha_pedido) }}</td>
               <td class="px-6 py-4">
                 <ul class="list-disc list-inside space-y-1">
-                  <li v-for="(product, idx) in order.products" :key="idx">{{ product.nombre }}</li>
+                  <li
+                    v-for="(product, idx) in order.products"
+                    :key="idx"
+                    class="text-gray-700 dark:text-gray-200"
+                  >
+                    {{ product.nombre }}
+                  </li>
                 </ul>
               </td>
               <td class="px-6 py-4 font-bold text-blue-600 dark:text-blue-400">
@@ -34,7 +43,7 @@
               </td>
               <td class="px-6 py-4">
                 <span
-                  :class="[
+                  :class="[ 
                     'px-3 py-1 text-xs font-semibold rounded-full',
                     order.estado === 'Entregado'
                       ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
@@ -50,7 +59,7 @@
       </div>
 
       <!-- Sin pedidos -->
-      <div v-else class="text-center text-gray-500 dark:text-gray-400 mt-16 text-lg">
+      <div class="text-center text-gray-500 dark:text-gray-400 mt-16 text-lg" v-else>
         Aún no tienes pedidos realizados.
       </div>
     </div>
@@ -60,7 +69,6 @@
 <script setup>
 import { ref } from 'vue'
 
-// Datos de prueba
 const orders = ref([
   {
     id: 1,

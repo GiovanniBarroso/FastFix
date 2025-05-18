@@ -1,9 +1,9 @@
 <template>
-  <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
+  <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
     <div class="max-w-7xl mx-auto px-6">
       <!-- Encabezado -->
       <div class="text-center mb-12">
-        <h1 class="text-5xl font-extrabold text-gray-900 dark:text-white mb-4">
+        <h1 class="text-5xl font-extrabold mb-4 text-gray-900 dark:text-white">
           🔧 Servicios de reparación
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">

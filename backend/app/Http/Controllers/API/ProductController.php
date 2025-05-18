@@ -17,13 +17,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'description' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'activo' => 'required|boolean',
-            'categories_id' => 'required|exists:categories,id',
-            'brands_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
             'image' => 'nullable|string|url'
         ]);
 
@@ -49,13 +49,13 @@ class ProductController extends Controller
         }
 
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'description' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'activo' => 'required|boolean',
-            'categories_id' => 'required|exists:categories,id',
-            'brands_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
             'image' => 'nullable|string|url'
         ]);
 
