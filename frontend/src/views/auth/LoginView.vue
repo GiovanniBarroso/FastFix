@@ -46,6 +46,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
+import { useAuthStore } from '@/stores/authStore'
 
 // 🧩 Importamos nuestros componentes
 import FormField from '@/views/components/FormField.vue'
@@ -57,6 +58,7 @@ const password = ref('')
 const errorMessage = ref('')
 const loading = ref(false)
 const router = useRouter()
+const auth = useAuthStore()
 
 const handleLogin = async () => {
   errorMessage.value = ''
@@ -69,10 +71,10 @@ const handleLogin = async () => {
     })
 
     const token = response.data.token
-    const role = response.data.role || 'user'
+    const userData = response.data.user
+    const role = userData.role_id === 1 ? 'admin' : 'user'
 
-    localStorage.setItem('token', token)
-    localStorage.setItem('role', role)
+    auth.login(token, userData, role)
 
     router.push(role === 'admin' ? '/admin' : '/')
   } catch (error) {

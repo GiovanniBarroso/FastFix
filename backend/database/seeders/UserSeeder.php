@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Cliente Test',
+            'name' => 'Cliente-test',
             'email' => 'cliente@fastfix.com',
             'password' => Hash::make('password'),
             'role_id' => 2 // cliente

@@ -24,20 +24,13 @@
 
 
         <template v-if="isAuthenticated">
-          <router-link
-            v-if="isAdmin"
-            to="/admin"
-            class="hover:text-red-400 transition-colors"
-          >
+          <router-link v-if="isAdmin" to="/admin" class="hover:text-red-400 transition-colors">
             Admin
           </router-link>
 
           <!-- Dropdown usuario -->
           <div class="relative" ref="dropdownRef">
-            <button
-              @click="toggleMenu"
-              class="flex items-center space-x-1 hover:text-red-400 transition"
-            >
+            <button @click="toggleMenu" class="flex items-center space-x-1 hover:text-red-400 transition">
               <span>{{ user.name }}</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -45,14 +38,9 @@
             </button>
 
             <transition name="fade">
-              <div
-                v-if="showMenu"
-                class="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-600 rounded shadow-lg z-50"
-              >
-                <button
-                  @click="logout"
-                  class="w-full text-left px-4 py-2 text-white hover:bg-red-600 transition"
-                >
+              <div v-if="showMenu"
+                class="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-600 rounded shadow-lg z-50">
+                <button @click="logout" class="w-full text-left px-4 py-2 text-white hover:bg-red-600 transition">
                   Cerrar sesión
                 </button>
               </div>
@@ -62,16 +50,12 @@
 
         <template v-else>
           <div class="flex gap-2">
-            <router-link
-              to="/login"
-              class="bg-white text-gray-900 font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-200 hover:shadow-lg"
-            >
+            <router-link to="/login"
+              class="bg-white text-gray-900 font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-200 hover:shadow-lg">
               Iniciar sesión
             </router-link>
-            <router-link
-              to="/register"
-              class="bg-red-600 text-white font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-700 hover:shadow-lg"
-            >
+            <router-link to="/register"
+              class="bg-red-600 text-white font-semibold rounded-full px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-700 hover:shadow-lg">
               Registrarse
             </router-link>
           </div>
@@ -89,10 +73,7 @@
       <template v-if="isAuthenticated">
         <router-link to="/dashboard" class="block hover:text-red-400 transition">Dashboard</router-link>
         <router-link v-if="isAdmin" to="/admin" class="block hover:text-red-400 transition">Admin</router-link>
-        <button
-          @click="logout"
-          class="block text-left w-full text-red-400 hover:text-red-200 transition"
-        >
+        <button @click="logout" class="block text-left w-full text-red-400 hover:text-red-200 transition">
           Cerrar sesión
         </button>
       </template>
@@ -109,18 +90,29 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
+import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
+const auth = useAuthStore()
+
 const showMenu = ref(false)
 const mobileMenuOpen = ref(false)
 const dropdownRef = ref(null)
 
-const user = computed(() => {
-  const data = localStorage.getItem('user')
-  return data ? JSON.parse(data) : {}
-})
+const user = computed(() => auth.user)
+const isAuthenticated = computed(() => auth.isAuthenticated())
+const isAdmin = computed(() => auth.isAdmin())
 
-const isAuthenticated = computed(() => !!localStorage.getItem('token'))
+const logout = async () => {
+  try {
+    await api.post('/logout')
+  } catch (e) {
+    console.warn('Error al cerrar sesión')
+  } finally {
+    auth.logout()
+    router.push('/login')
+  }
+}
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value
@@ -143,20 +135,6 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-const logout = async () => {
-  try {
-    await api.post('/logout')
-  } catch (e) {
-    console.warn('Error al cerrar sesión')
-  } finally {
-    localStorage.clear()
-    router.push('/login')
-  }
-}
-
-const isAdmin = computed(() => {
-  return localStorage.getItem('is_admin') === 'true'
-})
 </script>
 
 <style scoped>
@@ -164,10 +142,12 @@ const isAdmin = computed(() => {
 .fade-leave-active {
   transition: opacity 0.2s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
+
 .align-left {
   display: flex;
   align-items: center;

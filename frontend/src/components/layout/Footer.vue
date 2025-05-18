@@ -1,13 +1,11 @@
 <template>
   <footer class="bg-gray-900 text-gray-100 mt-16">
     <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
-
       <!-- Marca -->
       <div>
         <h2 class="text-3xl font-extrabold text-red-500 mb-4">FastFix</h2>
         <p class="text-sm text-gray-300 leading-relaxed">
-          Reparación de dispositivos electrónicos con profesionalismo y garantía.
-          <br />
+          Reparación de dispositivos electrónicos con profesionalismo y garantía.<br />
           Servicio rápido, seguro y transparente.
         </p>
       </div>
@@ -18,8 +16,14 @@
         <ul class="space-y-2 text-sm text-gray-400">
           <li><router-link to="/about" class="hover:text-red-400 transition">Sobre nosotros</router-link></li>
           <li><router-link to="/contact" class="hover:text-red-400 transition">Contacto</router-link></li>
-          <li><router-link to="/terms" class="hover:text-red-400 transition">Términos y condiciones</router-link></li>
-          <li><router-link to="/privacy" class="hover:text-red-400 transition">Política de privacidad</router-link></li>
+          <li>
+            <button @click="openTermsModal" class="hover:text-red-400 transition underline">
+              Términos y condiciones
+            </button>
+          </li>
+
+          <li><button @click="openModal" class="hover:text-red-400 transition underline">Política de privacidad</button>
+          </li>
         </ul>
       </div>
 
@@ -61,9 +65,160 @@
     <div class="text-center text-xs text-gray-400 py-4 border-t border-gray-800">
       © {{ currentYear }} FastFix. Todos los derechos reservados.
     </div>
+
+    <!-- Modal de Políticas de Privacidad -->
+    <transition name="fade">
+      <div v-if="showPrivacyModal"
+        class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4"
+        @click.self="closeModal">
+        <div
+          class="relative bg-white text-gray-800 rounded-2xl w-full max-w-3xl p-8 shadow-2xl overflow-y-auto max-h-[90vh] border border-white/10 backdrop-brightness-75">
+
+          <button @click="closeModal"
+            class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+          <div class="mb-6 text-center">
+            <h2 class="text-3xl font-bold text-red-600">Política de Privacidad</h2>
+            <p class="text-sm text-gray-500">Última actualización: Mayo 2025</p>
+          </div>
+
+          <div class="space-y-6 text-gray-700 text-base leading-relaxed">
+            <section>
+              <h3 class="font-bold text-lg text-red-500">1. Recopilación de información</h3>
+              <p>Recopilamos datos personales como nombre, correo electrónico, teléfono, dirección y métodos de pago al
+                registrarte, contactarnos o realizar compras.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">2. Uso de la información</h3>
+              <p>Utilizamos tus datos para procesar pedidos, ofrecer soporte, personalizar tu experiencia y enviarte
+                notificaciones relevantes. No los usamos para fines no autorizados.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">3. Protección de datos</h3>
+              <p>Usamos medidas de seguridad técnicas y organizativas, incluyendo cifrado SSL, firewalls y acceso
+                limitado, para proteger tu información contra accesos no autorizados.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">4. Compartición de datos</h3>
+              <p>No vendemos tu información. Solo compartimos con terceros que nos ayudan a proveer el servicio, como
+                procesadores de pago, bajo estrictos acuerdos de confidencialidad.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">5. Uso de cookies</h3>
+              <p>Empleamos cookies para analizar tráfico, mejorar tu experiencia y recordar tus preferencias. Puedes
+                gestionarlas desde la configuración de tu navegador.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">6. Derechos del usuario</h3>
+              <p>Puedes acceder, modificar, eliminar o limitar el uso de tus datos. También puedes ejercer tu derecho a
+                la portabilidad o presentar reclamaciones ante la autoridad competente.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">7. Conservación de datos</h3>
+              <p>Guardamos tus datos solo durante el tiempo necesario para cumplir con fines legales, fiscales y
+                contractuales. Pasado este tiempo, los eliminamos de forma segura.</p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">8. Modificaciones</h3>
+              <p>Nos reservamos el derecho a actualizar esta política. Te informaremos de cambios importantes a través
+                de nuestro sitio web o por email.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Modal de Términos y Condiciones -->
+    <transition name="fade">
+      <div v-if="showTermsModal"
+        class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center px-4"
+        @click.self="closeTermsModal">
+        <div
+          class="relative bg-white text-gray-800 rounded-2xl w-full max-w-3xl p-8 shadow-2xl overflow-y-auto max-h-[90vh] border border-white/10 backdrop-brightness-75">
+          <button @click="closeTermsModal" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl">
+            &times;
+          </button>
+          <div class="mb-6 text-center">
+            <h2 class="text-3xl font-bold text-red-600">Términos y Condiciones</h2>
+            <p class="text-sm text-gray-500">Última actualización: Mayo 2025</p>
+          </div>
+
+          <div class="space-y-6 text-gray-700 text-base leading-relaxed">
+            <section>
+              <h3 class="font-bold text-lg text-red-500">1. Aceptación de términos</h3>
+              <p>
+                Al acceder o usar el sitio web de FastFix, aceptas cumplir estos términos y condiciones. Si no estás de
+                acuerdo, por favor no utilices nuestros servicios.
+              </p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">2. Uso del sitio</h3>
+              <p>
+                El contenido del sitio es solo para uso personal y no comercial. Queda prohibido modificar, distribuir,
+                transmitir o explotar el contenido sin nuestro consentimiento.
+              </p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">3. Propiedad intelectual</h3>
+              <p>
+                Todos los derechos sobre marcas, logos, diseños y contenidos pertenecen a FastFix. No se permite el uso
+                sin
+                autorización expresa.
+              </p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">4. Responsabilidad del usuario</h3>
+              <p>
+                Te comprometes a proporcionar información veraz, no realizar actividades ilícitas y respetar la
+                integridad
+                del sitio.
+              </p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">5. Modificaciones</h3>
+              <p>
+                Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos cualquier
+                cambio sustancial a través del sitio o por correo electrónico.
+              </p>
+            </section>
+
+            <section>
+              <h3 class="font-bold text-lg text-red-500">6. Legislación aplicable</h3>
+              <p>
+                Estos términos se rigen por la legislación vigente en España. Cualquier disputa será resuelta por los
+                tribunales competentes de Sevilla.
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </transition>
+
   </footer>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+//Modal de privacidad
+const showPrivacyModal = ref(false)
+const openModal = () => (showPrivacyModal.value = true)
+const closeModal = () => (showPrivacyModal.value = false)
+
+//Modal de términos
+const showTermsModal = ref(false)
+const openTermsModal = () => (showTermsModal.value = true)
+const closeTermsModal = () => (showTermsModal.value = false)
+
 const currentYear = new Date().getFullYear()
 </script>
