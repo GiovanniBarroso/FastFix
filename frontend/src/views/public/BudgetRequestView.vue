@@ -1,8 +1,8 @@
 <template>
-  <section class="py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <section class="py-16 bg-gray-50 dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-100">
     <div class="max-w-2xl mx-auto px-6">
       <!-- Título -->
-      <h1 class="text-4xl font-extrabold text-center mb-4">📝 Solicita tu presupuesto</h1>
+      <h1 class="text-4xl font-extrabold text-center mb-4 text-gray-900 dark:text-white">📝 Solicita tu presupuesto</h1>
       <p class="text-center text-gray-600 dark:text-gray-300 mb-10">
         Cuéntanos tu problema y te enviaremos un presupuesto detallado sin compromiso.
       </p>
@@ -58,7 +58,10 @@
           </div>
         </form>
 
-        <div v-if="mensajeEnviado" class="mt-6 text-green-600 dark:text-green-400 text-center font-medium">
+        <div
+          v-if="mensajeEnviado"
+          class="mt-6 text-green-600 dark:text-green-400 text-center font-medium"
+        >
           ✅ ¡Solicitud enviada correctamente! Nos pondremos en contacto contigo.
         </div>
       </div>
@@ -82,7 +85,6 @@ const enviarPresupuesto = () => {
   console.log('Datos enviados:', form.value)
   mensajeEnviado.value = true
 
-  // Resetear formulario después de 2 segundos
   setTimeout(() => {
     mensajeEnviado.value = false
     form.value = {
