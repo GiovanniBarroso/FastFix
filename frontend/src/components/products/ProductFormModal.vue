@@ -9,44 +9,44 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
           <input v-model="form.name" type="text" required
-                 class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
           <textarea v-model="form.description" rows="3"
-                    class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio (€)</label>
             <input v-model="form.price" type="number" step="0.01" required
-                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock</label>
             <input v-model="form.stock" type="number" required
-                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen (URL)</label>
           <input v-model="form.image" type="text"
-                 class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categoría ID</label>
-            <input v-model="form.categories_id" type="number" required
-                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <input v-model="form.category_id" type="number" required
+              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Marca ID</label>
-            <input v-model="form.brands_id" type="number" required
-                   class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <input v-model="form.brand_id" type="number" required
+              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
         </div>
 
@@ -57,11 +57,11 @@
 
         <div class="flex justify-end gap-4 pt-6">
           <button type="button" @click="close"
-                  class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">
+            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">
             Cancelar
           </button>
           <button type="submit"
-                  class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
             {{ isEditing ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
@@ -84,46 +84,56 @@ const form = ref({
   price: 0,
   stock: 0,
   image: '',
-  categories_id: null,
-  brands_id: null,
+  category_id: null,
+  brand_id: null,
   activo: true,
 })
 
 const isEditing = ref(false)
 
-watch(
-  () => props.show,
-  (visible) => {
-    if (visible && props.productToEdit) {
-      form.value = {
-        id: props.productToEdit.id,
-        name: props.productToEdit.name,
-        description: props.productToEdit.description,
-        price: props.productToEdit.price,
-        stock: props.productToEdit.stock,
-        image: props.productToEdit.image,
-        categories_id: props.productToEdit.categories_id,
-        brands_id: props.productToEdit.brands_id,
-        activo: props.productToEdit.activo,
-      }
-      isEditing.value = true
-    } else if (visible && !props.productToEdit) {
-      resetForm()
+watch(() => props.show, (visible) => {
+  if (visible && props.productToEdit) {
+    form.value = {
+      id: props.productToEdit.id,
+      name: props.productToEdit.name,
+      description: props.productToEdit.description,
+      price: props.productToEdit.price,
+      stock: props.productToEdit.stock,
+      image: props.productToEdit.image,
+      category_id: props.productToEdit.category_id,
+      brand_id: props.productToEdit.brand_id,
+      activo: props.productToEdit.activo,
     }
+    isEditing.value = true
+  } else if (visible && !props.productToEdit) {
+    resetForm() // ✅ esto asegura que al crear esté vacío
   }
-)
+})
+
 
 const handleSubmit = async () => {
   try {
-    if (isEditing.value) {
-      await api.put(`/products/${form.value.id}`, form.value)
-    } else {
-      await api.post('/products', form.value)
+    const payload = {
+      name: form.value.name,
+      description: form.value.description,
+      price: form.value.price,
+      stock: form.value.stock,
+      image: form.value.image,
+      category_id: form.value.category_id,
+      brand_id: form.value.brand_id,
+      activo: form.value.activo
     }
+
+    if (isEditing.value) {
+      await api.put(`/products/${form.value.id}`, payload)
+    } else {
+      await api.post('/products', payload)
+    }
+
     emit('saved')
     close()
   } catch (error) {
-    console.error('Error guardando producto:', error)
+    console.error('Error guardando producto:', error.response?.data ?? error)
   }
 }
 
@@ -135,8 +145,8 @@ const resetForm = () => {
     price: 0,
     stock: 0,
     image: '',
-    categories_id: null,
-    brands_id: null,
+    category_id: null,
+    brand_id: null,
     activo: true,
   }
   isEditing.value = false

@@ -26,7 +26,7 @@ import HomeView from '@/views/user/HomeView.vue'
 
 // 🛠️ Vistas del panel de administración
 import AdminPanelView from '@/views/admin/AdminPanelView.vue'
-import ProductCrudView from '@/views/admin/ProductCrudView.vue'
+import ProductListView from '@/views/admin/ProductListView.vue'
 import OrderListView from '@/views/admin/OrderListView.vue'
 import BudgetListView from '@/views/admin/BudgetListView.vue'
 import GuaranteeListView from '@/views/admin/GuaranteeListView.vue'
@@ -60,7 +60,7 @@ const routes = [
 
   // 🛠️ Admin
   { path: '/admin', name: 'admin-panel', component: AdminPanelView, meta: { requiresAuth: true } },
-  { path: '/admin/products', name: 'product-crud', component: ProductCrudView, meta: { requiresAuth: true } },
+  { path: '/admin/products', name: 'product-list', component: ProductListView, meta: { requiresAuth: true } },
   { path: '/admin/orders', name: 'order-list', component: OrderListView, meta: { requiresAuth: true } },
   { path: '/admin/budgets', name: 'budget-list', component: BudgetListView, meta: { requiresAuth: true } },
   { path: '/admin/guarantees', name: 'guarantee-list', component: GuaranteeListView, meta: { requiresAuth: true } },

@@ -5,7 +5,7 @@
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">🛠️ Gestión de productos</h1>
         <button
-          @click="showModal = true"
+          @click="openForCreate"
           class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
         >
           + Añadir producto
@@ -21,6 +21,8 @@
               <th class="p-4 text-left font-semibold tracking-wide">Producto</th>
               <th class="p-4 text-left font-semibold tracking-wide">Precio</th>
               <th class="p-4 text-left font-semibold tracking-wide">Stock</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Marca ID</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Categoría ID</th>
               <th class="p-4 text-left font-semibold tracking-wide">Acciones</th>
             </tr>
           </thead>
@@ -37,6 +39,8 @@
               </td>
               <td class="p-4">€{{ product.price }}</td>
               <td class="p-4">{{ product.stock }}</td>
+              <td class="p-4">{{ product.brand_id }}</td>
+              <td class="p-4">{{ product.category_id }}</td>
               <td class="p-4 flex gap-2">
                 <button
                   @click="editar(product)"
@@ -64,6 +68,7 @@
       @close="showModal = false"
       @saved="fetchProducts"
     />
+
   </section>
 </template>
 
@@ -85,6 +90,11 @@ const fetchProducts = async () => {
   }
 }
 
+const openForCreate = () => {
+  productToEdit.value = null  // 🔧 esto es lo que faltaba
+  showModal.value = true
+}
+
 const editar = (product) => {
   productToEdit.value = product
   showModal.value = true
@@ -94,7 +104,7 @@ const eliminar = async (id) => {
   if (confirm('¿Seguro que quieres eliminar este producto?')) {
     try {
       await api.delete(`/products/${id}`)
-      products.value = products.value.filter(p => p.id !== id)
+      await fetchProducts()
     } catch (error) {
       console.error('Error al eliminar producto:', error)
     }
@@ -102,10 +112,10 @@ const eliminar = async (id) => {
 }
 
 const getImageUrl = (filename) => {
-  return filename?.startsWith('http') ? filename : `/images/${filename}`
+  if (!filename) return '/images/default.jpg'
+  return filename.startsWith('http') ? filename : `/images/${filename}`
 }
 
-onMounted(() => {
-  fetchProducts()
-})
+onMounted(fetchProducts)
 </script>
+
