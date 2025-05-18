@@ -137,7 +137,7 @@
     <!-- Modal de Términos y Condiciones -->
     <transition name="fade">
       <div v-if="showTermsModal"
-        class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center px-4"
+        class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4"
         @click.self="closeTermsModal">
         <div
           class="relative bg-white text-gray-800 rounded-2xl w-full max-w-3xl p-8 shadow-2xl overflow-y-auto max-h-[90vh] border border-white/10 backdrop-brightness-75">

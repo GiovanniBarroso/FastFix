@@ -4,7 +4,7 @@
   <!-- Hero -->
   <section
     class=" text-center py-24 px-6 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 animate-fade">
-    <h1 class="text-white text-5xl sm:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
+    <h1 class="text-dark text-5xl sm:text-6xl font-extrabold mb-6 leading-tight tracking-tight">
       Bienvenido a <span class="text-red-500 dark:text-red-400">FastFix</span>
     </h1>
     <p class="text-xl sm:text-2xl max-w-2xl mx-auto mb-10 text-gray-700 dark:text-gray-300">

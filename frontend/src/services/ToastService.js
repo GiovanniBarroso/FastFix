@@ -14,4 +14,13 @@ const showToast = (message, type = 'success', duration = 3000) => {
 export default {
   toasts,
   showToast,
+  success(message, duration = 3000) {
+    showToast(message, 'success', duration)
+  },
+  error(message, duration = 3000) {
+    showToast(message, 'error', duration)
+  },
+  info(message, duration = 3000) {
+    showToast(message, 'info', duration)
+  },
 }

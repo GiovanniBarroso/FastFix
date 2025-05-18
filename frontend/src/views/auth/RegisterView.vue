@@ -41,11 +41,14 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'  // <-- IMPORTANTE
 import api from '@/services/api'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
+
+const auth = useAuthStore() // <-- DECLARACIÓN
 
 const name = ref('')
 const email = ref('')
@@ -73,14 +76,20 @@ const handleRegister = async () => {
       password_confirmation: password_confirmation.value
     })
 
-    const token = response.data.token
-    const role = response.data.role || 'user'
+    // ✅ Guardamos datos del usuario
+    auth.login(response.data.token, response.data.user, response.data.role)
 
-    localStorage.setItem('token', token)
-    localStorage.setItem('role', role)
+    // ✅ Limpiamos
+    name.value = ''
+    email.value = ''
+    password.value = ''
+    password_confirmation.value = ''
 
-    router.push(role === 'admin' ? '/admin' : '/')
+    // ✅ Redirigimos con query
+    router.push({ path: '/verify-email', query: { registered: '1' } })
+
   } catch (error) {
+    console.error('Error en handleRegister:', error)
     errorMessage.value = error.response?.data?.message || 'Error al registrar el usuario.'
   } finally {
     loading.value = false

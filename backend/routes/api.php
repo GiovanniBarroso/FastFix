@@ -25,10 +25,21 @@ use Laravel\Fortify\Http\Controllers\{
     PasswordResetLinkController,
     NewPasswordController,
     EmailVerificationNotificationController,
-    VerifyEmailController,
     ConfirmablePasswordController,
     TwoFactorAuthenticatedSessionController
 };
+
+use App\Http\Controllers\API\Auth\VerifyEmailController;
+
+
+// 🛡️ Rutas de Fortify
+Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store']);
+Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware('signed')
+    ->name('verification.verify');
+
+Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store']);
+Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
 
 // 🔓 Rutas públicas
 Route::post('/login', [AuthController::class, 'login']);
@@ -46,11 +57,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-    // 🛡️ Fortify extra
-    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store']);
-    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])->name('verification.verify');
-    Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store']);
-    Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
+
 
     // 📦 Recursos API
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
@@ -126,6 +133,6 @@ Route::middleware('auth:api')->group(function () {
 
     // Repairs
     Route::apiResource('repairs', RepairController::class);
-    
+
 
 });

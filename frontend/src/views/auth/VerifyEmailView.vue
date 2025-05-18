@@ -10,10 +10,6 @@
         que te enviamos.
       </p>
 
-      <!-- Estado / error -->
-      <AlertMessage v-if="status" type="success" :message="status" />
-      <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
-
       <!-- Botón reenviar -->
       <form @submit.prevent="resendVerification">
         <BaseButton :loading="loading" fullWidth>
@@ -25,26 +21,43 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import api from '@/services/api'
+import { useRoute } from 'vue-router'
 
 import BaseButton from '@/views/components/BaseButton.vue'
-import AlertMessage from '@/views/components/AlertMessage.vue'
+import ToastService from '@/services/ToastService.js'
 
-const status = ref('')
 const errorMessage = ref('')
 const loading = ref(false)
+const route = useRoute()
+
+onMounted(() => {
+  const { registered, verified } = route.query
+
+  if (registered === '1') {
+    ToastService.success('¡Cuenta creada! Revisa tu correo para verificarla.')
+  }
+
+  if (verified === '1') {
+    ToastService.success('¡Correo verificado! Ya puedes iniciar sesión.')
+  } else if (verified === '0') {
+    ToastService.error('Hubo un error al verificar tu correo. Intenta nuevamente.')
+  }
+})
+
+
+
 
 const resendVerification = async () => {
   errorMessage.value = ''
-  status.value = ''
   loading.value = true
 
   try {
-    const response = await api.post('/email/verification-notification')
-    status.value = response.data.status || '¡Correo reenviado con éxito!'
+    await api.post('/email/verification-notification')
+    ToastService.success('¡Correo de verificación reenviado con éxito!')
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || 'Error al reenviar el correo.'
+    ToastService.error('No se pudo reenviar el correo. Intenta más tarde.')
   } finally {
     loading.value = false
   }
