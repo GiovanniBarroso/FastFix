@@ -10,8 +10,8 @@ class BrandSeeder extends Seeder
     public function run()
     {
         DB::table('brands')->insert([
-            ['name' => 'Apple', 'descripcion' => 'Tecnología Apple', 'activo' => true],
-            ['name' => 'Samsung', 'descripcion' => 'Dispositivos Samsung', 'activo' => true],
+            ['name' => 'Apple', 'description' => 'Tecnología Apple', 'activo' => true],
+            ['name' => 'Samsung', 'description' => 'Dispositivos Samsung', 'activo' => true],
         ]);
     }
 }

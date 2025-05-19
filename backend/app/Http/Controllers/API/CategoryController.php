@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'activo' => 'required|boolean'
         ]);
@@ -31,7 +31,7 @@ class CategoryController extends Controller
         if (!$category) return response()->json(['message' => 'No encontrada'], 404);
 
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'description' => 'nullable|string',
             'activo' => 'required|boolean'
         ]);

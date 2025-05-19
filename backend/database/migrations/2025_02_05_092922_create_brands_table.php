@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->text('descripcion')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('activo')->default(true); // 👈 añadido
             $table->timestamps();
         });

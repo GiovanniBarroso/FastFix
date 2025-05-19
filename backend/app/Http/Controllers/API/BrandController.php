@@ -16,8 +16,8 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string',
             'activo' => 'required|boolean'
         ]);
 
@@ -32,8 +32,8 @@ class BrandController extends Controller
             return response()->json(['message' => 'No encontrada'], 404);
 
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string',
             'activo' => 'required|boolean'
         ]);
 
