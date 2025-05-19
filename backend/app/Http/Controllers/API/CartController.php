@@ -6,59 +6,86 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
+use App\Models\CartItem;
 
 class CartController extends Controller
 {
     public function index()
-    {
-        $cart = session()->get('cart_' . Auth::id(), []);
-        return response()->json(['cart' => array_values($cart)], 200);
-    }
+{
+    $userId = Auth::id();
+    logger('🛒 GET /cart llamado por el usuario ID: ' . $userId);
+
+    $cartItems = CartItem::with('product')
+        ->where('user_id', $userId)
+        ->get();
+
+    logger('📦 Resultado con relaciones cargadas:', $cartItems->toArray());
+
+    $formatted = $cartItems
+        ->filter(fn($item) => $item->product) // evita nulls
+        ->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'quantity' => $item->quantity,
+                'product' => [
+                    'id' => $item->product->id,
+                    'name' => $item->product->name,
+                    'price' => $item->product->price,
+                    'image' => $item->product->image,
+                    'brand' => optional($item->product->brand)->name ?? 'Sin marca'
+                ]
+            ];
+        })->values();
+
+    logger('🧾 Carrito enviado a Vue:', $formatted->toArray());
+
+    return response()->json(['cart' => $formatted], 200);
+}
+
+
+
 
     public function store(Request $request)
     {
+        logger('📦 POST /cart añadido por el usuario ID: ' . Auth::id());
         $request->validate([
             'id' => 'required|exists:products,id',
             'cantidad' => 'required|integer|min:1'
         ]);
 
-        $product = Product::findOrFail($request->id);
-        $cartKey = 'cart_' . Auth::id();
-        $cart = session()->get($cartKey, []);
+        $userId = Auth::id();
+        $productId = $request->id;
 
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['cantidad'] += $request->cantidad;
+        $cartItem = CartItem::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            $cartItem->quantity += $request->cantidad;
+            $cartItem->save();
         } else {
-            $cart[$product->id] = [
-                'id' => $product->id,
-                'nombre' => $product->nombre,
-                'precio' => $product->precio,
-                'imagen' => $product->imagen,
-                'cantidad' => $request->cantidad
-            ];
+            CartItem::create([
+                'user_id' => $userId,
+                'product_id' => $productId,
+                'quantity' => $request->cantidad,
+            ]);
         }
-
-        session()->put($cartKey, $cart);
 
         return response()->json(['message' => 'Producto agregado al carrito'], 201);
     }
 
     public function destroy($id)
     {
-        $cartKey = 'cart_' . Auth::id();
-        $cart = session()->get($cartKey, []);
-
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put($cartKey, $cart);
-        }
+        CartItem::where('user_id', Auth::id())
+            ->where('id', $id)
+            ->delete();
 
         return response()->json(['message' => 'Producto eliminado del carrito'], 200);
     }
 
     public function clear()
     {
-        session()->forget('cart_' . Auth::id());
+        CartItem::where('user_id', Auth::id())->delete();
         return response()->json(['message' => 'Carrito vaciado'], 200);
     }
 }

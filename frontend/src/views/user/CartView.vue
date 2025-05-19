@@ -35,16 +35,16 @@
             >
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="item.imagen" class="w-14 h-14 rounded object-cover" alt="Producto" />
+                <img :src="getImageUrl(item.product.image)" class="w-14 h-14 rounded object-cover" alt="Producto" />
                 <div>
-                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.nombre }}</span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.marca }}</span>
+                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.product.name }}</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.product.brand }}</span>
                 </div>
               </td>
-              <td class="p-4">€{{ item.precio.toFixed(2) }}</td>
-              <td class="p-4">{{ item.cantidad }}</td>
+              <td class="p-4">€{{ parseFloat(item.product.price).toFixed(2) }}</td>
+              <td class="p-4">{{ item.quantity }}</td>
               <td class="p-4 font-semibold text-blue-600 dark:text-blue-400">
-                €{{ (item.precio * item.cantidad).toFixed(2) }}
+                €{{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
               </td>
               <td class="p-4 text-center">
                 <button
@@ -76,7 +76,6 @@
   </section>
 </template>
 
-
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import api from '@/services/api'
@@ -88,9 +87,9 @@ const loading = ref(false)
 const getCart = async () => {
   try {
     const response = await api.get('/cart')
-    cart.value = response.data.cart?.length ? response.data.cart : mockProducts
-  } catch {
-    cart.value = mockProducts // Modo prueba si falla o backend sin conexión
+    cart.value = response.data.cart
+  } catch (error) {
+    console.error('Error al obtener el carrito:', error)
   }
 }
 
@@ -125,29 +124,14 @@ const finalizarCompra = async () => {
   }
 }
 
-const total = computed(() =>
-  cart.value.reduce((sum, item) => sum + item.precio * item.cantidad, 0)
-)
+const getImageUrl = (filename) => {
+  if (!filename) return '/images/default.jpg'
+  return filename.startsWith('http') ? filename : `/images/${filename}`
+}
 
-//Prodcutos de prueba, falta enlazarlo con la bbdd
-const mockProducts = [
-  {
-    id: 1,
-    nombre: 'Funda antigolpes iPhone 14',
-    marca: 'Spigen',
-    precio: 12.99,
-    cantidad: 1,
-    imagen: 'https://via.placeholder.com/100x100'
-  },
-  {
-    id: 2,
-    nombre: 'Cable USB-C trenzado',
-    marca: 'Baseus',
-    precio: 6.5,
-    cantidad: 2,
-    imagen: 'https://via.placeholder.com/100x100'
-  }
-]
+const total = computed(() =>
+  cart.value.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0)
+)
 
 onMounted(getCart)
 </script>
