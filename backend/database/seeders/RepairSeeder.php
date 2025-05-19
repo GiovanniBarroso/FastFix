@@ -28,7 +28,9 @@ class RepairSeeder extends Seeder
             'brand_id' => $brand->id,
             'category_id' => $category->id,
             'price' => 59.99,
+            'activo' => true,
             'stock' => 10,
+            'image' => 'pantalla-iphone13.webp'
         ]);
 
         // Crear reparaciones de ejemplo

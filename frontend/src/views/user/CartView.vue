@@ -8,10 +8,8 @@
       <div v-if="cart.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Resumen de productos</h2>
-          <button
-            @click="vaciarCarrito"
-            class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm text-gray-800 dark:text-white px-4 py-2 rounded transition"
-          >
+          <button @click="vaciarCarrito"
+            class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm text-gray-800 dark:text-white px-4 py-2 rounded transition">
             Vaciar carrito
           </button>
         </div>
@@ -28,11 +26,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in cart"
-              :key="item.id"
-              class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
+            <tr v-for="(item, index) in cart" :key="item.id"
+              class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
                 <img :src="getImageUrl(item.product.image)" class="w-14 h-14 rounded object-cover" alt="Producto" />
@@ -47,10 +42,8 @@
                 €{{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
               </td>
               <td class="p-4 text-center">
-                <button
-                  @click="eliminarDelCarrito(item.id)"
-                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-xs"
-                >
+                <button @click="eliminarDelCarrito(item.id)"
+                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-xs">
                   Eliminar
                 </button>
               </td>
@@ -124,9 +117,10 @@ const finalizarCompra = async () => {
   }
 }
 
+const baseURL = 'http://localhost:8000' // o tu dominio en producción
 const getImageUrl = (filename) => {
-  if (!filename) return '/images/default.jpg'
-  return filename.startsWith('http') ? filename : `/images/${filename}`
+  if (!filename) return `${baseURL}/images/default.jpg`
+  return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
 }
 
 const total = computed(() =>

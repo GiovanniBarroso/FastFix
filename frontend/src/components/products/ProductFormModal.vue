@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-2xl overflow-y-auto max-h-[90vh]">
       <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {{ isEditing ? '✏️ Editar Producto' : '➕ Añadir Producto' }}
@@ -39,10 +39,11 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
           <input type="file" accept="image/*" @change="handleFileUpload"
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
-          
+
           <div v-if="previewUrl" class="mt-3">
             <a :href="previewUrl" target="_blank">
-              <img :src="previewUrl" alt="Vista previa" class="w-32 h-32 object-cover rounded border hover:scale-105 transition" />
+              <img :src="previewUrl" alt="Vista previa"
+                class="w-32 h-32 object-cover rounded border hover:scale-105 transition" />
             </a>
           </div>
         </div>
@@ -80,8 +81,7 @@
             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">
             Cancelar
           </button>
-          <button type="submit"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
+          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
             {{ isEditing ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
@@ -93,6 +93,13 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import api from '@/services/api'
+
+const baseURL = 'http://localhost:8000'
+
+const getImageUrl = (filename) => {
+  if (!filename) return `${baseURL}/images/default.jpg`
+  return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
+}
 
 const props = defineProps(['show', 'productToEdit'])
 const emit = defineEmits(['close', 'saved'])
@@ -144,7 +151,7 @@ const handleSubmit = async () => {
     data.append('stock', form.value.stock)
     data.append('category_id', form.value.category_id)
     data.append('brand_id', form.value.brand_id)
-    data.append('activo', form.value.activo ? 1 : 0) // 👈 convierte bool a 0 o 1
+    data.append('activo', form.value.activo ? 1 : 0)
 
     if (imageFile.value) {
       data.append('image', imageFile.value)
@@ -153,7 +160,7 @@ const handleSubmit = async () => {
     const config = { headers: { 'Content-Type': 'multipart/form-data' } }
 
     if (isEditing.value) {
-      data.append('_method', 'PUT') // Laravel requiere esto si usamos POST para actualizar
+      data.append('_method', 'PUT')
       await api.post(`/products/${form.value.id}`, data, config)
     } else {
       await api.post('/products', data, config)
@@ -165,7 +172,6 @@ const handleSubmit = async () => {
     console.error('Error guardando producto:', error.response?.data ?? error)
   }
 }
-
 
 const resetForm = () => {
   form.value = {
@@ -201,11 +207,10 @@ watch(() => props.show, (visible) => {
       activo: props.productToEdit.activo,
     }
 
-    // 👇 Corrige la ruta a /storage/
-   previewUrl.value = props.productToEdit.image
-    ? `/images/${props.productToEdit.image}`
-    : null
-
+    // ✅ Usar getImageUrl para la vista previa de la imagen
+    previewUrl.value = props.productToEdit.image
+      ? getImageUrl(props.productToEdit.image)
+      : null
 
     imageFile.value = null
     isEditing.value = true
@@ -213,7 +218,6 @@ watch(() => props.show, (visible) => {
     resetForm()
   }
 })
-
 
 onMounted(fetchCategoriesAndBrands)
 </script>
