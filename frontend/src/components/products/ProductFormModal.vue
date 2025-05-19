@@ -202,9 +202,10 @@ watch(() => props.show, (visible) => {
     }
 
     // 👇 Corrige la ruta a /storage/
-    previewUrl.value = props.productToEdit.image
-      ? `/storage/${props.productToEdit.image}`
-      : null
+   previewUrl.value = props.productToEdit.image
+    ? `/images/${props.productToEdit.image}`
+    : null
+
 
     imageFile.value = null
     isEditing.value = true

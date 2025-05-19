@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
                 'activo' => true,
                 'category_id' => 1,
                 'brand_id' => 1,
-                'image' => 'pantalla-iphone13.jpg'
+                'image' => 'pantalla-iphone13.webp'
             ],
             [
                 'name' => 'Disco SSD 1TB',
@@ -28,7 +28,7 @@ class ProductSeeder extends Seeder
                 'activo' => true,
                 'category_id' => 2,
                 'brand_id' => 2,
-                'image' => 'ssd-1tb.jpg'
+                'image' => 'disco-ssd-1tb.webp'
             ],
             [
                 'name' => 'Cable USB-C trenzado',
@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
                 'activo' => true,
                 'category_id' => 1,
                 'brand_id' => 2,
-                'image' => 'cable-usbc.jpg'
+                'image' => 'cable-usb-c-trenzado.jpg'
             ],
             [
                 'name' => 'Funda antigolpes iPhone 14',
@@ -48,7 +48,7 @@ class ProductSeeder extends Seeder
                 'activo' => true,
                 'category_id' => 1,
                 'brand_id' => 1,
-                'image' => 'funda-iphone14.jpg'
+                'image' => 'funda-antigolpes-iphone14.jpg'
             ]
         ]);
     }

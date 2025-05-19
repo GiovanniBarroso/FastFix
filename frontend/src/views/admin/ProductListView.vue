@@ -126,8 +126,9 @@ const eliminar = async (id) => {
 
 const getImageUrl = (filename) => {
   if (!filename) return '/images/default.jpg'
-  return filename.startsWith('http') ? filename : `/storage/${filename}`
+  return filename.startsWith('http') ? filename : `/images/${filename}`
 }
+
 
 onMounted(fetchProducts)
 </script>
