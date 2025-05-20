@@ -1,6 +1,7 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
+
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">🔧 Servicios de reparación</h1>
@@ -18,10 +19,12 @@
           <thead class="bg-purple-500 dark:bg-purple-600 text-white uppercase text-xs tracking-wider">
             <tr>
               <th class="p-4 text-left">#</th>
-              <th class="p-4 text-left">Nombre</th>
-              <th class="p-4 text-left">Descripción</th>
+              <th class="p-4 text-left">Dispositivo</th>
+              <th class="p-4 text-left">Problema</th>
               <th class="p-4 text-left">Precio</th>
+              <th class="p-4 text-left">Garantía</th>
               <th class="p-4 text-left">Duración</th>
+              <th class="p-4 text-left">Estado</th>
               <th class="p-4 text-left">Acciones</th>
             </tr>
           </thead>
@@ -32,12 +35,36 @@
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4">{{ index + 1 }}</td>
-              <td class="p-4 font-medium">{{ reparacion.device_type }} {{ reparacion.model }}</td>
-              <td class="p-4 max-w-md truncate" :title="reparacion.problem_description">
+
+              <td class="p-4 font-medium">
+                {{ reparacion.device_type }} - {{ reparacion.name }}
+              </td>
+
+              <td class="p-4 max-w-sm truncate" :title="reparacion.problem_description">
                 {{ reparacion.problem_description }}
               </td>
-              <td class="p-4 font-mono">€{{ reparacion.repair_cost !== null ? reparacion.repair_cost : '—' }}</td>
-              <td class="p-4">{{ formatDuracion(reparacion.received_at, reparacion.delivered_at) }}</td>
+
+              <td class="p-4 font-mono">
+                {{ reparacion.repair_cost !== null ? `€${reparacion.repair_cost}` : '—' }}
+              </td>
+
+              <td class="p-4">
+                {{ traducirGarantia(reparacion.garantia) }}
+              </td>
+
+              <td class="p-4">
+                {{ formatDuracion(reparacion.received_at, reparacion.delivered_at) }}
+              </td>
+
+              <td class="p-4">
+                <span
+                  class="inline-block text-xs font-semibold px-2 py-1 rounded-full"
+                  :class="estadoColor(reparacion.status)"
+                >
+                  {{ reparacion.status }}
+                </span>
+              </td>
+
               <td class="p-4 flex gap-2">
                 <button
                   @click="abrirModal(reparacion)"
@@ -58,6 +85,7 @@
       </div>
     </div>
 
+    <!-- Modal de edición -->
     <RepairFormModal
       :show="showModal"
       :repairToEdit="repairToEdit"
@@ -114,7 +142,28 @@ const formatDuracion = (start, end) => {
   return `${dias} día${dias === 1 ? '' : 's'}`
 }
 
-onMounted(() => {
-  fetchReparaciones()
-})
+const traducirGarantia = (valor) => {
+  switch (valor) {
+    case '3m': return '3 meses'
+    case '6m': return '6 meses'
+    default: return 'Sin garantía'
+  }
+}
+
+const estadoColor = (estado) => {
+  switch (estado) {
+    case 'pendiente':
+      return 'bg-yellow-100 text-yellow-800'
+    case 'en progreso':
+      return 'bg-blue-100 text-blue-800'
+    case 'terminado':
+      return 'bg-green-100 text-green-800'
+    case 'entregado':
+      return 'bg-gray-100 text-gray-800'
+    default:
+      return ''
+  }
+}
+
+onMounted(fetchReparaciones)
 </script>

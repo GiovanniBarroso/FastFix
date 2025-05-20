@@ -11,14 +11,13 @@ class Repair extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
         'device_type',
-        'brand',
-        'model',
+        'name',
         'problem_description',
-        'repair_notes',
         'status',
+        'garantia',
         'repair_cost',
+        'repair_notes',
         'received_at',
         'delivered_at',
     ];
@@ -26,10 +25,5 @@ class Repair extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
     }
 }

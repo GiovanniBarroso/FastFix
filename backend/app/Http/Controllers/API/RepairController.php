@@ -10,20 +10,19 @@ class RepairController extends Controller
 {
     public function index()
     {
-        return Repair::with(['user', 'product'])->get();
+        return Repair::with('user')->get();
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'product_id' => 'nullable|exists:products,id',
             'device_type' => 'required|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255',
             'problem_description' => 'required|string',
             'repair_notes' => 'nullable|string',
             'status' => 'required|in:pendiente,en progreso,terminado,entregado',
+            'garantia' => 'required|in:sin,3m,6m',
             'repair_cost' => 'nullable|numeric',
             'received_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
@@ -34,20 +33,19 @@ class RepairController extends Controller
 
     public function show(Repair $repair)
     {
-        return $repair->load(['user', 'product']);
+        return $repair->load('user');
     }
 
     public function update(Request $request, Repair $repair)
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'product_id' => 'nullable|exists:products,id',
             'device_type' => 'required|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255',
             'problem_description' => 'required|string',
             'repair_notes' => 'nullable|string',
             'status' => 'required|in:pendiente,en progreso,terminado,entregado',
+            'garantia' => 'required|in:sin,3m,6m',
             'repair_cost' => 'nullable|numeric',
             'received_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',

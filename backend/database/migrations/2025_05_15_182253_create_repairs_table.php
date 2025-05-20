@@ -11,15 +11,14 @@ return new class extends Migration {
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('set null');
 
-            $table->string('device_type'); // móvil, tablet, etc.
-            $table->string('brand')->nullable();
-            $table->string('model')->nullable();
+            $table->string('device_type'); // Móvil, tablet, consola, etc.
+            $table->string('name'); // Descripción concreta del objeto a reparar
             $table->text('problem_description');
             $table->text('repair_notes')->nullable();
 
             $table->enum('status', ['pendiente', 'en progreso', 'terminado', 'entregado'])->default('pendiente');
+            $table->enum('garantia', ['sin', '3m', '6m'])->default('sin');
 
             $table->decimal('repair_cost', 10, 2)->nullable();
             $table->dateTime('received_at')->nullable();
@@ -27,6 +26,7 @@ return new class extends Migration {
 
             $table->timestamps();
         });
+
     }
 
     public function down(): void
