@@ -11,7 +11,9 @@ class RepairSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::first() ?? User::factory()->create();
+        $user = User::where('email', 'cliente@fastfix.com')->first();
+
+        if (!$user) return;
 
         Repair::insert([
             [

@@ -6,40 +6,85 @@
       </h2>
 
       <form @submit.prevent="handleSubmit" class="space-y-5">
+        <!-- Nombre -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
-          <input v-model="form.name" type="text" required
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Nombre</label>
+          <input
+            v-model="form.name"
+            type="text"
+            required
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
         </div>
 
+        <!-- Apellidos -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
-          <input v-model="form.email" type="email" required
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Apellidos</label>
+          <input
+            v-model="form.apellidos"
+            type="text"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
         </div>
 
+        <!-- Email -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rol</label>
-          <select v-model="form.role_id" required
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            required
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
+        </div>
+
+        <!-- Teléfono -->
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Teléfono</label>
+          <input
+            v-model="form.telefono"
+            type="text"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
+        </div>
+
+        <!-- Rol -->
+        <div>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Rol</label>
+          <select
+            v-model="form.role_id"
+            required
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          >
             <option disabled value="">Selecciona un rol</option>
             <option v-for="rol in roles" :key="rol.id" :value="rol.id">{{ rol.name }}</option>
           </select>
         </div>
 
+        <!-- Contraseña (solo creación) -->
         <div v-if="!isEditing">
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contraseña</label>
-          <input v-model="form.password" type="password" required
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Contraseña</label>
+          <input
+            v-model="form.password"
+            type="password"
+            required
+            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
         </div>
 
+        <!-- Botones -->
         <div class="flex justify-end gap-4 pt-6">
-          <button type="button" @click="close"
-            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">
+          <button
+            type="button"
+            @click="close"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold"
+          >
             Cancelar
           </button>
-          <button type="submit"
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold"
+          >
             {{ isEditing ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
@@ -58,7 +103,9 @@ const emit = defineEmits(['close', 'saved'])
 const form = ref({
   id: null,
   name: '',
+  apellidos: '',
   email: '',
+  telefono: '',
   password: '',
   role_id: ''
 })
@@ -80,7 +127,9 @@ watch(() => props.show, (visible) => {
     form.value = {
       id: props.userToEdit.id,
       name: props.userToEdit.name,
+      apellidos: props.userToEdit.apellidos || '',
       email: props.userToEdit.email,
+      telefono: props.userToEdit.telefono || '',
       password: '',
       role_id: props.userToEdit.role_id ?? props.userToEdit.role?.id ?? ''
     }
@@ -94,8 +143,10 @@ const handleSubmit = async () => {
   try {
     const payload = {
       name: form.value.name,
+      apellidos: form.value.apellidos || '',
       email: form.value.email,
-      password: form.value.password || undefined, // evitar enviar string vacío
+      telefono: form.value.telefono || '',
+      password: form.value.password || undefined,
       role_id: form.value.role_id
     }
 
@@ -116,7 +167,9 @@ const resetForm = () => {
   form.value = {
     id: null,
     name: '',
+    apellidos: '',
     email: '',
+    telefono: '',
     password: '',
     role_id: ''
   }
