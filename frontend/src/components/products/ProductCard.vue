@@ -5,11 +5,23 @@
       <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ product.name }}</h3>
       <p class="text-sm text-gray-600 dark:text-gray-300">{{ product.description }}</p>
       <div class="mt-4 flex justify-between items-center">
-        <span class="text-lg font-bold text-gray-900 dark:text-white">€{{ parseFloat(product.price).toFixed(2) }}</span>
-        <button @click="addToCart"
-          class="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded transition">
-          Añadir al carrito
-        </button>
+        <span class="text-lg font-bold text-gray-900 dark:text-white">
+          €{{ parseFloat(product.price).toFixed(2) }}
+        </span>
+        <div class="flex gap-2">
+          <button
+            @click="addToCart"
+            class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-2 rounded transition"
+          >
+            Añadir al carrito
+          </button>
+          <button
+            @click="addToFavorites"
+            class="bg-pink-500 hover:bg-pink-600 text-white text-sm px-3 py-2 rounded transition"
+          >
+            ❤
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -22,7 +34,6 @@ import { defineProps } from 'vue'
 
 const toast = useToast()
 
-// ✅ Extraer la prop
 const props = defineProps({
   product: {
     type: Object,
@@ -30,7 +41,7 @@ const props = defineProps({
   }
 })
 
-const baseURL = 'http://localhost:8000' // o tu dominio en producción
+const baseURL = 'http://localhost:8000'
 
 const getImageUrl = (filename) => {
   if (!filename) return `${baseURL}/images/default.jpg`
@@ -47,6 +58,18 @@ const addToCart = async () => {
   } catch (error) {
     console.error(error)
     toast.error('No fue posible añadir el producto al carrito.')
+  }
+}
+
+const addToFavorites = async () => {
+  try {
+    await api.post('/favorites', {
+      product_id: props.product.id
+    })
+    toast.success(`${props.product.name} agregado a favoritos.`)
+  } catch (error) {
+    console.error(error)
+    toast.error('No fue posible añadir a favoritos.')
   }
 }
 </script>
