@@ -84,6 +84,7 @@ Route::middleware('auth:api')->group(function () {
     // 🛒 Garantias
     Route::get('/guarantees', [GuaranteeController::class, 'index']);
     Route::post('/guarantees', [GuaranteeController::class, 'store']);
+    Route::put('/guarantees/{id}', [GuaranteeController::class, 'update']);
     Route::delete('/guarantees/{id}', [GuaranteeController::class, 'destroy']);
     Route::get('/guarantees/by-order/{id}', [GuaranteeController::class, 'searchByOrder']);
 
