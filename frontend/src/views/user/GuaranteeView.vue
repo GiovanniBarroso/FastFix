@@ -1,6 +1,12 @@
 <template>
   <section class="py-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Botón de volver -->
+      <div class="mb-6">
+        <BackButtonUser />
+      </div>
+
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white">🛡️ Mis Garantías</h1>
         <p class="mt-2 text-lg text-gray-600 dark:text-gray-300">
@@ -66,6 +72,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
+import BackButtonUser from '@/components/ui/BackButtonUser.vue' 
 
 const garantias = ref([])
 const detalleVisible = ref(null)

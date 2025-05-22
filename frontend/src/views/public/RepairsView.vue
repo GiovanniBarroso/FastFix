@@ -1,6 +1,12 @@
 <template>
   <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
     <div class="max-w-7xl mx-auto px-6">
+
+      <!-- Botón de volver -->
+      <div class="mb-6">
+        <BackButtonUser />
+      </div>
+      
       <!-- Encabezado -->
       <div class="text-center mb-12">
         <h1 class="text-5xl font-extrabold mb-4 text-gray-900 dark:text-white">
@@ -25,6 +31,8 @@
 
 <script setup>
 import RepairCard from '@/components/products/RepairCard.vue'
+import BackButtonUser from '@/components/ui/BackButtonUser.vue'
+
 
 const repairs = [
   {

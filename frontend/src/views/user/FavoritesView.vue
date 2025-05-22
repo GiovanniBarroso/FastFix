@@ -1,6 +1,12 @@
 <template>
   <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
+
+      <!-- Botón de volver -->
+      <div class="mb-6">
+        <BackButtonUser />
+      </div>
+
       <!-- Título -->
       <div class="text-center mb-12">
         <h1 class="text-5xl font-extrabold text-gray-900 dark:text-white mb-4">❤️ Tus favoritos</h1>
@@ -30,6 +36,7 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import FavoriteCard from '@/components/products/FavoriteCard.vue'
+import BackButtonUser from '@/components/ui/BackButtonUser.vue'
 
 const favorites = ref([])
 
