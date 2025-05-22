@@ -23,14 +23,62 @@
           </p>
         </div>
       </div>
+
+
+      <!-- 📊 Estadísticas del día -->
+      <div class="mt-16 px-4 py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+          📊 Estadísticas del día
+        </h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
+            <p class="text-sm text-gray-500 dark:text-gray-300">Pedidos hoy</p>
+            <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ stats.pedidos }}</p>
+          </div>
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
+            <p class="text-sm text-gray-500 dark:text-gray-300">Presupuestos</p>
+            <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ stats.presupuestos }}</p>
+          </div>
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
+            <p class="text-sm text-gray-500 dark:text-gray-300">Ventas hoy</p>
+            <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">€{{ stats.ventas.toFixed(2) }}</p>
+          </div>
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
+            <p class="text-sm text-gray-500 dark:text-gray-300">Usuarios</p>
+            <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ stats.usuarios }}</p>
+          </div>
+        </div>
+      </div>
+
     </div>
+
   </section>
 </template>
 
-  
-  <script setup>
+<script setup>
   import { useRouter } from 'vue-router'
   const router = useRouter()
+
+  import { ref, onMounted } from 'vue'
+  import api from '@/services/api'
+
+  const stats = ref({
+    pedidos: 0,
+    presupuestos: 0,
+    ventas: 0,
+    usuarios: 0
+  })
+
+  onMounted(async () => {
+    try {
+      const res = await api.get('/admin/stats')
+      stats.value = res.data
+    } catch (error) {
+      console.error('Error al cargar estadísticas:', error)
+    }
+  })
+
   
   const adminPanels = [
     {

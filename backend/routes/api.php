@@ -57,7 +57,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-
+    Route::get('/admin/stats', [AdminStatsController::class, 'index']);
 
     // 📦 Recursos API
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
