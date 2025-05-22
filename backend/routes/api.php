@@ -18,7 +18,8 @@ use App\Http\Controllers\API\{
     CartController,
     BudgetController,
     UserController,
-    RoleController
+    RoleController,
+    AdminStatsController,
 };
 
 use Laravel\Fortify\Http\Controllers\{
