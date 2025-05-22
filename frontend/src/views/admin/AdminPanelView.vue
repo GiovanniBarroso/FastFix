@@ -5,6 +5,18 @@
         🛠️ Panel de Administración
       </h1>
 
+      <!-- Botón especial para la agenda -->
+      <div class="flex justify-center mb-8">
+        <button
+          @click="router.push('/admin/calendar')"
+          class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all"
+          style="box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);"
+        >
+          📅 Ver agenda inteligente
+        </button>
+      </div>
+
+
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
         <div
           v-for="panel in adminPanels"
@@ -119,16 +131,3 @@ const adminPanels = [
   }
 ]
 </script>
-
-<style scoped>
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-</style>

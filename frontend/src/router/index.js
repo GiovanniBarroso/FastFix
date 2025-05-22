@@ -33,6 +33,7 @@ import BudgetListView from '@/views/admin/BudgetListView.vue'
 import GuaranteeListView from '@/views/admin/GuaranteeListView.vue'
 import UserListView from '@/views/admin/UserListView.vue'
 import RepairListView from '@/views/admin/RepairListView.vue'
+import AdminCalendarView from '@/views/admin/AdminCalendarView.vue'
 
 const routes = [
   // Públicas
@@ -132,6 +133,13 @@ const routes = [
     component: RepairListView,
     meta: { requiresAuth: true },
   },
+  {
+    path: '/admin/calendar',
+    name: 'admin-calendar',
+    component: AdminCalendarView,
+    meta: { requiresAuth: true }
+  },
+
 ]
 
 const router = createRouter({
