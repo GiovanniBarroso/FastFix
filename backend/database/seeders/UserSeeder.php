@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Cliente-test',
+            'name' => 'Cliente',
             'apellidos' => 'Ejemplo',
             'email' => 'cliente@fastfix.com',
             'telefono' => '611111111',

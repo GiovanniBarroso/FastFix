@@ -1,6 +1,12 @@
 <template>
   <section class="py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
+
+      <!-- Botón de volver reutilizable -->
+      <div class="mb-6">
+        <BackButtonAdmin />
+      </div>
+
       <h1 class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-10">
         📅 Agenda de Reparaciones, Garantías y Pedidos
       </h1>
@@ -17,6 +23,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import api from '@/services/api'
+import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 
 const events = ref([])
 
@@ -71,60 +78,33 @@ onMounted(async () => {
 </script>
 
 <style>
-/* 🗓️ FullCalendar modo oscuro y claro */
-
-/* Día (evento) en reparaciones */
-.fc-event-repair {
-  background-color: #1e90ff !important;
-  border: none !important;
-  color: white !important;
-}
-
-/* Día (evento) en garantías */
-.fc-event-guarantee {
-  background-color: #32cd32 !important;
-  border: none !important;
-  color: white !important;
-}
-
-/* Día (evento) en pedidos */
-.fc-event-order {
-  background-color: #ffa500 !important;
-  border: none !important;
-  color: rgb(255, 255, 255) !important;
-}
-
-/* 🧱 Estructura general del calendario */
+/* 💡 Corrección visual para FullCalendar en modo claro y oscuro */
 .fc {
   background-color: transparent !important;
 }
 
-/* 📅 Día del mes (numeritos) */
+/* 🔢 Números del calendario (días del mes) */
 .fc .fc-daygrid-day-number {
-  color: #1a1a1a; /* claro por defecto */
+  color: #1a1a1a;
+  font-weight: 500;
 }
 .dark .fc .fc-daygrid-day-number {
-  color: #e0e0e0 !important; /* claro en oscuro */
+  color: #f0f0f0 !important;
 }
 
-/* 📆 Días de la semana: Sun, Mon, etc. */
+/* 🗓️ Días de la semana (Sun, Mon...) */
+.fc .fc-col-header-cell {
+  background-color: transparent;
+}
 .fc .fc-col-header-cell-cushion {
   color: #1a1a1a;
   font-weight: 600;
 }
 .dark .fc .fc-col-header-cell-cushion {
-  color: #f0f0f0 !important;
+  color: #ffffff !important;
 }
 
-/* 🔲 Borde de celdas del calendario */
-.fc .fc-daygrid-day {
-  border: 1px solid #ddd;
-}
-.dark .fc .fc-daygrid-day {
-  border: 1px solid #444;
-}
-
-/* 🔹 Título del mes (ej: May 2025) */
+/* 📆 Título del mes */
 .fc .fc-toolbar-title {
   color: #1a1a1a;
 }
@@ -132,7 +112,34 @@ onMounted(async () => {
   color: #ffffff !important;
 }
 
-/* 🕹️ Botones */
+/* 🔲 Bordes de los días */
+.fc .fc-daygrid-day {
+  border: 1px solid #ddd;
+}
+.dark .fc .fc-daygrid-day {
+  border: 1px solid #444;
+}
+
+/* 🎨 Colores personalizados para eventos */
+.fc-event-repair {
+  background-color: #1e90ff !important;
+  border: none !important;
+  color: white !important;
+}
+
+.fc-event-guarantee {
+  background-color: #32cd32 !important;
+  border: none !important;
+  color: white !important;
+}
+
+.fc-event-order {
+  background-color: #ffa500 !important;
+  border: none !important;
+  color: white !important;
+}
+
+/* 🔘 Botones */
 .fc .fc-button {
   background: #2563eb;
   border: none;
@@ -144,7 +151,6 @@ onMounted(async () => {
 .fc .fc-button:disabled {
   background: #9ca3af;
 }
-
 .dark .fc .fc-button {
   background: #3b82f6;
   color: white;

@@ -20,6 +20,7 @@ use App\Http\Controllers\API\{
     UserController,
     RoleController,
     AdminStatsController,
+    NotificationController,
 };
 
 use Laravel\Fortify\Http\Controllers\{
@@ -144,6 +145,12 @@ Route::middleware('auth:api')->group(function () {
 
     // Repairs
     Route::apiResource('repairs', RepairController::class);
+
+        // 🔔 Notificaciones
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/unread', [NotificationController::class, 'unread']);
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
+    Route::post('/notifications/{id}/mark-read', [NotificationController::class, 'markRead']);
 
 
 });

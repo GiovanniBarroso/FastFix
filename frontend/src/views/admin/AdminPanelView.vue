@@ -6,14 +6,30 @@
       </h1>
 
       <!-- Botón especial para la agenda -->
-      <div class="flex justify-center mb-8">
+      <div class="flex justify-center mb-6">
         <button
           @click="router.push('/admin/calendar')"
           class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all"
-          style="box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);"
         >
           📅 Ver agenda inteligente
         </button>
+      </div>
+
+      <!-- Botón separado para ver notificaciones -->
+      <div class="flex justify-center mb-10 relative">
+        <router-link
+          to="/admin/notifications"
+          class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition relative"
+        >
+          🔔 Ver todas las notificaciones
+
+          <span
+            v-if="unreadCount > 0"
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full shadow"
+          >
+            {{ unreadCount }}
+          </span>
+        </router-link>
       </div>
 
 
@@ -65,6 +81,7 @@
 
     <!-- ✅ Chat Inteligente flotante -->
     <StartAdminChat />
+
   </section>
 </template>
 
@@ -83,12 +100,21 @@ const stats = ref({
   usuarios: 0
 })
 
+const unreadCount = ref(0)
+
 onMounted(async () => {
   try {
     const res = await api.get('/admin/stats')
     stats.value = res.data
   } catch (error) {
     console.error('Error al cargar estadísticas:', error)
+  }
+
+  try {
+    const res = await api.get('/notifications/unread')
+    unreadCount.value = res.data.length
+  } catch (error) {
+    console.error('Error al cargar notificaciones no leídas:', error)
   }
 })
 
