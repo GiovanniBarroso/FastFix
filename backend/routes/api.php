@@ -46,7 +46,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
-Route::post('/budgets', [BudgetController::class, 'store']); // pública
+
 // 🔓 Obtener roles disponibles para formularios (sin auth)
 Route::get('/roles', [RoleController::class, 'index']);
 
@@ -63,6 +63,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
     Route::apiResource('/categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::apiResource('/brands', BrandController::class)->except(['show', 'create', 'edit']);
+    Route::post('/budgets', [BudgetController::class, 'store']);
 
     // ⭐ Favoritos
     Route::get('/favorites', [FavoriteController::class, 'index']);
