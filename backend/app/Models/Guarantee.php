@@ -25,6 +25,7 @@ class Guarantee extends Model
     // Relación con el producto cubierto por la garantía
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(\App\Models\Product::class);
     }
+    
 }

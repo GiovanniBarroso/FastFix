@@ -90,6 +90,13 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/guarantees/{id}', [GuaranteeController::class, 'destroy']);
     Route::get('/guarantees/by-order/{id}', [GuaranteeController::class, 'searchByOrder']);
 
+    // Productos con garantía del usuario autenticado
+    Route::get('/products/user', [ProductController::class, 'productosConGarantia']);
+
+// Buscar garantía por producto para el usuario autenticado
+    Route::get('/guarantees/by-product/{productId}', [GuaranteeController::class, 'searchByProduct']);
+
+
     // Budgets
     Route::get('/budgets', [BudgetController::class, 'index']); // admin
     Route::get('/budgets/{id}', [BudgetController::class, 'show']); //admin

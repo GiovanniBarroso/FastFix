@@ -1,107 +1,113 @@
 <template>
-  <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
-    <div class="max-w-3xl mx-auto px-6">
-      <!-- Título -->
+  <section class="py-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="max-w-6xl mx-auto px-6">
       <div class="text-center mb-12">
-        <h1 class="text-5xl font-extrabold mb-4 text-gray-900 dark:text-white">🛡️ Consulta tu garantía</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Introduce el número de pedido para verificar el estado de tu garantía.
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">🛡️ Mis Garantías</h1>
+        <p class="mt-2 text-lg text-gray-600 dark:text-gray-300">
+          Aquí puedes consultar el estado de todas tus garantías.
         </p>
       </div>
 
-      <!-- Formulario -->
-      <form @submit.prevent="buscarGarantia"
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6 transition-all duration-300">
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Número de pedido
-          </label>
-          <input
-            v-model="form.pedido"
-            type="text"
-            required
-            placeholder="Ej: 123456ABC"
-            class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+      <div v-if="garantias.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div
+          v-for="g in garantias"
+          :key="g.id"
+          class="rounded-xl bg-white dark:bg-gray-800 shadow-md p-6 border-l-4 cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+          :class="estaActiva(g.fecha_fin) ? 'border-green-500' : 'border-red-500'"
+          @click="toggleDetalle(g.id)"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              {{ g.product.name }}
+            </h2>
+            <span
+              class="text-sm font-medium px-3 py-1 rounded-full"
+              :class="estaActiva(g.fecha_fin)
+                ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-white'
+                : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white'"
+            >
+              {{ estaActiva(g.fecha_fin) ? 'Activa' : 'Vencida' }}
+            </span>
+          </div>
+          <p class="text-sm text-gray-700 dark:text-gray-300">
+            <strong>Inicio:</strong> {{ formatFecha(g.fecha_inicio) }}
+          </p>
+          <p class="text-sm text-gray-700 dark:text-gray-300">
+            <strong>Fin:</strong> {{ formatFecha(g.fecha_fin) }}
+          </p>
 
-        <div class="flex justify-center">
-          <button
-            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-md transition-all duration-300 shadow hover:shadow-md"
-          >
-            Buscar garantía
-          </button>
+          <!-- Detalle extra desplegable -->
+          <transition name="fade">
+            <div v-if="detalleVisible === g.id" class="mt-4 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <p><strong>Registrada:</strong> {{ formatFecha(g.created_at) }}</p>
+              <p><strong>Duración:</strong> {{ duracionEnDias(g.fecha_inicio, g.fecha_fin) }} días</p>
+              <p v-if="estaActiva(g.fecha_fin)">
+                <strong>Días restantes:</strong> {{ diasRestantes(g.fecha_fin) }} días
+              </p>
+              <p v-else class="text-red-500 dark:text-red-400">
+                Garantía vencida.
+              </p>
+              <p v-if="estaActiva(g.fecha_fin) && diasRestantes(g.fecha_fin) <= 30" class="text-yellow-600 dark:text-yellow-400 font-semibold">
+                ⚠️ Tu garantía vencerá pronto.
+              </p>
+              <p class="italic mt-2 text-xs">Haz clic para ocultar detalles.</p>
+            </div>
+          </transition>
         </div>
-      </form>
-
-      <!-- Resultado: Garantía encontrada -->
-      <div
-        v-if="garantiaEncontrada"
-        class="mt-10 bg-green-100 dark:bg-green-800 text-green-900 dark:text-green-100 p-6 rounded-xl text-center animate-fade-up"
-      >
-        <h2 class="text-2xl font-bold mb-2">✅ Garantía activa</h2>
-        <p>Tu producto está cubierto hasta: <strong>{{ garantia.fechaFin }}</strong></p>
-        <p class="mt-2">🛠️ Detalles: {{ garantia.detalles }}</p>
       </div>
 
-      <!-- Resultado: No encontrada -->
-      <div
-        v-else-if="buscarRealizado"
-        class="mt-10 bg-red-100 dark:bg-red-800 text-red-900 dark:text-red-100 p-6 rounded-xl text-center animate-fade-up"
-      >
-        <h2 class="text-2xl font-bold mb-2">❌ No se encontró garantía</h2>
-        <p>Revisa el número de pedido o <router-link to="/contact" class="underline font-medium">contáctanos</router-link> para más información.</p>
+      <div v-else class="text-center text-red-600 dark:text-red-400 mt-10">
+        <h2 class="text-2xl font-semibold">❌ No tienes garantías activas registradas.</h2>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 
-const form = ref({ pedido: '' })
-const garantia = ref(null)
-const buscarRealizado = ref(false)
+const garantias = ref([])
+const detalleVisible = ref(null)
 
-const garantiaEncontrada = computed(() => garantia.value !== null)
-
-const buscarGarantia = async () => {
+onMounted(async () => {
   try {
-    const token = localStorage.getItem('token')
-    const response = await api.get(
-      import.meta.env.VITE_API_URL + `/guarantees/by-order/${form.value.pedido}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    )
-
-    garantia.value = {
-      fechaFin: new Date(response.data.fecha_fin).toLocaleDateString(),
-      detalles: response.data.product?.nombre || 'Producto asociado'
-    }
+    const response = await api.get('/guarantees')
+    garantias.value = response.data
   } catch (error) {
-    garantia.value = null
-  } finally {
-    buscarRealizado.value = true
+    console.error('Error al obtener garantías:', error)
   }
+})
+
+const formatFecha = (fecha) => new Date(fecha).toLocaleDateString()
+
+const estaActiva = (fechaFin) => new Date(fechaFin) >= new Date()
+
+const diasRestantes = (fechaFin) => {
+  const fin = new Date(fechaFin)
+  const hoy = new Date()
+  return Math.ceil((fin - hoy) / (1000 * 60 * 60 * 24))
+}
+
+const duracionEnDias = (inicio, fin) => {
+  const start = new Date(inicio)
+  const end = new Date(fin)
+  return Math.ceil((end - start) / (1000 * 60 * 60 * 24))
+}
+
+const toggleDetalle = (id) => {
+  detalleVisible.value = detalleVisible.value === id ? null : id
 }
 </script>
 
 <style scoped>
-@keyframes fade-up {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
 }
-.animate-fade-up {
-  animation: fade-up 0.5s ease-out both;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 </style>
