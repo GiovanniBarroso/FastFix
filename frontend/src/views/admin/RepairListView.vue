@@ -1,6 +1,11 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- Botón de volver reutilizable -->
+      <div class="mb-6">
+        <BackButtonAdmin />
+      </div>
 
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-10">
@@ -99,6 +104,7 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import RepairFormModal from '@/components/repairs/RepairFormModal.vue'
+import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 
 const reparaciones = ref([])
 const showModal = ref(false)

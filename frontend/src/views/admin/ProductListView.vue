@@ -1,6 +1,12 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- Botón de volver reutilizable -->
+      <div class="mb-6">
+        <BackButtonAdmin />
+      </div>
+      
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">🛠️ Gestión de productos</h1>
@@ -76,6 +82,7 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import ProductFormModal from '@/components/products/ProductFormModal.vue'
+import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 
 const products = ref([])
 const showModal = ref(false)
