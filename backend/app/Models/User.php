@@ -89,4 +89,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(Repair::class);
     }
 
+    public function budgets()
+    {   
+    return $this->hasMany(Budget::class);
+    }
+
 }

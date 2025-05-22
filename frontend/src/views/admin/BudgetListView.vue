@@ -24,9 +24,9 @@
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
-              <td class="p-4">{{ solicitud.nombre }}</td>
-              <td class="p-4">{{ solicitud.email }}</td>
-              <td class="p-4">{{ solicitud.telefono }}</td>
+              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
               <td class="p-4 max-w-sm">
                 <div class="truncate bg-gray-100 dark:bg-gray-700 p-2 rounded" :title="solicitud.mensaje">
                   {{ solicitud.mensaje }}
