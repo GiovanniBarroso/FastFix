@@ -24,7 +24,6 @@
         </div>
       </div>
 
-
       <!-- 📊 Estadísticas del día -->
       <div class="mt-16 px-4 py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
         <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
@@ -50,73 +49,86 @@
           </div>
         </div>
       </div>
-
     </div>
 
+    <!-- ✅ Chat Inteligente flotante -->
+    <StartAdminChat />
   </section>
 </template>
 
 <script setup>
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '@/services/api'
+import StartAdminChat from '@/components/admin/StartAdminChat.vue'
 
-  import { ref, onMounted } from 'vue'
-  import api from '@/services/api'
+const router = useRouter()
 
-  const stats = ref({
-    pedidos: 0,
-    presupuestos: 0,
-    ventas: 0,
-    usuarios: 0
-  })
+const stats = ref({
+  pedidos: 0,
+  presupuestos: 0,
+  ventas: 0,
+  usuarios: 0
+})
 
-  onMounted(async () => {
-    try {
-      const res = await api.get('/admin/stats')
-      stats.value = res.data
-    } catch (error) {
-      console.error('Error al cargar estadísticas:', error)
-    }
-  })
+onMounted(async () => {
+  try {
+    const res = await api.get('/admin/stats')
+    stats.value = res.data
+  } catch (error) {
+    console.error('Error al cargar estadísticas:', error)
+  }
+})
 
-  
-  const adminPanels = [
-    {
-      nombre: 'Gestión de productos',
-      descripcion: 'Agrega, edita o elimina productos disponibles.',
-      ruta: '/admin/products',
-      icono: '📦'
-    },
-    {
-      nombre: 'Servicios de reparación',
-      descripcion: 'Gestiona los servicios técnicos ofrecidos.',
-      ruta: '/admin/repairs',
-      icono: '🔧'
-    },
-    {
-      nombre: 'Pedidos',
-      descripcion: 'Consulta todos los pedidos realizados.',
-      ruta: '/admin/orders',
-      icono: '🧾'
-    },
-    {
-      nombre: 'Presupuestos',
-      descripcion: 'Revisa las solicitudes de presupuesto enviadas.',
-      ruta: '/admin/budgets',
-      icono: '📝'
-    },
-    {
-      nombre: 'Garantías',
-      descripcion: 'Gestiona y valida garantías activas.',
-      ruta: '/admin/guarantees',
-      icono: '🛡️'
-    },
-    {
-      nombre: 'Usuarios',
-      descripcion: 'Administra las cuentas de los usuarios registrados.',
-      ruta: '/admin/users',
-      icono: '👥'
-    }
-  ]
-  </script>
-  
+const adminPanels = [
+  {
+    nombre: 'Gestión de productos',
+    descripcion: 'Agrega, edita o elimina productos disponibles.',
+    ruta: '/admin/products',
+    icono: '📦'
+  },
+  {
+    nombre: 'Servicios de reparación',
+    descripcion: 'Gestiona los servicios técnicos ofrecidos.',
+    ruta: '/admin/repairs',
+    icono: '🔧'
+  },
+  {
+    nombre: 'Pedidos',
+    descripcion: 'Consulta todos los pedidos realizados.',
+    ruta: '/admin/orders',
+    icono: '🧾'
+  },
+  {
+    nombre: 'Presupuestos',
+    descripcion: 'Revisa las solicitudes de presupuesto enviadas.',
+    ruta: '/admin/budgets',
+    icono: '📝'
+  },
+  {
+    nombre: 'Garantías',
+    descripcion: 'Gestiona y valida garantías activas.',
+    ruta: '/admin/guarantees',
+    icono: '🛡️'
+  },
+  {
+    nombre: 'Usuarios',
+    descripcion: 'Administra las cuentas de los usuarios registrados.',
+    ruta: '/admin/users',
+    icono: '👥'
+  }
+]
+</script>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style>
