@@ -22,9 +22,12 @@
         <router-link to="/about" class="hover:text-red-400 transition-colors">Sobre nosotros</router-link>
         <router-link to="/cart" class="hover:text-red-400 transition-colors">Carrito</router-link>
 
-
         <template v-if="isAuthenticated">
-          <router-link v-if="isAdmin" to="/admin" class="hover:text-red-400 transition-colors">
+          <!-- Panel dinámico: admin o usuario -->
+          <router-link
+            :to="isAdmin ? '/admin' : '/home'"
+            class="hover:text-red-400 transition-colors"
+          >
             Panel
           </router-link>
 
@@ -38,14 +41,19 @@
             </button>
 
             <transition name="fade">
-              <div v-if="showMenu"
-                class="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-600 rounded shadow-lg z-50">
+              <div
+                v-if="showMenu"
+                class="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-600 rounded shadow-lg z-50"
+              >
                 <button @click="logout" class="w-full text-left px-4 py-2 text-white hover:bg-red-600 transition">
                   Cerrar sesión
                 </button>
               </div>
             </transition>
           </div>
+
+          <!-- Notificaciones solo para admin -->
+          <NotificationCenter v-if="isAdmin" />
         </template>
 
         <template v-else>
@@ -60,9 +68,6 @@
             </router-link>
           </div>
         </template>
-
-        <NotificationCenter v-if="isAuthenticated && isAdmin" />
-
       </div>
     </div>
 
@@ -74,8 +79,9 @@
       <router-link to="/cart" class="block hover:text-red-400 transition">🛒 Carrito</router-link>
 
       <template v-if="isAuthenticated">
-        <router-link to="/dashboard" class="block hover:text-red-400 transition">Dashboard</router-link>
-        <router-link v-if="isAdmin" to="/admin" class="block hover:text-red-400 transition">Admin</router-link>
+        <router-link :to="isAdmin ? '/admin' : '/home'" class="block hover:text-red-400 transition">
+          {{ isAdmin ? 'Admin' : 'Panel de Usuario' }}
+        </router-link>
         <button @click="logout" class="block text-left w-full text-red-400 hover:text-red-200 transition">
           Cerrar sesión
         </button>
@@ -138,7 +144,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
-
 </script>
 
 <style scoped>
