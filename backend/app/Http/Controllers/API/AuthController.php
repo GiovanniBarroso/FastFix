@@ -81,6 +81,7 @@ class AuthController extends Controller
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'email_verified_at' => $user->email_verified_at,
             'is_admin' => $user->email === 'admin@fastfix.com'
         ]);
     }

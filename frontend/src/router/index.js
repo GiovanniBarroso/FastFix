@@ -17,6 +17,7 @@ import ResetPasswordView from '@/views/auth/ResetPasswordView.vue'
 import ConfirmPasswordView from '@/views/auth/ConfirmPasswordView.vue'
 import VerifyEmailView from '@/views/auth/VerifyEmailView.vue'
 import TwoFactorChallengeView from '@/views/auth/TwoFactorChallengeView.vue'
+import ProfileView from '@/views/auth/ProfileView.vue'
 
 // 👤 Usuario
 import FavoritesView from '@/views/user/FavoritesView.vue'
@@ -94,6 +95,12 @@ const routes = [
     path: '/two-factor-challenge',
     name: 'two-factor-challenge',
     component: TwoFactorChallengeView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
     meta: { requiresAuth: true },
   },
 

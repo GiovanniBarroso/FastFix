@@ -106,6 +106,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Usuario
     Route::put('/profile', [UserController::class, 'update']); // usuario
+    Route::put('/profile-information', [UserController::class, 'updateProfileInformation']); // desde SPA (email, nombre)
     Route::get('/users', [UserController::class, 'index']);    // admin
     Route::get('/users/{id}', [UserController::class, 'show']); // admin
     Route::delete('/users/{id}', [UserController::class, 'destroy']); // admin
