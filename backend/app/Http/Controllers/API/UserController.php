@@ -109,4 +109,29 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+public function updateProfileInformation(Request $request)
+{
+    $user = auth('api')->user();
+
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+    ]);
+
+    $user->name = $request->name;
+
+    if ($request->email !== $user->email) {
+        $user->email = $request->email;
+        $user->email_verified_at = null;
+        $user->sendEmailVerificationNotification();
+    }
+
+    $user->save();
+
+    return response()->json([
+        'message' => 'Perfil actualizado correctamente.',
+        'user' => $user,
+    ]);
+}
+
 }
