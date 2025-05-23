@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-20 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <div class="pt-10 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
 
   <!-- Hero -->
   <section

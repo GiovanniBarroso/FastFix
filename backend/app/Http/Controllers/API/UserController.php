@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use App\Models\User;
 
 class UserController extends Controller
@@ -16,17 +17,17 @@ class UserController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'apellidos' => 'nullable|string|max:100',
-            'telefono' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'name' => 'sometimes|required|string|max:100',
+            'apellidos' => 'sometimes|nullable|string|max:100',
+            'telefono' => 'sometimes|nullable|string|max:20',
+            'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed'
         ]);
 
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
-            unset($validated['password']); // no modificar si está vacía
+            unset($validated['password']);
         }
 
         $user->update($validated);
@@ -113,29 +114,36 @@ class UserController extends Controller
 
         return response()->json($user);
     }
-public function updateProfileInformation(Request $request)
-{
-    $user = auth('api')->user();
+    public function updateProfileInformation(Request $request, UpdatesUserProfileInformation $updater)
+    {
+        $user = auth('api')->user();
 
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
-    ]);
+        $updater->update($user, $request->all());
 
-    $user->name = $request->name;
-
-    if ($request->email !== $user->email) {
-        $user->email = $request->email;
-        $user->email_verified_at = null;
-        $user->sendEmailVerificationNotification();
+        return response()->json([
+            'message' => 'Perfil actualizado correctamente.',
+            'user' => $user,
+        ]);
     }
 
-    $user->save();
+    public function confirmPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:6',
+        ]);
 
-    return response()->json([
-        'message' => 'Perfil actualizado correctamente.',
-        'user' => $user,
-    ]);
-}
+        $user = auth('api')->user();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'La contraseña no es correcta.'
+            ], 403);
+        }
+
+        return response()->json([
+            'message' => 'Contraseña confirmada correctamente.'
+        ]);
+    }
+
 
 }

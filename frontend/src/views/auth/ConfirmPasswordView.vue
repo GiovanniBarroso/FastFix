@@ -29,6 +29,7 @@
 <script setup>
 import { ref } from 'vue'
 import api from '@/services/api'
+import { useRouter } from 'vue-router'
 
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
@@ -37,6 +38,7 @@ import AlertMessage from '@/views/components/AlertMessage.vue'
 const password = ref('')
 const errorMessage = ref('')
 const loading = ref(false)
+const router = useRouter()
 
 const confirmPassword = async () => {
   errorMessage.value = ''
@@ -47,7 +49,9 @@ const confirmPassword = async () => {
       password: password.value
     })
 
-    window.history.back()
+    localStorage.setItem('passwordConfirmed', 'true')
+
+    router.push('/change-password')
   } catch (error) {
     errorMessage.value = error.response?.data?.message || 'Contraseña incorrecta.'
   } finally {

@@ -4,14 +4,45 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Validator;
-// use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    public function register(Request $request)
+    {
+        if ($request->email === 'admin@fastfix.com') {
+            return response()->json(['error' => 'Este correo está reservado para administración'], 403);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'telefono' => ['required', 'regex:/^\d{9}$/'],
+            'apellidos' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,}$/'],
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'telefono.regex' => 'El teléfono debe tener exactamente 9 dígitos numéricos.',
+            'apellidos.regex' => 'Los apellidos deben contener solo letras y al menos 2 caracteres.',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'apellidos' => $request->apellidos,
+            'telefono' => $request->telefono,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        return response()->json([
+            'message' => 'Cuenta creada correctamente. Por favor, verifica tu correo antes de iniciar sesión.'
+        ], 201);
+    }
+
+
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
@@ -29,43 +60,10 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $token,
-            'user' => $user
+            'user' => $user,
+            'role' => $user->role_id === 1 ? 'admin' : 'user'
         ]);
     }
-
-
-    public function register(Request $request)
-{
-    if ($request->email === 'admin@fastfix.com') {
-        return response()->json(['error' => 'Este correo está reservado para administración'], 403);
-    }
-
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-    ]);
-
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password),
-    ]);
-
-    // 🔔 Enviar email de verificación
-    $user->sendEmailVerificationNotification();
-
-    // 🔐 Generar token JWT
-    $token = JWTAuth::fromUser($user);
-
-    return response()->json([
-        'message' => 'Cuenta creada correctamente.',
-        'token' => $token,
-        'user' => $user,
-        'role' => $user->role_id === 1 ? 'admin' : 'user'
-    ], 201);
-}
-
 
     public function logout()
     {
@@ -80,6 +78,8 @@ class AuthController extends Controller
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
+            'apellidos' => $user->apellidos,
+            'telefono' => $user->telefono,
             'email' => $user->email,
             'email_verified_at' => $user->email_verified_at,
             'is_admin' => $user->email === 'admin@fastfix.com'

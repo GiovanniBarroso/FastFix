@@ -40,7 +40,7 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
     ->middleware('signed')
     ->name('verification.verify');
 
-Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store']);
+// Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store']);
 Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
 
 // 🔓 Rutas públicas
@@ -94,7 +94,7 @@ Route::middleware('auth:api')->group(function () {
     // Productos con garantía del usuario autenticado
     Route::get('/products/user', [ProductController::class, 'productosConGarantia']);
 
-// Buscar garantía por producto para el usuario autenticado
+    // Buscar garantía por producto para el usuario autenticado
     Route::get('/guarantees/by-product/{productId}', [GuaranteeController::class, 'searchByProduct']);
 
 
@@ -147,11 +147,14 @@ Route::middleware('auth:api')->group(function () {
     // Repairs
     Route::apiResource('repairs', RepairController::class);
 
-        // 🔔 Notificaciones
+    // 🔔 Notificaciones
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::get('/notifications/unread', [NotificationController::class, 'unread']);
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
     Route::post('/notifications/{id}/mark-read', [NotificationController::class, 'markRead']);
 
+
+    //Fortify
+    Route::post('/user/confirm-password', [UserController::class, 'confirmPassword']);
 
 });

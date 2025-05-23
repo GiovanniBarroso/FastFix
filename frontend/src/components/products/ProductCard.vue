@@ -9,16 +9,12 @@
           €{{ parseFloat(product.price).toFixed(2) }}
         </span>
         <div class="flex gap-2">
-          <button
-            @click="addToCart"
-            class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-2 rounded transition"
-          >
+          <button @click="addToCart"
+            class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-2 rounded transition">
             Añadir al carrito
           </button>
-          <button
-            @click="addToFavorites"
-            class="bg-pink-500 hover:bg-pink-600 text-white text-sm px-3 py-2 rounded transition"
-          >
+          <button @click="addToFavorites"
+            class="bg-pink-500 hover:bg-pink-600 text-white text-sm px-3 py-2 rounded transition">
             ❤
           </button>
         </div>
@@ -28,11 +24,13 @@
 </template>
 
 <script setup>
+import { useCartStore } from '@/stores/cartStore'
 import api from '@/services/api'
 import { useToast } from 'vue-toastification'
 import { defineProps } from 'vue'
 
 const toast = useToast()
+const cart = useCartStore()
 
 const props = defineProps({
   product: {
@@ -54,12 +52,22 @@ const addToCart = async () => {
       id: props.product.id,
       cantidad: 1
     })
+
+    cart.addItem({
+      id: props.product.id,
+      name: props.product.name,
+      price: props.product.price,
+      image: props.product.image,
+      quantity: 1
+    })
+
     toast.success(`${props.product.name} agregado al carrito.`)
   } catch (error) {
     console.error(error)
     toast.error('No fue posible añadir el producto al carrito.')
   }
 }
+
 
 const addToFavorites = async () => {
   try {

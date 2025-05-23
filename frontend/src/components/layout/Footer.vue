@@ -1,224 +1,79 @@
 <template>
-  <footer class="bg-gray-900 text-gray-100">
-    <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
-      <!-- Marca -->
-      <div>
-        <h2 class="text-3xl font-extrabold text-red-500 mb-4">FastFix</h2>
-        <p class="text-sm text-gray-300 leading-relaxed">
-          Reparación de dispositivos electrónicos con profesionalismo y garantía.<br />
-          Servicio rápido, seguro y transparente.
+  <footer class="bg-gray-950 text-gray-100 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 border-b border-gray-800 pb-10">
+
+      <!-- Marca y descripción -->
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <img src="/logoFastFix.png" alt="FastFix logo" class="w-10 h-10 rounded-full shadow" />
+          <h2 class="text-2xl font-bold text-red-500">FastFix</h2>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Servicio técnico profesional para móviles, ordenadores y consolas. <br />
+          Atención cercana, resultados rápidos.
         </p>
       </div>
 
-      <!-- Enlaces -->
-      <div>
-        <h3 class="text-lg font-semibold text-white mb-4">Enlaces rápidos</h3>
+      <!-- Navegación -->
+      <div class="space-y-3">
+        <h3 class="text-lg font-semibold text-white">Navegación</h3>
         <ul class="space-y-2 text-sm text-gray-400">
           <li><router-link to="/about" class="hover:text-red-400 transition">Sobre nosotros</router-link></li>
           <li><router-link to="/contact" class="hover:text-red-400 transition">Contacto</router-link></li>
-          <li>
-            <button @click="openTermsModal" class="hover:text-red-400 transition underline">
-              Términos y condiciones
-            </button>
-          </li>
+          <li><button @click="showTermsModal = true" class="hover:text-red-400 transition">Términos y condiciones</button></li>
+          <li><button @click="showPrivacyModal = true" class="hover:text-red-400 transition">Política de privacidad</button></li>
+        </ul>
+      </div>
 
-          <li><button @click="openModal" class="hover:text-red-400 transition underline">Política de privacidad</button>
-          </li>
+      <!-- Servicios destacados -->
+      <div class="space-y-3">
+        <h3 class="text-lg font-semibold text-white">Servicios</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>Reparación de smartphones</li>
+          <li>Reparación de portátiles</li>
+          <li>Servicio a domicilio</li>
+          <li>Venta de accesorios</li>
         </ul>
       </div>
 
       <!-- Redes sociales -->
-      <div>
-        <h3 class="text-lg font-semibold text-white mb-4">Síguenos</h3>
-        <div class="flex items-center gap-4">
-          <!-- Facebook -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold text-white">¡Conéctate!</h3>
+        <p class="text-sm text-gray-400">Síguenos en redes para ofertas, tips y novedades.</p>
+        <div class="flex gap-4">
           <a href="https://facebook.com" target="_blank" aria-label="Facebook"
-            class="bg-gray-700 hover:bg-blue-600 p-2 rounded-full transition">
-            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.408.593 24 1.325 24H12.82V14.706h-3.442v-3.622h3.442V8.413c0-3.404 2.07-5.252 5.096-5.252 1.45 0 2.698.108 3.062.156v3.55l-2.103.001c-1.65 0-1.97.785-1.97 1.935v2.536h3.94l-.513 3.622h-3.427V24h6.719C23.406 24 24 23.408 24 22.674V1.326C24 .593 23.406 0 22.675 0z" />
-            </svg>
+            class="bg-gray-800 hover:bg-blue-600 p-3 rounded-full transition">
+            <img src="/icons/facebook.webp" alt="Facebook" class="w-5 h-5" />
           </a>
-
-          <!-- Twitter -->
           <a href="https://twitter.com" target="_blank" aria-label="Twitter"
-            class="bg-gray-700 hover:bg-sky-500 p-2 rounded-full transition">
-            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M24 4.557a9.83 9.83 0 01-2.828.775 4.932 4.932 0 002.165-2.723c-.951.566-2.005.974-3.127 1.195a4.916 4.916 0 00-8.384 4.482A13.942 13.942 0 011.671 3.149a4.918 4.918 0 001.523 6.573 4.902 4.902 0 01-2.229-.616v.06a4.916 4.916 0 003.946 4.827 4.996 4.996 0 01-2.224.084 4.923 4.923 0 004.6 3.417A9.867 9.867 0 010 19.54a13.94 13.94 0 007.548 2.212c9.057 0 14.01-7.513 14.01-14.01 0-.213-.005-.425-.014-.636A10.025 10.025 0 0024 4.557z" />
-            </svg>
+            class="bg-gray-800 hover:bg-sky-500 p-3 rounded-full transition">
+            <img src="/icons/twitter.png" alt="Twitter" class="w-5 h-5" />
           </a>
-
-          <!-- Instagram -->
           <a href="https://instagram.com" target="_blank" aria-label="Instagram"
-            class="bg-gray-700 hover:bg-pink-500 p-2 rounded-full transition">
-            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.344 3.608 1.32.976.975 1.258 2.242 1.32 3.608.058 1.266.07 1.646.07 4.84s-.012 3.574-.07 4.84c-.062 1.366-.344 2.633-1.32 3.608-.975.976-2.242 1.258-3.608 1.32-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.344-3.608-1.32-.976-.975-1.258-2.242-1.32-3.608C2.175 15.574 2.163 15.194 2.163 12s.012-3.574.07-4.84c.062-1.366.344-2.633 1.32-3.608C4.528 2.577 5.795 2.295 7.161 2.233 8.427 2.175 8.807 2.163 12 2.163zm0-2.163C8.737 0 8.332.012 7.052.07 5.721.128 4.519.348 3.447 1.42c-1.072 1.072-1.292 2.274-1.35 3.605C2.012 6.747 2 7.152 2 12s.012 5.253.07 6.573c.058 1.331.278 2.533 1.35 3.605 1.072 1.072 2.274 1.292 3.605 1.35C8.747 23.988 9.152 24 12 24s3.253-.012 4.573-.07c1.331-.058 2.533-.278 3.605-1.35 1.072-1.072 1.292-2.274 1.35-3.605.058-1.32.07-1.725.07-6.573s-.012-5.253-.07-6.573c-.058-1.331-.278-2.533-1.35-3.605C19.106.348 17.904.128 16.573.07 15.253.012 14.848 0 12 0zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.881 0 1.44 1.44 0 012.881 0z" />
-            </svg>
+            class="bg-gray-800 hover:bg-pink-500 p-3 rounded-full transition">
+            <img src="/icons/instagram.png" alt="Instagram" class="w-5 h-5" />
           </a>
         </div>
       </div>
     </div>
 
-    <!-- Footer bottom -->
-    <div class="text-center text-xs text-gray-400 py-4 border-t border-gray-800">
+    <!-- Footer inferior -->
+    <div class="text-center text-xs text-gray-500 pt-6 border-t border-gray-800">
       © {{ currentYear }} FastFix. Todos los derechos reservados.
     </div>
 
-    <!-- Modal de Políticas de Privacidad -->
-    <transition name="fade">
-      <div v-if="showPrivacyModal"
-        class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4"
-        @click.self="closeModal">
-        <div
-          class="relative bg-white text-gray-800 rounded-2xl w-full max-w-3xl p-8 shadow-2xl overflow-y-auto max-h-[90vh] border border-white/10 backdrop-brightness-75">
-
-          <button @click="closeModal"
-            class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
-          <div class="mb-6 text-center">
-            <h2 class="text-3xl font-bold text-red-600">Política de Privacidad</h2>
-            <p class="text-sm text-gray-500">Última actualización: Mayo 2025</p>
-          </div>
-
-          <div class="space-y-6 text-gray-700 text-base leading-relaxed">
-            <section>
-              <h3 class="font-bold text-lg text-red-500">1. Recopilación de información</h3>
-              <p>Recopilamos datos personales como nombre, correo electrónico, teléfono, dirección y métodos de pago al
-                registrarte, contactarnos o realizar compras.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">2. Uso de la información</h3>
-              <p>Utilizamos tus datos para procesar pedidos, ofrecer soporte, personalizar tu experiencia y enviarte
-                notificaciones relevantes. No los usamos para fines no autorizados.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">3. Protección de datos</h3>
-              <p>Usamos medidas de seguridad técnicas y organizativas, incluyendo cifrado SSL, firewalls y acceso
-                limitado, para proteger tu información contra accesos no autorizados.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">4. Compartición de datos</h3>
-              <p>No vendemos tu información. Solo compartimos con terceros que nos ayudan a proveer el servicio, como
-                procesadores de pago, bajo estrictos acuerdos de confidencialidad.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">5. Uso de cookies</h3>
-              <p>Empleamos cookies para analizar tráfico, mejorar tu experiencia y recordar tus preferencias. Puedes
-                gestionarlas desde la configuración de tu navegador.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">6. Derechos del usuario</h3>
-              <p>Puedes acceder, modificar, eliminar o limitar el uso de tus datos. También puedes ejercer tu derecho a
-                la portabilidad o presentar reclamaciones ante la autoridad competente.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">7. Conservación de datos</h3>
-              <p>Guardamos tus datos solo durante el tiempo necesario para cumplir con fines legales, fiscales y
-                contractuales. Pasado este tiempo, los eliminamos de forma segura.</p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">8. Modificaciones</h3>
-              <p>Nos reservamos el derecho a actualizar esta política. Te informaremos de cambios importantes a través
-                de nuestro sitio web o por email.</p>
-            </section>
-          </div>
-        </div>
-      </div>
-    </transition>
-
-    <!-- Modal de Términos y Condiciones -->
-    <transition name="fade">
-      <div v-if="showTermsModal"
-        class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4"
-        @click.self="closeTermsModal">
-        <div
-          class="relative bg-white text-gray-800 rounded-2xl w-full max-w-3xl p-8 shadow-2xl overflow-y-auto max-h-[90vh] border border-white/10 backdrop-brightness-75">
-          <button @click="closeTermsModal" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl">
-            &times;
-          </button>
-          <div class="mb-6 text-center">
-            <h2 class="text-3xl font-bold text-red-600">Términos y Condiciones</h2>
-            <p class="text-sm text-gray-500">Última actualización: Mayo 2025</p>
-          </div>
-
-          <div class="space-y-6 text-gray-700 text-base leading-relaxed">
-            <section>
-              <h3 class="font-bold text-lg text-red-500">1. Aceptación de términos</h3>
-              <p>
-                Al acceder o usar el sitio web de FastFix, aceptas cumplir estos términos y condiciones. Si no estás de
-                acuerdo, por favor no utilices nuestros servicios.
-              </p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">2. Uso del sitio</h3>
-              <p>
-                El contenido del sitio es solo para uso personal y no comercial. Queda prohibido modificar, distribuir,
-                transmitir o explotar el contenido sin nuestro consentimiento.
-              </p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">3. Propiedad intelectual</h3>
-              <p>
-                Todos los derechos sobre marcas, logos, diseños y contenidos pertenecen a FastFix. No se permite el uso
-                sin
-                autorización expresa.
-              </p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">4. Responsabilidad del usuario</h3>
-              <p>
-                Te comprometes a proporcionar información veraz, no realizar actividades ilícitas y respetar la
-                integridad
-                del sitio.
-              </p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">5. Modificaciones</h3>
-              <p>
-                Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos cualquier
-                cambio sustancial a través del sitio o por correo electrónico.
-              </p>
-            </section>
-
-            <section>
-              <h3 class="font-bold text-lg text-red-500">6. Legislación aplicable</h3>
-              <p>
-                Estos términos se rigen por la legislación vigente en España. Cualquier disputa será resuelta por los
-                tribunales competentes de Sevilla.
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-    </transition>
-
+    <!-- Modales -->
+    <TermsModal :show="showTermsModal" @close="showTermsModal = false" />
+    <PrivacyModal :show="showPrivacyModal" @close="showPrivacyModal = false" />
   </footer>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import TermsModal from '@/components/modals/TermsModal.vue'
+import PrivacyModal from '@/components/modals/PrivacyModal.vue'
 
-//Modal de privacidad
-const showPrivacyModal = ref(false)
-const openModal = () => (showPrivacyModal.value = true)
-const closeModal = () => (showPrivacyModal.value = false)
-
-//Modal de términos
 const showTermsModal = ref(false)
-const openTermsModal = () => (showTermsModal.value = true)
-const closeTermsModal = () => (showTermsModal.value = false)
-
+const showPrivacyModal = ref(false)
 const currentYear = new Date().getFullYear()
 </script>

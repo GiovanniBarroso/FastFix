@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Cliente',
-            'apellidos' => 'Ejemplo',
+            'apellidos' => '',
             'email' => 'cliente@fastfix.com',
             'telefono' => '611111111',
             'password' => Hash::make('password'),

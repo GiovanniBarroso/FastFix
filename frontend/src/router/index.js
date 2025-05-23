@@ -16,8 +16,8 @@ import ForgotPasswordView from '@/views/auth/ForgotPasswordView.vue'
 import ResetPasswordView from '@/views/auth/ResetPasswordView.vue'
 import ConfirmPasswordView from '@/views/auth/ConfirmPasswordView.vue'
 import VerifyEmailView from '@/views/auth/VerifyEmailView.vue'
-import TwoFactorChallengeView from '@/views/auth/TwoFactorChallengeView.vue'
 import ProfileView from '@/views/auth/ProfileView.vue'
+import ChangePasswordView from '@/views/auth/ChangePasswordView.vue'
 
 // 👤 Usuario
 import FavoritesView from '@/views/user/FavoritesView.vue'
@@ -36,7 +36,6 @@ import UserListView from '@/views/admin/UserListView.vue'
 import RepairListView from '@/views/admin/RepairListView.vue'
 import AdminCalendarView from '@/views/admin/AdminCalendarView.vue'
 import AdminNotificationCenter from '@/views/admin/AdminNotificationCenter.vue'
-
 
 const routes = [
   // Públicas
@@ -74,6 +73,13 @@ const routes = [
     meta: { requiresAuth: false },
   },
   {
+    path: '/change-password',
+    name: 'change-password',
+    component: ChangePasswordView,
+    meta: { requiresAuth: true },
+  },
+
+  {
     path: '/reset-password',
     name: 'reset-password',
     component: ResetPasswordView,
@@ -89,14 +95,9 @@ const routes = [
     path: '/verify-email',
     name: 'verify-email',
     component: VerifyEmailView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
-  {
-    path: '/two-factor-challenge',
-    name: 'two-factor-challenge',
-    component: TwoFactorChallengeView,
-    meta: { requiresAuth: true },
-  },
+
   {
     path: '/profile',
     name: 'profile',
@@ -146,7 +147,7 @@ const routes = [
     path: '/admin/calendar',
     name: 'admin-calendar',
     component: AdminCalendarView,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
   },
   {
     path: '/admin/notifications',
@@ -154,7 +155,6 @@ const routes = [
     component: AdminNotificationCenter,
     meta: { requiresAuth: true },
   },
-
 ]
 
 const router = createRouter({
