@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-gray-900 text-gray-100 mt-16">
+  <footer class="bg-gray-900 text-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
       <!-- Marca -->
       <div>

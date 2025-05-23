@@ -96,10 +96,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        // 🧼 Eliminar imagen asociada
-        if ($product->image && file_exists(public_path('images/' . $product->image))) {
-            unlink(public_path('images/' . $product->image));
-        }
+        
 
         $product->delete();
 
