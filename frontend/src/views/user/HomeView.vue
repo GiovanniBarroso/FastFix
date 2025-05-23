@@ -3,62 +3,28 @@
     <div class="max-w-6xl mx-auto">
       <h1 class="text-3xl font-extrabold mb-4 text-center text-gray-900 dark:text-white">📊 Panel de Usuario</h1>
       <p class="text-center text-gray-600 dark:text-gray-300 mb-8">
-        Aquí puedes ver un resumen de tus pedidos, garantías, favoritos y servicios recientes.
+        Accede fácilmente a tus pedidos, garantías, productos favoritos y reparaciones.
       </p>
 
       <div class="grid gap-6 md:grid-cols-2">
-        <!-- Últimos pedidos -->
-        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
-          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">📦 Últimos pedidos</h2>
-          <ul v-if="pedidos.length > 0" class="space-y-2">
-            <li v-for="pedido in pedidos" :key="pedido.id" class="border-b pb-2 text-gray-700 dark:text-gray-200">
-              Pedido #{{ pedido.id }} - {{ pedido.estado }} - {{ pedido.fecha }}
-            </li>
-          </ul>
-          <p v-else class="text-gray-500 dark:text-gray-400">No tienes pedidos recientes.</p>
-          <router-link to="/orders"
-            class="mt-4 inline-block text-blue-600 dark:text-blue-400 font-medium hover:underline">Ver todos</router-link>
-        </div>
-
-        <!-- Garantías activas -->
-        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
-          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">🛡️ Garantías activas</h2>
-          <ul v-if="garantias.length > 0" class="space-y-2">
-            <li v-for="garantia in garantias" :key="garantia.id" class="border-b pb-2 text-gray-700 dark:text-gray-200">
-              Producto: {{ garantia.producto }} - vence el {{ garantia.vencimiento }}
-            </li>
-          </ul>
-          <p v-else class="text-gray-500 dark:text-gray-400">No hay garantías activas.</p>
-          <router-link to="/guarantee"
-            class="mt-4 inline-block text-blue-600 dark:text-blue-400 font-medium hover:underline">Ver todas</router-link>
-        </div>
-
-        <!-- Favoritos -->
-        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
-          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">❤️ Favoritos</h2>
-          <ul v-if="favoritos.length > 0" class="space-y-2">
-            <li v-for="favorito in favoritos" :key="favorito.id" class="border-b pb-2 text-gray-700 dark:text-gray-200">
-              {{ favorito.nombre }} - {{ favorito.marca }}
-            </li>
-          </ul>
-          <p v-else class="text-gray-500 dark:text-gray-400">No hay productos en favoritos.</p>
-          <router-link to="/favorites"
-            class="mt-4 inline-block text-blue-600 dark:text-blue-400 font-medium hover:underline">Ver todos</router-link>
-        </div>
-
-        <!-- Servicios de reparación -->
-        <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
-          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">🔧 Reparaciones recientes</h2>
-          <ul class="space-y-3">
-            <li v-for="repair in reparaciones.slice(0, 2)" :key="repair.servicio"
-              class="bg-gray-100 dark:bg-gray-700 p-4 rounded text-gray-800 dark:text-gray-100">
-              <h3 class="font-semibold">{{ repair.servicio }}</h3>
-              <p class="text-sm">{{ repair.descripcion }}</p>
-              <p class="mt-1 text-blue-600 dark:text-blue-400 font-medium">Desde €{{ repair.precio.toFixed(2) }}</p>
-            </li>
-          </ul>
-          <router-link to="/repairs"
-            class="mt-4 inline-block text-blue-600 dark:text-blue-400 font-medium hover:underline">Ver todos</router-link>
+        <!-- Tarjeta genérica -->
+        <div
+          v-for="card in secciones"
+          :key="card.titulo"
+          class="bg-white dark:bg-gray-800 p-6 rounded shadow-lg transform transition duration-300 hover:scale-[1.02] hover:shadow-2xl hover:ring-1 hover:ring-blue-400"
+        >
+          <h2 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">{{ card.icono }} {{ card.titulo }}</h2>
+          <p class="text-gray-600 dark:text-gray-300">{{ card.descripcion }}</p>
+          <router-link
+            :to="card.enlace"
+            class="mt-5 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-200"
+          >
+            Ver todos
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </router-link>
         </div>
       </div>
     </div>
@@ -66,32 +32,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-
-const pedidos = ref([])
-const garantias = ref([])
-const favoritos = ref([])
-const reparaciones = ref([])
-
-onMounted(() => {
-  pedidos.value = [
-    { id: 101, estado: 'Entregado', fecha: '2025-05-01' },
-    { id: 102, estado: 'En camino', fecha: '2025-05-07' }
-  ]
-
-  garantias.value = [
-    { id: 1, producto: 'iPhone 13 Pro', vencimiento: '2025-12-01' }
-  ]
-
-  favoritos.value = [
-    { id: 1, nombre: 'Cargador USB-C 20W', marca: 'Anker' },
-    { id: 2, nombre: 'Funda antigolpes iPhone 14', marca: 'Spigen' }
-  ]
-
-  reparaciones.value = [
-    { servicio: 'Cambio de pantalla', descripcion: 'Pantallas rotas o dañadas.', precio: 79.99 },
-    { servicio: 'Cambio de batería', descripcion: 'Sustitución por batería nueva.', precio: 49.99 },
-    { servicio: 'Reparación de conector de carga', descripcion: 'Problemas con la carga.', precio: 39.99 }
-  ]
-})
+const secciones = [
+  {
+    titulo: 'Últimos pedidos',
+    icono: '📦',
+    descripcion: 'Consulta el historial de tus compras y revisa el estado de tus pedidos.',
+    enlace: '/orders'
+  },
+  {
+    titulo: 'Garantías activas',
+    icono: '🛡️',
+    descripcion: 'Visualiza los productos con garantía vigente y su fecha de vencimiento.',
+    enlace: '/guarantee'
+  },
+  {
+    titulo: 'Favoritos',
+    icono: '❤️',
+    descripcion: 'Revisa los productos que has marcado como favoritos para encontrarlos fácilmente.',
+    enlace: '/favorites'
+  },
+  {
+    titulo: 'Reparaciones recientes',
+    icono: '🔧',
+    descripcion: 'Consulta tus solicitudes de reparación más recientes y su estado.',
+    enlace: '/repairs'
+  }
+]
 </script>

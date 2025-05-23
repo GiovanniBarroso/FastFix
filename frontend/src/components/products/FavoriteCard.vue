@@ -1,33 +1,48 @@
 <template>
-    <div class=" dark:bg-gray-800 -lg -md overflow-hidden">
-        <img :src="product.image" class="w-full h-48 object-cover" alt="Producto favorito" />
-        <div class="p-4">
-            <h3 class="text-xl font-semibold  ">{{ product.nombre }}</h3>
-            <div class="mt-4 flex justify-between items-center">
-                <span class="text-lg font-bold text-gray-900 ">€{{ product.precio.toFixed(2) }}</span>
-                <button @click="removeFromFavorites"
-                    class="bg-red-600 text-white    transition hover:bg-red-700">
-                    Eliminar de favoritos
-                </button>
-            </div>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden hover:shadow-lg transition">
+      <img :src="getImageUrl(product.image)" class="w-full h-48 object-cover" alt="Producto favorito" />
+      <div class="p-4">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ product.name }}</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">{{ product.description }}</p>
+        <div class="mt-4 flex justify-between items-center">
+          <span class="text-lg font-bold text-gray-900 dark:text-white">€{{ parseFloat(product.price).toFixed(2) }}</span>
+          <button @click="removeFromFavorites" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">
+            Eliminar
+          </button>
         </div>
+      </div>
     </div>
-</template>
-
-<script setup>
-defineProps({
+  </template>
+  
+  <script setup>
+  import api from '@/services/api'
+  import { useToast } from 'vue-toastification'
+  
+  const props = defineProps({
     product: {
-        type: Object,
-        required: true
+      type: Object,
+      required: true
     }
-})
-
-const removeFromFavorites = () => {
-    // Implementa la lógica para eliminar del carrito
-    alert(`${product.nombre} eliminado de favoritos!`)
-}
-</script>
-
-<style scoped>
-/* Personaliza el diseño de la tarjeta de favoritos */
-</style>
+  })
+  
+  const emit = defineEmits(['eliminado'])
+  
+  const toast = useToast()
+  
+  const removeFromFavorites = async () => {
+    try {
+      await api.delete(`/favorites/${props.product.id}`)
+      toast.success('✅ Producto eliminado de favoritos.')
+      emit('eliminado') // para refrescar la lista si lo usas
+    } catch (error) {
+      toast.error('❌ Error al eliminar favorito.')
+    }
+  }
+  
+  const baseURL = 'http://localhost:8000'
+  const getImageUrl = (filename) => {
+    if (!filename) return `${baseURL}/images/default.jpg`
+    return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
+  }
+  </script>
+  

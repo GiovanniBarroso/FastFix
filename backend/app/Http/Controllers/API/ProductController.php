@@ -105,4 +105,18 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Producto eliminado correctamente']);
     }
+
+    // ✅ Obtener productos con garantía activa del usuario autenticado
+    public function productosConGarantia()
+    {
+        $userId = auth()->id(); // Primero obtener el ID del usuario autenticado
+        logger('🔍 Usuario autenticado:', ['id' => $userId]); // Luego usarlo en el log
+
+        $productos = \App\Models\Product::whereHas('guarantees', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get(['id', 'name']);
+
+        return response()->json($productos);
+        
+    }
 }

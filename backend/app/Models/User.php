@@ -84,8 +84,21 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return $this->hasMany(Invoice::class);
     }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPassword($token));
     }
+
+    public function repairs()
+    {
+        return $this->hasMany(Repair::class);
+    }
+
+    public function budgets()
+    {   
+    return $this->hasMany(Budget::class);
+    }
+
+
 }

@@ -18,7 +18,9 @@ use App\Http\Controllers\API\{
     CartController,
     BudgetController,
     UserController,
-    RoleController
+    RoleController,
+    AdminStatsController,
+    NotificationController,
 };
 
 use Laravel\Fortify\Http\Controllers\{
@@ -46,7 +48,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
-Route::post('/budgets', [BudgetController::class, 'store']); // pública
+
 // 🔓 Obtener roles disponibles para formularios (sin auth)
 Route::get('/roles', [RoleController::class, 'index']);
 
@@ -57,12 +59,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-
+    Route::get('/admin/stats', [AdminStatsController::class, 'index']);
 
     // 📦 Recursos API
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
     Route::apiResource('/categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::apiResource('/brands', BrandController::class)->except(['show', 'create', 'edit']);
+    Route::post('/budgets', [BudgetController::class, 'store']);
 
     // ⭐ Favoritos
     Route::get('/favorites', [FavoriteController::class, 'index']);
@@ -73,6 +76,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/cart', [CartController::class, 'index']);
     Route::post('/cart', [CartController::class, 'store']);
     Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+    Route::put('/cart/{id}', [CartController::class, 'update'])->middleware('auth:api');
     Route::post('/cart/clear', [CartController::class, 'clear']);
 
     // 🛒 Ordenes
@@ -83,8 +87,16 @@ Route::middleware('auth:api')->group(function () {
     // 🛒 Garantias
     Route::get('/guarantees', [GuaranteeController::class, 'index']);
     Route::post('/guarantees', [GuaranteeController::class, 'store']);
+    Route::put('/guarantees/{id}', [GuaranteeController::class, 'update']);
     Route::delete('/guarantees/{id}', [GuaranteeController::class, 'destroy']);
     Route::get('/guarantees/by-order/{id}', [GuaranteeController::class, 'searchByOrder']);
+
+    // Productos con garantía del usuario autenticado
+    Route::get('/products/user', [ProductController::class, 'productosConGarantia']);
+
+// Buscar garantía por producto para el usuario autenticado
+    Route::get('/guarantees/by-product/{productId}', [GuaranteeController::class, 'searchByProduct']);
+
 
     // Budgets
     Route::get('/budgets', [BudgetController::class, 'index']); // admin
@@ -134,6 +146,12 @@ Route::middleware('auth:api')->group(function () {
 
     // Repairs
     Route::apiResource('repairs', RepairController::class);
+
+        // 🔔 Notificaciones
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/unread', [NotificationController::class, 'unread']);
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
+    Route::post('/notifications/{id}/mark-read', [NotificationController::class, 'markRead']);
 
 
 });

@@ -27,7 +27,7 @@ class OrderSeeder extends Seeder
             $order = Order::create([
                 'user_id' => $user->id,
                 'address_id' => $address->id,
-                'estado' => ['pendiente', 'enviado', 'pagado'][rand(0, 2)],
+                'estado' => ['pendiente', 'enviado', 'pagado', 'cancelado'][rand(0, 3)],
                 'total' => 0,
                 'fecha_pedido' => Carbon::now()->subDays($i),
             ]);

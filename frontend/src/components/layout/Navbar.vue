@@ -25,7 +25,7 @@
 
         <template v-if="isAuthenticated">
           <router-link v-if="isAdmin" to="/admin" class="hover:text-red-400 transition-colors">
-            Admin
+            Panel
           </router-link>
 
           <!-- Dropdown usuario -->
@@ -60,6 +60,9 @@
             </router-link>
           </div>
         </template>
+
+        <NotificationCenter v-if="isAuthenticated && isAdmin" />
+
       </div>
     </div>
 
@@ -91,6 +94,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
+import NotificationCenter from '@/components/admin/NotificationCenter.vue'
 
 const router = useRouter()
 const auth = useAuthStore()

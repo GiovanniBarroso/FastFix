@@ -1,6 +1,12 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Botón de volver reutilizable -->
+      <div class="mb-6">
+        <BackButtonAdmin />
+      </div>
+
       <h1 class="text-4xl font-extrabold text-center text-gray-800 dark:text-white mb-10">
         📝 Solicitudes de Presupuesto
       </h1>
@@ -24,9 +30,9 @@
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
-              <td class="p-4">{{ solicitud.nombre }}</td>
-              <td class="p-4">{{ solicitud.email }}</td>
-              <td class="p-4">{{ solicitud.telefono }}</td>
+              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
               <td class="p-4 max-w-sm">
                 <div class="truncate bg-gray-100 dark:bg-gray-700 p-2 rounded" :title="solicitud.mensaje">
                   {{ solicitud.mensaje }}
@@ -59,6 +65,7 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import BudgetContactModal from '@/components/budgets/BudgetContactModal.vue'
+import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 
 const budgets = ref([])
 const showModal = ref(false)

@@ -43,6 +43,18 @@ class CartController extends Controller
 }
 
 
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'quantity' => 'required|integer|min:1'
+    ]);
+
+    $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
+    $cartItem->quantity = $request->quantity;
+    $cartItem->save();
+
+    return response()->json(['message' => 'Cantidad actualizada']);
+}
 
 
     public function store(Request $request)

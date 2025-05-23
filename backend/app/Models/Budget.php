@@ -10,10 +10,13 @@ class Budget extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
-        'email',
+        'user_id',
         'mensaje',
-        'telefono',
-        'estado', // 'pendiente', 'respondido', etc.
+        'estado',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

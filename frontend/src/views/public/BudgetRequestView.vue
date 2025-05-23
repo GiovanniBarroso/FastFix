@@ -11,38 +11,36 @@
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
         <form @submit.prevent="enviarPresupuesto" class="space-y-6">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre completo</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tu nombre</label>
             <input
-              v-model="form.nombre"
-              type="text"
-              required
-              class="w-full p-3 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              :value="auth.user?.name"
+              disabled
+              class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white cursor-not-allowed"
             />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo electrónico</label>
             <input
-              v-model="form.email"
-              type="email"
-              required
-              class="w-full p-3 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              :value="auth.user?.email"
+              disabled
+              class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white cursor-not-allowed"
             />
           </div>
 
-          <div>
+          <div v-if="auth.user?.telefono">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
             <input
-              v-model="form.telefono"
-              type="text"
-              class="w-full p-3 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              :value="auth.user?.telefono"
+              disabled
+              class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white cursor-not-allowed"
             />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción del problema</label>
             <textarea
-              v-model="form.descripcion"
+              v-model="form.mensaje"
               rows="5"
               required
               class="w-full p-3 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -70,29 +68,41 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '@/services/api'
+import { useAuthStore } from '@/stores/authStore'
+
+const auth = useAuthStore()
+const router = useRouter()
 
 const form = ref({
-  nombre: '',
-  email: '',
-  telefono: '',
-  descripcion: ''
+  mensaje: ''
 })
 
 const mensajeEnviado = ref(false)
 
-const enviarPresupuesto = () => {
-  console.log('Datos enviados:', form.value)
-  mensajeEnviado.value = true
+onMounted(() => {
+  if (!auth.isAuthenticated()) {
+    router.push('/login')
+  }
+})
 
-  setTimeout(() => {
-    mensajeEnviado.value = false
-    form.value = {
-      nombre: '',
-      email: '',
-      telefono: '',
-      descripcion: ''
-    }
-  }, 2000)
+const enviarPresupuesto = async () => {
+  try {
+    await api.post('/budgets', {
+      mensaje: form.value.mensaje
+    })
+
+    mensajeEnviado.value = true
+    form.value.mensaje = ''
+
+    setTimeout(() => {
+      mensajeEnviado.value = false
+    }, 3000)
+  } catch (error) {
+    console.error('Error al enviar presupuesto:', error)
+    alert('Error al enviar el presupuesto. Intenta más tarde.')
+  }
 }
 </script>

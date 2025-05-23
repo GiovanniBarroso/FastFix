@@ -37,14 +37,32 @@
                 </div>
               </td>
               <td class="p-4">€{{ parseFloat(item.product.price).toFixed(2) }}</td>
-              <td class="p-4">{{ item.quantity }}</td>
+              <td class="p-4">
+  <div class="flex items-center gap-2">
+    <button
+      @click="cambiarCantidad(item, -1)"
+      class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-500 active:scale-95 transition-all duration-150"
+      :disabled="item.quantity <= 1"
+    >
+      −
+    </button>
+    <span class="w-6 text-center font-semibold">{{ item.quantity }}</span>
+    <button
+      @click="cambiarCantidad(item, 1)"
+      class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-500 active:scale-95 transition-all duration-150"
+    >
+      +
+    </button>
+  </div>
+</td>
+
               <td class="p-4 font-semibold text-blue-600 dark:text-blue-400">
                 €{{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
               </td>
               <td class="p-4 text-center">
                 <button @click="eliminarDelCarrito(item.id)"
                   class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-xs">
-                  Eliminar
+                  Eliminar todo
                 </button>
               </td>
             </tr>
@@ -86,6 +104,17 @@ const getCart = async () => {
   }
 }
 
+const cambiarCantidad = async (item, delta) => {
+  const nuevaCantidad = item.quantity + delta
+  if (nuevaCantidad <= 0) return eliminarDelCarrito(item.id)
+  try {
+    await api.put(`/cart/${item.id}`, { quantity: nuevaCantidad })
+    item.quantity = nuevaCantidad
+  } catch (error) {
+    console.error('Error al actualizar cantidad', error)
+  }
+}
+
 const eliminarDelCarrito = async (id) => {
   try {
     await api.delete(`/cart/${id}`)
@@ -117,7 +146,7 @@ const finalizarCompra = async () => {
   }
 }
 
-const baseURL = 'http://localhost:8000' // o tu dominio en producción
+const baseURL = 'http://localhost:8000'
 const getImageUrl = (filename) => {
   if (!filename) return `${baseURL}/images/default.jpg`
   return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`

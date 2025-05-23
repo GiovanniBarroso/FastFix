@@ -14,27 +14,28 @@ class BudgetController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'email' => 'required|email',
             'mensaje' => 'required|string|max:1000',
-            'telefono' => 'nullable|string|max:20'
         ]);
 
-        $budget = Budget::create(array_merge($validated, ['estado' => 'pendiente']));
+        $budget = Budget::create([
+            'user_id' => auth()->id(), // Usuario autenticado
+            'mensaje' => $validated['mensaje'],
+            'estado' => 'pendiente'
+        ]);
 
         return response()->json(['message' => 'Presupuesto enviado correctamente'], 201);
     }
 
-    // Vista admin - listar todos
+    // Vista admin - listar todos con usuario incluido
     public function index()
     {
-        return Budget::orderByDesc('created_at')->get();
+        return Budget::with('user')->orderByDesc('created_at')->get();
     }
 
     // Vista admin - ver uno
     public function show($id)
     {
-        $budget = Budget::find($id);
+        $budget = Budget::with('user')->find($id);
 
         if (!$budget) {
             return response()->json(['message' => 'Presupuesto no encontrado'], 404);
@@ -43,25 +44,24 @@ class BudgetController extends Controller
         return response()->json($budget);
     }
 
-    // ✅ Nuevo método: responder por email
+    // ✅ Responder al cliente por email
     public function reply(Request $request, $id)
     {
-        $budget = Budget::find($id);
+        $budget = Budget::with('user')->find($id);
 
-        if (!$budget) {
-            return response()->json(['message' => 'Presupuesto no encontrado'], 404);
+        if (!$budget || !$budget->user) {
+            return response()->json(['message' => 'Presupuesto o usuario no encontrado'], 404);
         }
 
         $validated = $request->validate([
             'mensaje' => 'required|string'
         ]);
 
-        // Enviar correo al cliente
-        Mail::to($budget->email)->send(new BudgetReplyMail(
-            $budget->nombre,
+        // Enviar correo al usuario
+        Mail::to($budget->user->email)->send(new BudgetReplyMail(
+            $budget->user->name,
             $validated['mensaje']
         ));
-
 
         return response()->json(['message' => 'Mensaje enviado correctamente.']);
     }
