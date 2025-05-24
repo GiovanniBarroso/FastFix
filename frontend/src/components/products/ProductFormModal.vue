@@ -37,16 +37,37 @@
         <!-- Imagen -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
-          <input type="file" accept="image/*" @change="handleFileUpload"
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
 
-          <div v-if="previewUrl" class="mt-3">
+          <!-- Input separado -->
+          <div class="mb-4">
+            <input
+              type="file"
+              accept="image/*"
+              @change="handleFileUpload"
+              class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-700
+                    hover:file:bg-blue-100
+                    dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600"
+            />
+          </div>
+
+          <!-- Vista previa de la imagen y nombre -->
+          <div v-if="previewUrl" class="mt-2 flex flex-col items-start">
             <a :href="previewUrl" target="_blank">
-              <img :src="previewUrl" alt="Vista previa"
-                class="w-32 h-32 object-cover rounded border hover:scale-105 transition" />
+              <img
+                :src="previewUrl"
+                alt="Vista previa"
+                class="w-32 h-32 object-cover rounded border hover:scale-105 transition"
+              />
             </a>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+              {{ imageFile?.name || 'Imagen cargada previamente' }}
+            </p>
           </div>
         </div>
+
 
 
         <!-- Categoría y Marca -->
