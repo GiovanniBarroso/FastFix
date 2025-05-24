@@ -1,7 +1,6 @@
 <template>
   <section class="py-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-6xl mx-auto px-6">
-
       <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonUser />
@@ -14,51 +13,60 @@
         </p>
       </div>
 
-      <div v-if="garantias.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div v-if="garantias.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3 items-start">
         <div
           v-for="g in garantias"
           :key="g.id"
-          class="rounded-xl bg-white dark:bg-gray-800 shadow-md p-6 border-l-4 cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-          :class="estaActiva(g.fecha_fin) ? 'border-green-500' : 'border-red-500'"
           @click="toggleDetalle(g.id)"
+          class="rounded-xl bg-white dark:bg-gray-800 border-l-4 cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-xl"
+          :class="[
+            estaActiva(g.fecha_fin) ? 'border-green-500' : 'border-red-500',
+            detalleVisible === g.id ? 'shadow-lg scale-[1.02]' : 'scale-100'
+          ]"
         >
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              {{ g.product.name }}
-            </h2>
-            <span
-              class="text-sm font-medium px-3 py-1 rounded-full"
-              :class="estaActiva(g.fecha_fin)
-                ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-white'
-                : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white'"
-            >
-              {{ estaActiva(g.fecha_fin) ? 'Activa' : 'Vencida' }}
-            </span>
-          </div>
-          <p class="text-sm text-gray-700 dark:text-gray-300">
-            <strong>Inicio:</strong> {{ formatFecha(g.fecha_inicio) }}
-          </p>
-          <p class="text-sm text-gray-700 dark:text-gray-300">
-            <strong>Fin:</strong> {{ formatFecha(g.fecha_fin) }}
-          </p>
-
-          <!-- Detalle extra desplegable -->
-          <transition name="fade">
-            <div v-if="detalleVisible === g.id" class="mt-4 text-sm text-gray-600 dark:text-gray-300 space-y-1">
-              <p><strong>Registrada:</strong> {{ formatFecha(g.created_at) }}</p>
-              <p><strong>Duración:</strong> {{ duracionEnDias(g.fecha_inicio, g.fecha_fin) }} días</p>
-              <p v-if="estaActiva(g.fecha_fin)">
-                <strong>Días restantes:</strong> {{ diasRestantes(g.fecha_fin) }} días
-              </p>
-              <p v-else class="text-red-500 dark:text-red-400">
-                Garantía vencida.
-              </p>
-              <p v-if="estaActiva(g.fecha_fin) && diasRestantes(g.fecha_fin) <= 30" class="text-yellow-600 dark:text-yellow-400 font-semibold">
-                ⚠️ Tu garantía vencerá pronto.
-              </p>
-              <p class="italic mt-2 text-xs">Haz clic para ocultar detalles.</p>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ g.product.name }}
+              </h2>
+              <span
+                class="text-sm font-medium px-3 py-1 rounded-full"
+                :class="estaActiva(g.fecha_fin)
+                  ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-white'
+                  : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white'"
+              >
+                {{ estaActiva(g.fecha_fin) ? 'Activa' : 'Vencida' }}
+              </span>
             </div>
-          </transition>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              <strong>Inicio:</strong> {{ formatFecha(g.fecha_inicio) }}
+            </p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+              <strong>Fin:</strong> {{ formatFecha(g.fecha_fin) }}
+            </p>
+
+            <!-- Detalles -->
+            <transition name="detalle">
+              <div
+                v-if="detalleVisible === g.id"
+                class="mt-4 text-sm text-gray-600 dark:text-gray-300 space-y-1"
+              >
+                <p><strong>Registrada:</strong> {{ formatFecha(g.created_at) }}</p>
+                <p><strong>Duración:</strong> {{ duracionEnDias(g.fecha_inicio, g.fecha_fin) }} días</p>
+                <p v-if="estaActiva(g.fecha_fin)">
+                  <strong>Días restantes:</strong> {{ diasRestantes(g.fecha_fin) }} días
+                </p>
+                <p v-else class="text-red-500 dark:text-red-400">Garantía vencida.</p>
+                <p
+                  v-if="estaActiva(g.fecha_fin) && diasRestantes(g.fecha_fin) <= 30"
+                  class="text-yellow-600 dark:text-yellow-400 font-semibold"
+                >
+                  ⚠️ Tu garantía vencerá pronto.
+                </p>
+                <p class="italic mt-2 text-xs">Haz clic para ocultar detalles.</p>
+              </div>
+            </transition>
+          </div>
         </div>
       </div>
 
@@ -72,7 +80,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
-import BackButtonUser from '@/components/ui/BackButtonUser.vue' 
+import BackButtonUser from '@/components/ui/BackButtonUser.vue'
 
 const garantias = ref([])
 const detalleVisible = ref(null)
@@ -108,12 +116,12 @@ const toggleDetalle = (id) => {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.detalle-enter-active,
+.detalle-leave-active {
   transition: all 0.3s ease;
 }
-.fade-enter-from,
-.fade-leave-to {
+.detalle-enter-from,
+.detalle-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }
