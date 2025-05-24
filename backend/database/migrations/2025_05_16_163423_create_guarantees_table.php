@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('guarantees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('repair_id')->constrained()->onDelete('cascade');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->timestamps();

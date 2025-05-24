@@ -17,13 +17,13 @@
           </select>
         </div>
 
-        <!-- Producto -->
+        <!-- Reparación -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Producto</label>
-          <select v-model="form.product_id" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-            <option disabled value="">Selecciona un producto</option>
-            <option v-for="product in products" :key="product.id" :value="product.id">
-              {{ product.name }}
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reparación</label>
+          <select v-model="form.repair_id" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <option disabled value="">Selecciona una reparación</option>
+            <option v-for="repair in repairs" :key="repair.id" :value="repair.id">
+              {{ repair.device_type }} - {{ repair.name }} ({{ repair.user?.name || '—' }})
             </option>
           </select>
         </div>
@@ -64,25 +64,25 @@ const emit = defineEmits(['close', 'saved'])
 const form = ref({
   id: null,
   user_id: '',
-  product_id: '',
+  repair_id: '',
   fecha_inicio: '',
   fecha_fin: ''
 })
 
 const isEditing = ref(false)
 const users = ref([])
-const products = ref([])
+const repairs = ref([])
 
-const fetchUsersAndProducts = async () => {
+const fetchUsersAndRepairs = async () => {
   try {
-    const [usersRes, productsRes] = await Promise.all([
+    const [usersRes, repairsRes] = await Promise.all([
       api.get('/users'),
-      api.get('/products')
+      api.get('/repairs')
     ])
     users.value = usersRes.data
-    products.value = productsRes.data
+    repairs.value = repairsRes.data
   } catch (error) {
-    console.error('Error cargando usuarios/productos:', error)
+    console.error('Error cargando usuarios/reparaciones:', error)
   }
 }
 
@@ -91,7 +91,7 @@ watch(() => props.show, (visible) => {
     form.value = {
       id: props.guaranteeToEdit.id,
       user_id: props.guaranteeToEdit.user_id,
-      product_id: props.guaranteeToEdit.product_id,
+      repair_id: props.guaranteeToEdit.repair_id,
       fecha_inicio: props.guaranteeToEdit.fecha_inicio,
       fecha_fin: props.guaranteeToEdit.fecha_fin,
     }
@@ -120,7 +120,7 @@ const resetForm = () => {
   form.value = {
     id: null,
     user_id: '',
-    product_id: '',
+    repair_id: '',
     fecha_inicio: '',
     fecha_fin: ''
   }
@@ -132,5 +132,5 @@ const close = () => {
   emit('close')
 }
 
-onMounted(fetchUsersAndProducts)
+onMounted(fetchUsersAndRepairs)
 </script>

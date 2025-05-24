@@ -11,10 +11,11 @@ class Guarantee extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
+        'repair_id',
         'fecha_inicio',
         'fecha_fin'
     ];
+
 
     // Relación con el usuario dueño de la garantía
     public function user()
@@ -23,9 +24,10 @@ class Guarantee extends Model
     }
 
     // Relación con el producto cubierto por la garantía
-    public function product()
+    public function repair()
     {
-        return $this->belongsTo(\App\Models\Product::class);
+        return $this->belongsTo(\App\Models\Repair::class);
     }
+
     
 }

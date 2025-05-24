@@ -64,9 +64,5 @@ class Product extends Model
             ->withPivot('quantity', 'precio_unitario')
             ->withTimestamps();
     }
-    public function guarantees()
-{
-    return $this->hasMany(\App\Models\Guarantee::class);
-}
 
 }

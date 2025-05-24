@@ -1,12 +1,11 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-
-      <!-- Botón de volver reutilizable -->
+      <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonAdmin />
       </div>
-      
+
       <!-- Título y botón -->
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">
@@ -28,7 +27,8 @@
               <th class="p-4 text-left">#</th>
               <th class="p-4 text-left">Cliente</th>
               <th class="p-4 text-left">Email</th>
-              <th class="p-4 text-left">Producto</th>
+              <th class="p-4 text-left">Dispositivo</th>
+              <th class="p-4 text-left">Problema</th>
               <th class="p-4 text-left">Inicio</th>
               <th class="p-4 text-left">Fin</th>
               <th class="p-4 text-left">Estado</th>
@@ -44,7 +44,10 @@
               <td class="p-4 font-medium">{{ index + 1 }}</td>
               <td class="p-4">{{ garantia.user?.name || '—' }}</td>
               <td class="p-4">{{ garantia.user?.email || '—' }}</td>
-              <td class="p-4">{{ garantia.product?.name || '—' }}</td>
+              <td class="p-4">{{ garantia.repair?.device_type || '—' }} - {{ garantia.repair?.name || '' }}</td>
+              <td class="p-4 max-w-xs truncate" :title="garantia.repair?.problem_description">
+                {{ garantia.repair?.problem_description || '—' }}
+              </td>
               <td class="p-4">{{ formatDate(garantia.fecha_inicio) }}</td>
               <td class="p-4">{{ formatDate(garantia.fecha_fin) }}</td>
               <td class="p-4">
@@ -52,8 +55,7 @@
                   class="px-3 py-1 rounded-full text-xs font-semibold"
                   :class="isActive(garantia.fecha_fin)
                     ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
-                    : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100'"
-                >
+                    : 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-100'">
                   {{ isActive(garantia.fecha_fin) ? 'Activa' : 'Expirada' }}
                 </span>
               </td>
@@ -76,7 +78,6 @@
         </table>
       </div>
 
-      <!-- Sin datos -->
       <div v-else class="text-center text-gray-600 dark:text-gray-300 mt-10">
         No hay garantías registradas aún.
       </div>

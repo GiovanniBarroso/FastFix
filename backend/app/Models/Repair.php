@@ -26,4 +26,10 @@ class Repair extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function guarantees()
+    {
+        return $this->hasMany(\App\Models\Guarantee::class);
+    }
+
 }

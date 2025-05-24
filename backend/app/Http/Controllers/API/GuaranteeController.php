@@ -6,23 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Guarantee;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class GuaranteeController extends Controller
 {
-    // ✅ Listar garantías del usuario o admin
+    // Listar garantías del usuario o admin
     public function index()
     {
         $user = Auth::user();
 
-        // Si es admin, devuelve todas las garantías con usuario y producto
         if ($user->role_id === 1) {
-            $garantias = Guarantee::with(['product', 'user'])
-                ->orderByDesc('created_at')
-                ->get();
+            // Admin: todas las garantías con reparación y usuario
+            $garantias = Guarantee::with(['repair.user'])->orderByDesc('created_at')->get();
         } else {
-            // Si es cliente, solo sus garantías
-            $garantias = Guarantee::with('product')
+            // Cliente: solo sus garantías
+            $garantias = Guarantee::with('repair')
                 ->where('user_id', $user->id)
                 ->orderByDesc('created_at')
                 ->get();
@@ -31,19 +28,19 @@ class GuaranteeController extends Controller
         return response()->json($garantias);
     }
 
-    // ✅ Crear una garantía
+    // Crear garantía
     public function store(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'product_id' => 'required|exists:products,id',
+            'repair_id' => 'required|exists:repairs,id',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after:fecha_inicio'
         ]);
 
         $garantia = Guarantee::create([
-            'user_id' => $request->user_id, // ⬅️ Usa el user_id recibido
-            'product_id' => $request->product_id,
+            'user_id' => $request->user_id,
+            'repair_id' => $request->repair_id,
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_fin' => $request->fecha_fin,
         ]);
@@ -51,13 +48,12 @@ class GuaranteeController extends Controller
         return response()->json(['message' => 'Garantía creada', 'data' => $garantia], 201);
     }
 
-
-    // ✅ Buscar garantía por producto (mejor que por order_id si no se usa)
-    public function searchByProduct($productId)
+    // Buscar garantía por reparación
+    public function searchByRepair($repairId)
     {
-        $garantia = Guarantee::with('product')
+        $garantia = Guarantee::with('repair')
             ->where('user_id', Auth::id())
-            ->where('product_id', $productId)
+            ->where('repair_id', $repairId)
             ->first();
 
         if (!$garantia) {
@@ -67,33 +63,33 @@ class GuaranteeController extends Controller
         return response()->json($garantia);
     }
 
+    // Actualizar garantía
     public function update(Request $request, $id)
-{
-    $garantia = Guarantee::find($id);
+    {
+        $garantia = Guarantee::find($id);
 
-    if (!$garantia) {
-        return response()->json(['message' => 'Garantía no encontrada'], 404);
+        if (!$garantia) {
+            return response()->json(['message' => 'Garantía no encontrada'], 404);
+        }
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'repair_id' => 'required|exists:repairs,id',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date|after:fecha_inicio'
+        ]);
+
+        $garantia->update([
+            'user_id' => $request->user_id,
+            'repair_id' => $request->repair_id,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+        ]);
+
+        return response()->json(['message' => 'Garantía actualizada', 'data' => $garantia]);
     }
 
-    $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'product_id' => 'required|exists:products,id',
-        'fecha_inicio' => 'required|date',
-        'fecha_fin' => 'required|date|after:fecha_inicio'
-    ]);
-
-    $garantia->update([
-        'user_id' => $request->user_id,
-        'product_id' => $request->product_id,
-        'fecha_inicio' => $request->fecha_inicio,
-        'fecha_fin' => $request->fecha_fin,
-    ]);
-
-    return response()->json(['message' => 'Garantía actualizada', 'data' => $garantia]);
-}
-
-
-    // ✅ Eliminar garantía (admin o propietario)
+    // Eliminar garantía
     public function destroy($id)
     {
         $garantia = Guarantee::find($id);
