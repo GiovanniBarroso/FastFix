@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -53,23 +54,30 @@ class OrderController extends Controller
                 'estado' => 'pendiente',
                 'total' => $total,
                 'fecha_pedido' => Carbon::now(),
-                'address_id' => $request->address_id ?? 1 // se puede mejorar si se permite elegir
+                'address_id' => $request->address_id ?? 1
             ]);
 
             foreach ($cart as $item) {
                 $order->products()->attach($item['id'], [
                     'cantidad' => $item['cantidad'],
-                    'precio' => $item['precio'] // corregido
+                    'precio' => $item['precio']
                 ]);
 
-                // Actualizar stock
                 $product = Product::find($item['id']);
                 if ($product) {
                     $product->decrement('stock', $item['cantidad']);
                 }
             }
 
-            session()->forget($cartKey); // Vaciar carrito
+            session()->forget($cartKey);
+
+            // ✅ Crear notificación
+            Notification::create([
+                'title' => 'Nuevo pedido realizado',
+                'message' => 'El usuario "' . Auth::user()->name . '" ha realizado un nuevo pedido.',
+                'type' => 'pedido',
+                'read' => false,
+            ]);
 
             DB::commit();
 

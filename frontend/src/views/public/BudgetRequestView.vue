@@ -72,9 +72,11 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
+import { useNotificationStore } from '@/stores/notificationStore'
 
 const auth = useAuthStore()
 const router = useRouter()
+const notificationStore = useNotificationStore()
 
 const form = ref({
   mensaje: ''
@@ -93,6 +95,8 @@ const enviarPresupuesto = async () => {
     await api.post('/budgets', {
       mensaje: form.value.mensaje
     })
+
+    await notificationStore.fetchNotifications() // 🔔 Actualiza la campana
 
     mensajeEnviado.value = true
     form.value.mensaje = ''

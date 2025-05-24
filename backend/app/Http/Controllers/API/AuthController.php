@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use App\Models\User;
+use App\Models\Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -37,11 +38,18 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
+        // ✅ Notificación al registrar usuario
+        Notification::create([
+            'title' => 'Nuevo registro',
+            'message' => "Se ha registrado un nuevo usuario: \"{$user->name}\".",
+            'type' => 'registro',
+            'read' => false,
+        ]);
+
         return response()->json([
             'message' => 'Cuenta creada correctamente. Por favor, verifica tu correo antes de iniciar sesión.'
         ], 201);
     }
-
 
     public function login(Request $request)
     {

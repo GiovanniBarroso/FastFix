@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Budget;
+use App\Models\Notification;
 use App\Mail\BudgetReplyMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,12 +19,21 @@ class BudgetController extends Controller
             'estado' => 'in:pendiente,respondido,rechazado'
         ]);
 
+        $user = auth()->user();
+
         $budget = Budget::create([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'mensaje' => $validated['mensaje'],
             'estado' => $validated['estado'] ?? 'pendiente'
         ]);
 
+        // ✅ Crear notificación para admin
+        Notification::create([
+            'title' => 'Nueva solicitud de presupuesto',
+            'message' => "El usuario \"{$user->name}\" ha enviado una solicitud de presupuesto.",
+            'type' => 'presupuesto',
+            'read' => false,
+        ]);
 
         return response()->json(['message' => 'Presupuesto enviado correctamente'], 201);
     }
@@ -59,7 +69,7 @@ class BudgetController extends Controller
             'mensaje' => 'required|string'
         ]);
 
-        // Enviar correo al usuario
+        // Enviar correo
         Mail::to($budget->user->email)->send(new BudgetReplyMail(
             $budget->user->name,
             $validated['mensaje']
@@ -68,6 +78,7 @@ class BudgetController extends Controller
         return response()->json(['message' => 'Mensaje enviado correctamente.']);
     }
 
+    // ✅ Actualizar estado
     public function update(Request $request, $id)
     {
         $budget = Budget::find($id);
@@ -85,5 +96,4 @@ class BudgetController extends Controller
 
         return response()->json(['message' => 'Estado actualizado correctamente.']);
     }
-
 }
