@@ -70,7 +70,7 @@ const props = defineProps({
   cliente: Object
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'respondido'])
 
 const mensaje = ref('')
 
@@ -88,12 +88,21 @@ const enviarMensaje = async () => {
   if (!id || !mensaje.value) return
 
   try {
+    // 1. Enviar el mensaje
     await api.post(`/budgets/${id}/reply`, {
       mensaje: mensaje.value
     })
 
-    alert(`Mensaje enviado a ${nombre} (${email})`)
+    // 2. Marcar como respondido
+    await api.put(`/budgets/${id}`, {
+      estado: 'respondido'
+    })
+
+    // 3. Emitir eventos
+    emit('respondido', id)
     emit('close')
+
+    alert(`Mensaje enviado a ${nombre} (${email})`)
   } catch (error) {
     console.error('Error al enviar mensaje:', error)
     alert('Error al enviar el mensaje.')

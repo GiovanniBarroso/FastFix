@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('mensaje');
-            $table->string('estado')->default('pendiente'); // 'pendiente', 'respondido', etc.
+            $table->enum('estado', ['pendiente', 'respondido', 'rechazado'])->default('pendiente');
             $table->timestamps();
         });
     }

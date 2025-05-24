@@ -15,13 +15,15 @@ class BudgetController extends Controller
     {
         $validated = $request->validate([
             'mensaje' => 'required|string|max:1000',
+            'estado' => 'in:pendiente,respondido,rechazado'
         ]);
 
         $budget = Budget::create([
-            'user_id' => auth()->id(), // Usuario autenticado
+            'user_id' => auth()->id(),
             'mensaje' => $validated['mensaje'],
-            'estado' => 'pendiente'
+            'estado' => $validated['estado'] ?? 'pendiente'
         ]);
+
 
         return response()->json(['message' => 'Presupuesto enviado correctamente'], 201);
     }
@@ -65,4 +67,23 @@ class BudgetController extends Controller
 
         return response()->json(['message' => 'Mensaje enviado correctamente.']);
     }
+
+    public function update(Request $request, $id)
+    {
+        $budget = Budget::find($id);
+
+        if (!$budget) {
+            return response()->json(['message' => 'Presupuesto no encontrado'], 404);
+        }
+
+        $validated = $request->validate([
+            'estado' => 'required|in:pendiente,respondido,rechazado'
+        ]);
+
+        $budget->estado = $validated['estado'];
+        $budget->save();
+
+        return response()->json(['message' => 'Estado actualizado correctamente.']);
+    }
+
 }

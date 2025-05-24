@@ -2,7 +2,6 @@
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-6xl mx-auto px-6">
 
-      <!-- Botón de volver reutilizable -->
       <div class="mb-6">
         <BackButtonAdmin />
       </div>
@@ -11,7 +10,9 @@
         📝 Solicitudes de Presupuesto
       </h1>
 
-      <div v-if="budgets.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+      <!-- Tabla pendientes -->
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">📩 Pendientes</h2>
+      <div v-if="pendientes.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md mb-12">
         <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
           <thead class="bg-blue-500 text-white uppercase text-xs tracking-wider">
             <tr>
@@ -25,7 +26,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(solicitud, index) in budgets"
+              v-for="(solicitud, index) in pendientes"
               :key="solicitud.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
@@ -38,31 +39,106 @@
                   {{ solicitud.mensaje }}
                 </div>
               </td>
-              <td class="p-4">
+            <td class="p-4">
+              <div class="flex items-center justify-start gap-2">
                 <button
                   @click="openModal(solicitud)"
-                  class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded text-xs transition"
+                  class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs transition"
                 >
-                  📩 Contactar
+                  💌 Contactar
                 </button>
+                <button
+                  @click="rechazarSolicitud(solicitud.id)"
+                  class="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs transition"
+                >
+                  ❌ Rechazar
+                </button>
+              </div>
+            </td>
+
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else class="text-gray-500 dark:text-gray-300 mb-12">No hay solicitudes pendientes.</div>
+
+      <!-- Tabla respondidas -->
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">✅ Respondidas</h2>
+      <div v-if="respondidas.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md mb-12">
+        <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
+          <thead class="bg-blue-500 text-white uppercase text-xs tracking-wider">
+            <tr>
+              <th class="p-4 text-left">#</th>
+              <th class="p-4 text-left">Nombre</th>
+              <th class="p-4 text-left">Email</th>
+              <th class="p-4 text-left">Teléfono</th>
+              <th class="p-4 text-left">Mensaje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(solicitud, index) in respondidas"
+              :key="solicitud.id"
+              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
+              <td class="p-4 font-medium">{{ index + 1 }}</td>
+              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
+              <td class="p-4 max-w-sm">
+                <div class="truncate bg-gray-100 dark:bg-gray-700 p-2 rounded" :title="solicitud.mensaje">
+                  {{ solicitud.mensaje }}
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+      <div v-else class="text-gray-500 dark:text-gray-300 mb-12">No hay solicitudes respondidas.</div>
 
-      <div v-else class="text-center text-gray-600 dark:text-gray-300 mt-10">
-        No hay solicitudes de presupuesto todavía.
+      <!-- Tabla rechazadas -->
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">❌ Rechazadas</h2>
+      <div v-if="rechazadas.length" class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+        <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
+          <thead class="bg-blue-500 text-white uppercase text-xs tracking-wider">
+            <tr>
+              <th class="p-4 text-left">#</th>
+              <th class="p-4 text-left">Nombre</th>
+              <th class="p-4 text-left">Email</th>
+              <th class="p-4 text-left">Teléfono</th>
+              <th class="p-4 text-left">Mensaje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(solicitud, index) in rechazadas"
+              :key="solicitud.id"
+              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
+              <td class="p-4 font-medium">{{ index + 1 }}</td>
+              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
+              <td class="p-4 max-w-sm">
+                <div class="truncate bg-gray-100 dark:bg-gray-700 p-2 rounded" :title="solicitud.mensaje">
+                  {{ solicitud.mensaje }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div v-else class="text-gray-500 dark:text-gray-300">No hay solicitudes rechazadas.</div>
     </div>
 
-    <!-- Modal para contactar -->
-    <BudgetContactModal :show="showModal" :cliente="selectedCliente" @close="closeModal" />
+    <!-- Modal de contacto -->
+    <BudgetContactModal :show="showModal" :cliente="selectedCliente" @close="closeModal" @respondido="marcarComoRespondido" />
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import api from '@/services/api'
 import BudgetContactModal from '@/components/budgets/BudgetContactModal.vue'
 import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
@@ -71,22 +147,47 @@ const budgets = ref([])
 const showModal = ref(false)
 const selectedCliente = ref(null)
 
+const pendientes = computed(() => budgets.value.filter(b => b.estado === 'pendiente'))
+const respondidas = computed(() => budgets.value.filter(b => b.estado === 'respondido'))
+const rechazadas = computed(() => budgets.value.filter(b => b.estado === 'rechazado'))
+
 const openModal = (cliente) => {
   selectedCliente.value = cliente
   showModal.value = true
 }
 
 const closeModal = () => {
-  showModal.value = false
   selectedCliente.value = null
+  showModal.value = false
 }
 
-onMounted(async () => {
+const marcarComoRespondido = async (id) => {
   try {
-    const response = await api.get('/budgets')
-    budgets.value = response.data
-  } catch (error) {
-    console.error('Error al cargar presupuestos:', error)
+    await api.put(`/budgets/${id}`, { estado: 'respondido' })
+    await cargarPresupuestos()
+  } catch (err) {
+    console.error('Error al actualizar a respondido:', err)
   }
-})
+}
+
+const rechazarSolicitud = async (id) => {
+  if (!confirm('¿Seguro que quieres rechazar esta solicitud?')) return
+  try {
+    await api.put(`/budgets/${id}`, { estado: 'rechazado' })
+    await cargarPresupuestos()
+  } catch (err) {
+    console.error('Error al rechazar solicitud:', err)
+  }
+}
+
+const cargarPresupuestos = async () => {
+  try {
+    const res = await api.get('/budgets')
+    budgets.value = res.data
+  } catch (err) {
+    console.error('Error cargando presupuestos:', err)
+  }
+}
+
+onMounted(cargarPresupuestos)
 </script>
