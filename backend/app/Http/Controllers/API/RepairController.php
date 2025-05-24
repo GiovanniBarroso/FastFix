@@ -10,19 +10,26 @@ class RepairController extends Controller
 {
    // RepairController.php
 
-public function index()
-{
-    return Repair::with('user')
-        ->where('user_id', auth()->id()) // Solo del usuario autenticado
-        ->get();
-}
+    public function index()
+    {
+        $user = auth()->user();
 
+        // Si el usuario es admin, devuelve todas las reparaciones
+        if ($user->role_id === 1) {
+            return Repair::with('user')->get();
+        }
+
+        // Si es cliente, solo sus propias reparaciones
+        return Repair::with('user')
+            ->where('user_id', $user->id)
+            ->get();
+    }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'device_type' => 'required|string|max:255',
+            'device_type' => 'required|in:Móvil,Ordenador,Tablet,Consola',
             'name' => 'required|string|max:255',
             'problem_description' => 'required|string',
             'repair_notes' => 'nullable|string',
@@ -45,7 +52,7 @@ public function index()
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'device_type' => 'required|string|max:255',
+            'device_type' => 'required|in:Móvil,Ordenador,Tablet,Consola',
             'name' => 'required|string|max:255',
             'problem_description' => 'required|string',
             'repair_notes' => 'nullable|string',

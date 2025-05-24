@@ -20,7 +20,13 @@
         <!-- Tipo de dispositivo -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de dispositivo</label>
-          <input v-model="form.device_type" type="text" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <select v-model="form.device_type" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <option disabled value="">Selecciona tipo</option>
+            <option value="Móvil">Móvil</option>
+            <option value="Ordenador">Ordenador</option>
+            <option value="Tablet">Tablet</option>
+            <option value="Consola">Consola</option>
+          </select>
         </div>
 
         <!-- Nombre del dispositivo -->

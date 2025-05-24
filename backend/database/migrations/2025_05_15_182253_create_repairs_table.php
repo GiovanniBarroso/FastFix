@@ -12,7 +12,7 @@ return new class extends Migration {
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
-            $table->string('device_type'); // Móvil, tablet, consola, etc.
+           $table->enum('device_type', ['Móvil', 'Ordenador', 'Tablet', 'Consola']);
             $table->string('name'); // Descripción concreta del objeto a reparar
             $table->text('problem_description');
             $table->text('repair_notes')->nullable();

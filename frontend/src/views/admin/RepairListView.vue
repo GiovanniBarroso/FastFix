@@ -24,7 +24,8 @@
           <thead class="bg-purple-500 dark:bg-purple-600 text-white uppercase text-xs tracking-wider">
             <tr>
               <th class="p-4 text-left">#</th>
-              <th class="p-4 text-left">Dispositivo</th>
+              <th class="p-4 text-left">Tipo</th>
+              <th class="p-4 text-left">Nombre</th>
               <th class="p-4 text-left">Problema</th>
               <th class="p-4 text-left">Precio</th>
               <th class="p-4 text-left">Garantía</th>
@@ -43,9 +44,9 @@
             >
               <td class="p-4">{{ index + 1 }}</td>
 
-              <td class="p-4 font-medium">
-                {{ reparacion.device_type }} - {{ reparacion.name }}
-              </td>
+              <td class="p-4">{{ reparacion.device_type }}</td>
+              
+              <td class="p-4 font-medium">{{ reparacion.name }}</td>
 
               <td class="p-4 max-w-sm truncate" :title="reparacion.problem_description">
                 {{ reparacion.problem_description }}
