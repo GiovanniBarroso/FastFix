@@ -27,6 +27,7 @@
               <th class="p-4 text-left font-semibold tracking-wide">Stock</th>
               <th class="p-4 text-left font-semibold tracking-wide">Marca</th>
               <th class="p-4 text-left font-semibold tracking-wide">Categoría</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Activo</th>
               <th class="p-4 text-left font-semibold tracking-wide">Acciones</th>
             </tr>
           </thead>
@@ -56,6 +57,17 @@
                   {{ product.category?.name || '—' }}
                 </span>
               </td>
+              <td class="p-4">
+                <span
+                  :class="product.activo
+                    ? 'bg-green-100 text-dark-800 dark:bg-green-700'
+                    : 'bg-red-100 text-dark-800 dark:bg-red-700'"
+                  class="inline-block text-xs font-semibold px-2 py-1 rounded"
+                >
+                  {{ product.activo ? 'Sí' : 'No' }}
+                </span>
+              </td>
+
               <td class="p-4 flex gap-2">
                 <button @click="editar(product)"
                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold transition">

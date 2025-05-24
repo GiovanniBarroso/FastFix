@@ -204,7 +204,7 @@ watch(() => props.show, (visible) => {
       stock: props.productToEdit.stock,
       category_id: props.productToEdit.category_id,
       brand_id: props.productToEdit.brand_id,
-      activo: props.productToEdit.activo,
+      activo: Boolean(props.productToEdit.activo),
     }
 
     // ✅ Usar getImageUrl para la vista previa de la imagen
