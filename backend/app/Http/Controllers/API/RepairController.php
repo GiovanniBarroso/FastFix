@@ -8,10 +8,15 @@ use Illuminate\Http\Request;
 
 class RepairController extends Controller
 {
-    public function index()
-    {
-        return Repair::with('user')->get();
-    }
+   // RepairController.php
+
+public function index()
+{
+    return Repair::with('user')
+        ->where('user_id', auth()->id()) // Solo del usuario autenticado
+        ->get();
+}
+
 
     public function store(Request $request)
     {

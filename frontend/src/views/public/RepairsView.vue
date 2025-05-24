@@ -1,12 +1,11 @@
 <template>
   <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
     <div class="max-w-7xl mx-auto px-6">
-
       <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonUser />
       </div>
-      
+
       <!-- Encabezado -->
       <div class="text-center mb-12">
         <h1 class="text-5xl font-extrabold mb-4 text-gray-900 dark:text-white">
@@ -18,18 +17,19 @@
       </div>
 
       <!-- Reparaciones -->
-      <div v-if="repairs.length" class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <div v-if="repairs.length" class="grid gap-8 md:grid-cols-2 xl:grid-cols-3 items-start">
         <div
           v-for="r in repairs"
           :key="r.id"
           @click="toggleDetalle(r.id)"
-          class="cursor-pointer bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-          :class="{
-            'border-yellow-500': r.status === 'pendiente',
-            'border-blue-500': r.status === 'en progreso',
-            'border-green-500': r.status === 'terminado',
-            'border-gray-500': r.status === 'entregado',
-          }"
+          class="cursor-pointer bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-xl"
+          :class="[
+            r.status === 'pendiente' ? 'border-yellow-500' :
+            r.status === 'en progreso' ? 'border-blue-500' :
+            r.status === 'terminado' ? 'border-green-500' :
+            'border-gray-500',
+            detalleVisible === r.id ? 'shadow-xl scale-[1.02]' : 'scale-100'
+          ]"
         >
           <div class="flex justify-between items-center mb-2">
             <h2 class="text-lg font-bold">
@@ -47,8 +47,12 @@
             {{ r.problem_description }}
           </p>
 
-          <transition name="fade">
-            <div v-if="detalleVisible === r.id" class="mt-4 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+          <!-- Detalles -->
+          <transition name="detalle">
+            <div
+              v-if="detalleVisible === r.id"
+              class="mt-4 space-y-1 text-sm text-gray-700 dark:text-gray-300"
+            >
               <p><strong>Notas:</strong> {{ r.repair_notes || '—' }}</p>
               <p><strong>Garantía:</strong> {{ traducirGarantia(r.garantia) }}</p>
               <p><strong>Precio:</strong> {{ r.repair_cost ? `€${r.repair_cost}` : 'Pendiente' }}</p>
@@ -111,12 +115,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.detalle-enter-active,
+.detalle-leave-active {
   transition: all 0.3s ease;
 }
-.fade-enter-from,
-.fade-leave-to {
+.detalle-enter-from,
+.detalle-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }
