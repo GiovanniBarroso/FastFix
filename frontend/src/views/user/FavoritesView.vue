@@ -18,11 +18,12 @@
       <!-- Grid -->
       <div v-if="favorites.length" class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <FavoriteCard
-          v-for="fav in favorites"
-          :key="fav.id"
-          :product="fav.product"
-          @eliminado="fetchFavorites"
-        />
+  v-for="fav in favorites"
+  :key="fav.id"
+  :favorite="fav"
+  @eliminado="fetchFavorites"
+/>
+
       </div>
 
       <div v-else class="text-center text-gray-600 dark:text-gray-400 mt-20 text-lg">
