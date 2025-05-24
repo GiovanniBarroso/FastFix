@@ -131,13 +131,26 @@ watch(
   () => props.show,
   (visible) => {
     if (visible && props.repairToEdit) {
-      form.value = { ...props.repairToEdit }
+      const formatFecha = (fecha) => {
+        if (!fecha) return ''
+        const d = new Date(fecha)
+        const iso = d.toISOString()
+        return iso.split('T')[0]
+      }
+
+      form.value = {
+        ...props.repairToEdit,
+        received_at: formatFecha(props.repairToEdit.received_at),
+        delivered_at: formatFecha(props.repairToEdit.delivered_at)
+      }
       isEditing.value = true
     } else if (visible) {
       resetForm()
     }
   }
 )
+
+
 
 const handleSubmit = async () => {
   try {

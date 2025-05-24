@@ -29,6 +29,8 @@
               <th class="p-4 text-left">Precio</th>
               <th class="p-4 text-left">Garantía</th>
               <th class="p-4 text-left">Duración</th>
+              <th class="p-4 text-left">Recibido</th>
+              <th class="p-4 text-left">Entregado</th>
               <th class="p-4 text-left">Estado</th>
               <th class="p-4 text-left">Acciones</th>
             </tr>
@@ -60,6 +62,9 @@
               <td class="p-4">
                 {{ formatDuracion(reparacion.received_at, reparacion.delivered_at) }}
               </td>
+
+              <td class="p-4">{{ formatFecha(reparacion.received_at) }}</td>
+              <td class="p-4">{{ formatFecha(reparacion.delivered_at) }}</td>
 
               <td class="p-4">
                 <span
@@ -155,6 +160,12 @@ const traducirGarantia = (valor) => {
     default: return 'Sin garantía'
   }
 }
+
+const formatFecha = (fecha) => {
+  if (!fecha) return '—'
+  return new Date(fecha).toLocaleDateString('es-ES')
+}
+
 
 const estadoColor = (estado) => {
   switch (estado) {
