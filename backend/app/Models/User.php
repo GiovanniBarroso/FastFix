@@ -20,7 +20,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name',
+        'nombre',
         'apellidos',
         'email',
         'password',

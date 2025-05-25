@@ -33,6 +33,7 @@
               <th class="p-4 text-left">Recibido</th>
               <th class="p-4 text-left">Entregado</th>
               <th class="p-4 text-left">Estado</th>
+              <th class="p-4 text-left">Cliente</th>
               <th class="p-4 text-left">Acciones</th>
             </tr>
           </thead>
@@ -46,7 +47,7 @@
 
               <td class="p-4">{{ reparacion.device_type }}</td>
               
-              <td class="p-4 font-medium">{{ reparacion.name }}</td>
+              <td class="p-4 font-medium">{{ reparacion.nombre }}</td>
 
               <td class="p-4 max-w-sm truncate" :title="reparacion.problem_description">
                 {{ reparacion.problem_description }}
@@ -75,6 +76,9 @@
                   {{ reparacion.status }}
                 </span>
               </td>
+
+              <td class="p-4">{{ reparacion.user?.nombre || '—' }}</td>
+
 
               <td class="p-4 flex gap-2">
                 <button

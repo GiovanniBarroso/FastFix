@@ -56,7 +56,7 @@ class BudgetController extends Controller
         return response()->json($budget);
     }
 
-    // ✅ Responder al cliente por email
+    // ✅ Responder al cliente por email y actualizar campos
     public function reply(Request $request, $id)
     {
         $budget = Budget::with('user')->find($id);
@@ -66,16 +66,25 @@ class BudgetController extends Controller
         }
 
         $validated = $request->validate([
-            'mensaje' => 'required|string'
+            'mensaje' => 'required|string',
+            'presupuesto_estimado' => 'nullable|numeric'
         ]);
 
-        // Enviar correo
+        // Enviar correo al cliente
         Mail::to($budget->user->email)->send(new BudgetReplyMail(
             $budget->user->nombre,
             $validated['mensaje']
         ));
 
-        return response()->json(['message' => 'Mensaje enviado correctamente.']);
+        // Guardar respuesta en la base de datos
+        $budget->update([
+            'respuesta_admin' => $validated['mensaje'],
+            'presupuesto_estimado' => $validated['presupuesto_estimado'] ?? null,
+            'estado' => 'respondido',
+            'fecha_respuesta' => now(),
+        ]);
+
+        return response()->json(['message' => 'Respuesta enviada y guardada correctamente.']);
     }
 
     // ✅ Actualizar estado
@@ -88,12 +97,14 @@ class BudgetController extends Controller
         }
 
         $validated = $request->validate([
-            'estado' => 'required|in:pendiente,respondido,rechazado'
+            'estado' => 'required|in:pendiente,respondido,rechazado',
+            'presupuesto_estimado' => 'nullable|numeric',
+            'respuesta_admin' => 'nullable|string',
         ]);
 
-        $budget->estado = $validated['estado'];
-        $budget->save();
+        $budget->update($validated);
 
-        return response()->json(['message' => 'Estado actualizado correctamente.']);
+        return response()->json(['message' => 'Presupuesto actualizado correctamente.']);
     }
+
 }

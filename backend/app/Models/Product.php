@@ -17,14 +17,17 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'stock',
-        'activo',
-        'category_id',
-        'brand_id'
-    ];
+    'nombre',
+    'descripcion',
+    'precio',
+    'stock',
+    'activo',
+    'category_id',
+    'brand_id',
+    'slug',     // 👈 ESTE DEBE ESTAR
+    'image'     // 👈 Este también si estás usando imágenes
+];
+
 
     public function category()
     {

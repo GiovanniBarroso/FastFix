@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\Brand;
@@ -11,7 +12,9 @@ class BrandFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company(),
+            'nombre' => $this->faker->company(),
+            'description' => $this->faker->sentence(),
+            'activo' => $this->faker->boolean(90), // 90% activo
         ];
     }
 }

@@ -12,7 +12,7 @@
           <select v-model="form.user_id" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
             <option disabled value="">Selecciona un cliente</option>
             <option v-for="usuario in users" :key="usuario.id" :value="usuario.id">
-              {{ usuario.name }} ({{ usuario.email }})
+              {{ usuario.nombre }} ({{ usuario.email }})
             </option>
           </select>
         </div>
@@ -32,7 +32,7 @@
         <!-- Nombre del dispositivo -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del dispositivo</label>
-          <input v-model="form.name" type="text" required placeholder="Ej: iPhone 11, Galaxy Tab S6..." class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <input v-model="form.nombre" type="text" required placeholder="Ej: iPhone 11, Galaxy Tab S6..." class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <!-- Problema -->
@@ -111,7 +111,7 @@ const form = ref({
   id: null,
   user_id: '',
   device_type: '',
-  name: '',
+  nombre: '',
   problem_description: '',
   repair_notes: '',
   status: 'pendiente',
@@ -181,7 +181,7 @@ const resetForm = () => {
     id: null,
     user_id: '',
     device_type: '',
-    name: '',
+    nombre: '',
     problem_description: '',
     repair_notes: '',
     status: 'pendiente',

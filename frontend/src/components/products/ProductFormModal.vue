@@ -9,14 +9,14 @@
         <!-- Nombre -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
-          <input v-model="form.name" type="text" required
+          <input v-model="form.nombre" type="text" required
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <!-- Descripción -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
-          <textarea v-model="form.description" rows="3" required
+          <textarea v-model="form.descripcion" rows="3" required
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
         </div>
 
@@ -24,7 +24,7 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio (€)</label>
-            <input v-model="form.price" type="number" step="0.01" required
+            <input v-model="form.precio" type="number" step="0.01" required
               class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
           <div>
@@ -37,39 +37,22 @@
         <!-- Imagen -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
+          <input type="file" accept="image/*" :required="!isEditing" @change="handleFileUpload"
+            class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4
+                   file:rounded-full file:border-0 file:text-sm file:font-semibold
+                   file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100
+                   dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600" />
 
-          <!-- Input separado -->
-          <div class="mb-4">
-            <input
-              type="file"
-              accept="image/*"
-              :required="!isEditing"
-              @change="handleFileUpload"
-              class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-700
-                    hover:file:bg-blue-100
-                    dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600"
-            />
-          </div>
-
-          <!-- Vista previa de la imagen y nombre -->
           <div v-if="previewUrl" class="mt-2 flex flex-col items-start">
             <a :href="previewUrl" target="_blank">
-              <img
-                :src="previewUrl"
-                alt="Vista previa"
-                class="w-32 h-32 object-cover rounded border hover:scale-105 transition"
-              />
+              <img :src="previewUrl" alt="Vista previa"
+                class="w-32 h-32 object-cover rounded border hover:scale-105 transition" />
             </a>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {{ imageFile?.name || 'Imagen cargada previamente' }}
             </p>
           </div>
         </div>
-
-
 
         <!-- Categoría y Marca -->
         <div class="grid grid-cols-2 gap-4">
@@ -78,7 +61,7 @@
             <select v-model="form.category_id" required
               class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
               <option disabled value="">Selecciona categoría</option>
-              <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.nombre }}</option>
             </select>
           </div>
           <div>
@@ -86,7 +69,7 @@
             <select v-model="form.brand_id" required
               class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
               <option disabled value="">Selecciona marca</option>
-              <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name }}</option>
+              <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.nombre }}</option>
             </select>
           </div>
         </div>
@@ -100,10 +83,9 @@
         <!-- Botones -->
         <div class="flex justify-end gap-4 pt-6">
           <button type="button" @click="close"
-            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">
-            Cancelar
-          </button>
-          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
+            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">Cancelar</button>
+          <button type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
             {{ isEditing ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
@@ -116,6 +98,9 @@
 import { ref, watch, onMounted } from 'vue'
 import api from '@/services/api'
 
+const props = defineProps(['show', 'productToEdit'])
+const emit = defineEmits(['close', 'saved'])
+
 const baseURL = 'http://localhost:8000'
 
 const getImageUrl = (filename) => {
@@ -123,14 +108,11 @@ const getImageUrl = (filename) => {
   return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
 }
 
-const props = defineProps(['show', 'productToEdit'])
-const emit = defineEmits(['close', 'saved'])
-
 const form = ref({
   id: null,
-  name: '',
-  description: '',
-  price: 0,
+  nombre: '',
+  descripcion: '',
+  precio: 0,
   stock: 0,
   category_id: '',
   brand_id: '',
@@ -167,9 +149,9 @@ const handleFileUpload = (e) => {
 const handleSubmit = async () => {
   try {
     const data = new FormData()
-    data.append('name', form.value.name)
-    data.append('description', form.value.description)
-    data.append('price', form.value.price)
+    data.append('nombre', form.value.nombre)
+    data.append('descripcion', form.value.descripcion)
+    data.append('precio', form.value.precio)
     data.append('stock', form.value.stock)
     data.append('category_id', form.value.category_id)
     data.append('brand_id', form.value.brand_id)
@@ -198,9 +180,9 @@ const handleSubmit = async () => {
 const resetForm = () => {
   form.value = {
     id: null,
-    name: '',
-    description: '',
-    price: 0,
+    nombre: '',
+    descripcion: '',
+    precio: 0,
     stock: 0,
     category_id: '',
     brand_id: '',
@@ -220,16 +202,15 @@ watch(() => props.show, (visible) => {
   if (visible && props.productToEdit) {
     form.value = {
       id: props.productToEdit.id,
-      name: props.productToEdit.name,
-      description: props.productToEdit.description,
-      price: props.productToEdit.price,
+      nombre: props.productToEdit.nombre,
+      descripcion: props.productToEdit.descripcion,
+      precio: props.productToEdit.precio,
       stock: props.productToEdit.stock,
       category_id: props.productToEdit.category_id,
       brand_id: props.productToEdit.brand_id,
       activo: Boolean(props.productToEdit.activo),
     }
 
-    // ✅ Usar getImageUrl para la vista previa de la imagen
     previewUrl.value = props.productToEdit.image
       ? getImageUrl(props.productToEdit.image)
       : null

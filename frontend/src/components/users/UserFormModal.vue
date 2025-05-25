@@ -10,7 +10,7 @@
         <div>
           <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Nombre</label>
           <input
-            v-model="form.name"
+            v-model="form.nombre"
             type="text"
             required
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -59,7 +59,7 @@
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
             <option disabled value="">Selecciona un rol</option>
-            <option v-for="rol in roles" :key="rol.id" :value="rol.id">{{ rol.name }}</option>
+            <option v-for="rol in roles" :key="rol.id" :value="rol.id">{{ rol.nombre }}</option>
           </select>
         </div>
 
@@ -104,7 +104,7 @@ const emit = defineEmits(['close', 'saved'])
 
 const form = ref({
   id: null,
-  name: '',
+  nombre: '',
   apellidos: '',
   email: '',
   telefono: '',
@@ -128,7 +128,7 @@ watch(() => props.show, (visible) => {
   if (visible && props.userToEdit) {
     form.value = {
       id: props.userToEdit.id,
-      name: props.userToEdit.name,
+      nombre: props.userToEdit.nombre,
       apellidos: props.userToEdit.apellidos || '',
       email: props.userToEdit.email,
       telefono: props.userToEdit.telefono || '',
@@ -144,7 +144,7 @@ watch(() => props.show, (visible) => {
 const handleSubmit = async () => {
   try {
     const payload = {
-      name: form.value.name,
+      nombre: form.value.nombre,
       apellidos: form.value.apellidos || '',
       email: form.value.email,
       telefono: form.value.telefono || '',
@@ -168,7 +168,7 @@ const handleSubmit = async () => {
 const resetForm = () => {
   form.value = {
     id: null,
-    name: '',
+    nombre: '',
     apellidos: '',
     email: '',
     telefono: '',

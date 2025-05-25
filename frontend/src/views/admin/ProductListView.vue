@@ -1,8 +1,8 @@
-<template>
+<template> 
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
       
-      <!-- Botón de volver reutilizable -->
+      <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonAdmin />
       </div>
@@ -19,7 +19,7 @@
       <!-- Tabla de productos -->
       <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
         <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
-          <thead class="bg-yellow-400 dark:bg-yellow-500 text-gray-900">
+          <thead class="bg-yellow-400 dark:bg-yellow-500 text-gray-900 dark:text-white">
             <tr>
               <th class="p-4 text-left font-semibold tracking-wide">#</th>
               <th class="p-4 text-left font-semibold tracking-wide">Producto</th>
@@ -41,27 +41,27 @@
                     class="w-12 h-12 rounded object-cover border border-gray-300 dark:border-gray-600 hover:scale-105 transition"
                     alt="Producto" />
                 </a>
-                <span class="font-medium">{{ product.name }}</span>
+                <span class="font-medium">{{ product.nombre }}</span>
               </td>
-              <td class="p-4">€{{ product.price }}</td>
+              <td class="p-4 font-semibold">€{{ product.precio }}</td>
               <td class="p-4">{{ product.stock }}</td>
               <td class="p-4">
                 <span
                   class="inline-block bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white text-xs font-semibold px-2 py-1 rounded">
-                  {{ product.brand?.name || '—' }}
+                  {{ product.brand?.nombre || '—' }}
                 </span>
               </td>
               <td class="p-4">
                 <span
                   class="inline-block bg-green-100 text-green-800 dark:bg-green-700 dark:text-white text-xs font-semibold px-2 py-1 rounded">
-                  {{ product.category?.name || '—' }}
+                  {{ product.category?.nombre || '—' }}
                 </span>
               </td>
               <td class="p-4">
                 <span
                   :class="product.activo
-                    ? 'bg-green-100 text-dark-800 dark:bg-green-700'
-                    : 'bg-red-100 text-dark-800 dark:bg-red-700'"
+                    ? 'bg-green-100 dark:bg-green-700'
+                    : 'bg-red-100 dark:bg-red-700'"
                   class="inline-block text-xs font-semibold px-2 py-1 rounded"
                 >
                   {{ product.activo ? 'Sí' : 'No' }}
@@ -130,12 +130,11 @@ const eliminar = async (id) => {
   }
 }
 
-const baseURL = 'http://localhost:8000' // o tu dominio en producción
+const baseURL = 'http://localhost:8000'
 const getImageUrl = (filename) => {
   if (!filename) return `${baseURL}/images/default.jpg`
   return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
 }
-
 
 onMounted(fetchProducts)
 </script>

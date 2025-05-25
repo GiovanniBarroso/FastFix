@@ -30,7 +30,7 @@ class RepairSeeder extends Seeder
                 Repair::create([
                     'user_id' => $cliente->id,
                     'device_type' => $tipo,
-                    'name' => $modelo,
+                    'nombre' => $modelo,
                     'problem_description' => $problema,
                     'repair_notes' => rand(0, 1) ? 'Reparación realizada con repuesto original.' : null,
                     'status' => $estado,

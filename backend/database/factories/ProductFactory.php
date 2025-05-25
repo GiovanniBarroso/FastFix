@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ProductFactory extends Factory
 {
@@ -13,12 +14,18 @@ class ProductFactory extends Factory
 
     public function definition(): array
     {
+        $nombre = $this->faker->words(2, true);
+
         return [
-            'name' => $this->faker->words(2, true),
-            'brand_id' => Brand::factory(), // genera una marca asociada
-            'category_id' => Category::factory(), // genera categoría
-            'price' => $this->faker->randomFloat(2, 10, 300),
+            'nombre' => $nombre,
+            'descripcion' => $this->faker->sentence(),
+            'precio' => $this->faker->randomFloat(2, 10, 300),
             'stock' => $this->faker->numberBetween(0, 100),
+            'activo' => $this->faker->boolean(90),
+            'slug' => Str::slug($nombre . '-' . uniqid()), // 🔥 relacionado con el nombre y único
+            'image' => null, // o genera una imagen de prueba si quieres
+            'brand_id' => Brand::factory(),
+            'category_id' => Category::factory(),
         ];
     }
 }

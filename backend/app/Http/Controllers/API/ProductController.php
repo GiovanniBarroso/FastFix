@@ -5,28 +5,30 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Str; // 👈 Importar helper de Laravel para generar el slug
 
 class ProductController extends Controller
 {
-    // 🔍 Obtener todos los productos con sus relaciones
     public function index()
     {
         return Product::with(['category', 'brand'])->get();
     }
 
-    // 🆕 Crear nuevo producto con imagen
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:100',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'activo' => 'required|boolean',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'image' => 'nullable|image|max:2048',
         ]);
+
+        // 🔥 Generar slug único basado en el nombre
+        $validated['slug'] = Str::slug($validated['nombre'] . '-' . uniqid());
 
         if ($request->hasFile('image')) {
             $filename = time() . '_' . $request->file('image')->getClientOriginalName();
@@ -39,7 +41,6 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    // 🔍 Ver producto individual
     public function show($id)
     {
         $product = Product::with(['category', 'brand'])->find($id);
@@ -51,7 +52,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    // ✏️ Actualizar producto y reemplazar imagen si aplica
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
@@ -62,14 +62,17 @@ class ProductController extends Controller
 
         $validated = $request->validate([
             'nombre' => 'required|string|max:100',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'activo' => 'required|boolean',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'image' => 'nullable|image|max:2048',
         ]);
+
+        // 👇 OPCIONAL: regenerar el slug si cambia el nombre
+        $validated['slug'] = Str::slug($validated['nombre'] . '-' . uniqid());
 
         if ($request->hasFile('image')) {
             if ($product->image && file_exists(public_path('images/' . $product->image))) {
@@ -86,7 +89,6 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    // ❌ Eliminar producto e imagen
     public function destroy($id)
     {
         $product = Product::find($id);

@@ -12,7 +12,9 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'nombre' => $this->faker->word(),
+            'description' => $this->faker->sentence(),
+            'activo' => $this->faker->boolean(90),
         ];
     }
 }

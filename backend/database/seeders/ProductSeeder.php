@@ -34,9 +34,11 @@ class ProductSeeder extends Seeder
                 'descripcion' => $descripcion,
                 'precio' => $precio,
                 'stock' => rand(5, 50),
+                'activo' => rand(0, 1), // 👈 aleatorio
                 'brand_id' => $brands->random()->id,
                 'category_id' => $categories->random()->id,
-                'slug' => Str::slug($nombre . '-' . rand(100, 999)),
+                'slug' => Str::slug($nombre . '-' . uniqid()), // 👈 más robusto que rand()
+                'image' => 'placeholder.jpg', // 👈 puedes usar una imagen genérica si existe en /public/images
             ]);
         }
     }

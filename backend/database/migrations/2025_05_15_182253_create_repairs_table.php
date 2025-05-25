@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
             $table->enum('device_type', ['Móvil', 'Ordenador', 'Tablet', 'Consola']);
-            $table->string('name');
+            $table->string('nombre');
             $table->text('problem_description');
             $table->text('repair_notes')->nullable();
             $table->enum('status', ['pendiente', 'en progreso', 'terminado', 'entregado'])->default('pendiente');

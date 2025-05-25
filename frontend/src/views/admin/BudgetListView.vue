@@ -31,7 +31,7 @@
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
-              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.nombre || '—' }}</td>
               <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
               <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
               <td class="p-4 max-w-sm">
@@ -72,8 +72,10 @@
               <th class="p-4 text-left">#</th>
               <th class="p-4 text-left">Nombre</th>
               <th class="p-4 text-left">Email</th>
-              <th class="p-4 text-left">Teléfono</th>
               <th class="p-4 text-left">Mensaje</th>
+              <th class="p-4 text-left">Respuesta</th>
+              <th class="p-4 text-left">Presupuesto</th>
+              <th class="p-4 text-left">Respondido</th>
             </tr>
           </thead>
           <tbody>
@@ -83,19 +85,32 @@
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
-              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.nombre || '—' }}</td>
               <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
-              <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
               <td class="p-4 max-w-sm">
                 <div class="truncate bg-gray-100 dark:bg-gray-700 p-2 rounded" :title="solicitud.mensaje">
                   {{ solicitud.mensaje }}
                 </div>
+              </td>
+              <td class="p-4 max-w-sm">
+                <div class="truncate bg-gray-50 dark:bg-gray-800 p-2 rounded" :title="solicitud.respuesta_admin">
+                  {{ solicitud.respuesta_admin || '—' }}
+                </div>
+              </td>
+              <td class="p-4 font-mono">
+  {{ solicitud.presupuesto_estimado !== null && solicitud.presupuesto_estimado !== undefined ? `€${Number(solicitud.presupuesto_estimado)}` : '—' }}
+</td>
+
+              <td class="p-4">
+                {{ formatFecha(solicitud.fecha_respuesta || solicitud.updated_at) }}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div v-else class="text-gray-500 dark:text-gray-300 mb-12">No hay solicitudes respondidas.</div>
+
+
 
       <!-- Tabla rechazadas -->
       <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">❌ Rechazadas</h2>
@@ -117,7 +132,7 @@
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
             >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
-              <td class="p-4">{{ solicitud.user?.name || '—' }}</td>
+              <td class="p-4">{{ solicitud.user?.nombre || '—' }}</td>
               <td class="p-4">{{ solicitud.user?.email || '—' }}</td>
               <td class="p-4">{{ solicitud.user?.telefono || '—' }}</td>
               <td class="p-4 max-w-sm">
@@ -150,6 +165,15 @@ const selectedCliente = ref(null)
 const pendientes = computed(() => budgets.value.filter(b => b.estado === 'pendiente'))
 const respondidas = computed(() => budgets.value.filter(b => b.estado === 'respondido'))
 const rechazadas = computed(() => budgets.value.filter(b => b.estado === 'rechazado'))
+
+const formatFecha = (fecha) => {
+  if (!fecha) return '—'
+  return new Date(fecha).toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  })
+}
 
 const openModal = (cliente) => {
   selectedCliente.value = cliente

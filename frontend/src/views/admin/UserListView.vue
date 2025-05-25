@@ -37,19 +37,19 @@
           <tbody>
             <tr v-for="(user, index) in users" :key="user.id" class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
               <td class="p-4">{{ index + 1 }}</td>
-              <td class="p-4 font-medium">{{ user.name }}</td>
+              <td class="p-4 font-medium">{{ user.nombre }}</td>
               <td class="p-4">{{ user.apellidos || '—' }}</td>
               <td class="p-4">{{ user.email }}</td>
               <td class="p-4">{{ user.telefono || '—' }}</td>
               <td class="p-4">
                 <span
                   :class="[ 'px-3 py-1 rounded-full text-xs font-semibold',
-                    user.role?.name === 'admin'
+                    user.role?.nombre === 'admin'
                       ? 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white'
                       : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white'
                   ]"
                 >
-                  {{ user.role?.name || 'Sin rol' }}
+                  {{ user.role?.nombre || 'Sin rol' }}
                 </span>
               </td>
               <td class="p-4">{{ formatFecha(user.fecha_registro || user.created_at) }}</td>
