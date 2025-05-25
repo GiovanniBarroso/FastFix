@@ -30,7 +30,7 @@
 
         <!-- Panel y usuario -->
         <template v-if="isAuthenticated">
-          <router-link :to="isAdmin ? '/admin' : '/home'" class="hover:text-red-400 transition">Panel</router-link>
+          <router-link :to="isAdmin ? '/admin' : '/user-panel'" class="hover:text-red-400 transition">Panel</router-link>
 
           <!-- Menú usuario -->
           <div class="relative" ref="dropdownRef">
@@ -104,7 +104,7 @@
         <router-link to="/cart" class="block hover:text-red-400 transition">🛒 Carrito</router-link>
 
         <template v-if="isAuthenticated">
-          <router-link :to="isAdmin ? '/admin' : '/home'" class="block hover:text-red-400 transition">
+          <router-link :to="isAdmin ? '/admin' : '/user-panel'" class="block hover:text-red-400 transition">
             {{ isAdmin ? 'Admin' : 'Panel de Usuario' }}
           </router-link>
           <router-link to="/profile" class="block hover:text-red-400 transition">Editar perfil</router-link>

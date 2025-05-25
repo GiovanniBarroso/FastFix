@@ -20,18 +20,20 @@ import ProfileView from '@/views/auth/ProfileView.vue'
 import ChangePasswordView from '@/views/auth/ChangePasswordView.vue'
 
 // 👤 Usuario
-import FavoritesView from '@/views/user/FavoritesView.vue'
-import CartView from '@/views/user/CartView.vue'
+import UserPanelView from '@/views/user/UserPanelView.vue'
 import OrderHistoryView from '@/views/user/OrderHistoryView.vue'
-import GuaranteeView from '@/views/user/GuaranteeView.vue'
-import HomeView from '@/views/user/HomeView.vue'
+import FavoritesView from '@/views/user/FavoritesView.vue'
+import RepairsUserView from '@/views/user/RepairsView.vue'
+import AddressView from '@/views/user/AddressView.vue'
+import BudgetsView from '@/views/user/BudgetsView.vue'
+import InvoicesView from '@/views/user/InvoicesView.vue'
+import CartView from '@/views/user/CartView.vue'
 
 // 🛠️ Admin
 import AdminPanelView from '@/views/admin/AdminPanelView.vue'
 import ProductListView from '@/views/admin/ProductListView.vue'
 import OrderListView from '@/views/admin/OrderListView.vue'
 import BudgetListView from '@/views/admin/BudgetListView.vue'
-import GuaranteeListView from '@/views/admin/GuaranteeListView.vue'
 import UserListView from '@/views/admin/UserListView.vue'
 import RepairListView from '@/views/admin/RepairListView.vue'
 import AdminCalendarView from '@/views/admin/AdminCalendarView.vue'
@@ -51,17 +53,50 @@ const routes = [
   { path: '/repairs', name: 'repairs', component: RepairsView, meta: { requiresAuth: false } },
   { path: '/products', name: 'products', component: ProductsView, meta: { requiresAuth: false } },
 
-  // Usuario
-  { path: '/home', name: 'user-home', component: HomeView, meta: { requiresAuth: true } },
-  { path: '/favorites', name: 'favorites', component: FavoritesView, meta: { requiresAuth: true } },
-  { path: '/cart', name: 'cart', component: CartView, meta: { requiresAuth: true } },
+  // Usuario autenticado
   {
-    path: '/orders',
-    name: 'order-history',
+    path: '/user-panel',
+    name: 'user-panel',
+    component: UserPanelView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/user/orders',
+    name: 'user-orders',
     component: OrderHistoryView,
     meta: { requiresAuth: true },
   },
-  { path: '/guarantee', name: 'guarantee', component: GuaranteeView, meta: { requiresAuth: true } },
+  {
+    path: '/user/favorites',
+    name: 'user-favorites',
+    component: FavoritesView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/user/repairs',
+    name: 'user-repairs',
+    component: RepairsUserView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/user/address',
+    name: 'user-address',
+    component: AddressView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/user/budgets',
+    name: 'user-budgets',
+    component: BudgetsView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/user/invoices',
+    name: 'user-invoices',
+    component: InvoicesView,
+    meta: { requiresAuth: true },
+  },
+  { path: '/cart', name: 'cart', component: CartView, meta: { requiresAuth: true } },
 
   // Autenticación
   { path: '/login', name: 'login', component: LoginView, meta: { requiresAuth: false } },
@@ -72,13 +107,6 @@ const routes = [
     component: ForgotPasswordView,
     meta: { requiresAuth: false },
   },
-  {
-    path: '/change-password',
-    name: 'change-password',
-    component: ChangePasswordView,
-    meta: { requiresAuth: true },
-  },
-
   {
     path: '/reset-password',
     name: 'reset-password',
@@ -97,11 +125,11 @@ const routes = [
     component: VerifyEmailView,
     meta: { requiresAuth: false },
   },
-
+  { path: '/profile', name: 'profile', component: ProfileView, meta: { requiresAuth: true } },
   {
-    path: '/profile',
-    name: 'profile',
-    component: ProfileView,
+    path: '/change-password',
+    name: 'change-password',
+    component: ChangePasswordView,
     meta: { requiresAuth: true },
   },
 
@@ -123,12 +151,6 @@ const routes = [
     path: '/admin/budgets',
     name: 'budget-list',
     component: BudgetListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/guarantees',
-    name: 'guarantee-list',
-    component: GuaranteeListView,
     meta: { requiresAuth: true },
   },
   {
@@ -167,17 +189,14 @@ router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token')
   const role = localStorage.getItem('role')
 
-  // 🔒 Protegidas sin token
   if (to.meta.requiresAuth && !token) {
     return next({ name: 'login' })
   }
 
-  // 🔁 Login o register con token → redirige
   if ((to.name === 'login' || to.name === 'register') && token) {
-    return next({ name: role === 'admin' ? 'admin-panel' : 'home' })
+    return next({ name: role === 'admin' ? 'admin-panel' : 'user-panel' })
   }
 
-  // 📧 Si tiene token pero no ha verificado correo
   if (token && to.meta.requiresAuth && to.name !== 'verify-email') {
     try {
       const response = await api.get('/me')

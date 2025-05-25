@@ -1,25 +1,18 @@
 <template>
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden hover:shadow-lg transition">
-    <img
-      :src="getImageUrl(favorite.product.image)"
-      class="w-full h-48 object-cover"
-      alt="Producto favorito"
-    />
+    <img :src="getImageUrl(favorite.product.imagen)" class="w-full h-48 object-cover" alt="Producto favorito" />
     <div class="p-4">
       <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-        {{ favorite.product.name }}
+        {{ favorite.product.nombre }}
       </h3>
       <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-        {{ favorite.product.description }}
+        {{ favorite.product.descripcion }}
       </p>
       <div class="mt-4 flex justify-between items-center">
         <span class="text-lg font-bold text-gray-900 dark:text-white">
-          €{{ parseFloat(favorite.product.price).toFixed(2) }}
+          €{{ parseFloat(favorite.product.precio).toFixed(2) }}
         </span>
-        <button
-          @click="removeFromFavorites"
-          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
-        >
+        <button @click="removeFromFavorites" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">
           Eliminar
         </button>
       </div>
@@ -46,7 +39,7 @@ const removeFromFavorites = async () => {
   try {
     await api.delete(`/favorites/${props.favorite.id}`)
     toast.success('✅ Producto eliminado de favoritos.')
-    emit('eliminado') // para refrescar la lista
+    emit('eliminado')
   } catch (error) {
     toast.error('❌ Error al eliminar favorito.')
     console.error(error)

@@ -22,6 +22,19 @@ class UserSeeder extends Seeder
             'fecha_registro' => now(),
         ]);
 
+        // Cliente principal
+        User::create([
+            'nombre' => 'Cliente',
+            'apellidos' => 'Test',
+            'email' => 'cliente@fastfix.com',
+            'telefono' => '600000000',
+            'password' => Hash::make('password'),
+            'role_id' => 2, // Cliente
+            'email_verified_at' => now(),
+            'fecha_registro' => now(),
+        ]);
+
+
         // Clientes simulados
         $clientes = [
             ['Luis', 'Martínez'],

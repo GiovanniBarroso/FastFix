@@ -1,7 +1,7 @@
 <template>
   <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
     <div class="max-w-6xl mx-auto px-6">
-      
+
       <!-- Botón volver -->
       <div class="mb-6">
         <BackButtonUser />
@@ -26,28 +26,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(order, index) in orders"
-              :key="order.id"
-              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
+            <tr v-for="(order, index) in orders" :key="order.id"
+              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
               <td class="px-6 py-4 font-medium">{{ index + 1 }}</td>
-              <td class="px-6 py-4">{{ formatDate(order.fecha_pedido) }}</td>
+              <td class="px-6 py-4">{{ formatDate(order.created_at) }}</td>
               <td class="px-6 py-4 font-bold text-blue-600 dark:text-blue-400">
                 €{{ parseFloat(order.total).toFixed(2) }}
               </td>
               <td class="px-6 py-4">
-                <span
-                  :class="['px-3 py-1 text-xs font-semibold rounded-full capitalize', estadoColor(order.estado)]"
-                >
+                <span :class="['px-3 py-1 text-xs font-semibold rounded-full capitalize', estadoColor(order.estado)]">
                   {{ traducirEstado(order.estado) }}
                 </span>
               </td>
               <td class="px-6 py-4">
-                <button
-                  @click="abrirModal(order)"
-                  class="text-sm px-4 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white transition font-semibold"
-                >
+                <button @click="abrirModal(order)"
+                  class="text-sm px-4 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white transition font-semibold">
                   Ver detalle
                 </button>
               </td>
@@ -61,21 +54,26 @@
       </div>
 
       <!-- Modal -->
-      <transition name="fade">
-        <div v-if="detallePedido" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
+      <transition nombre="fade">
+        <div v-if="detallePedido"
+          class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-xl w-full p-6 relative">
-            <button @click="detallePedido = null" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl">×</button>
+            <button @click="detallePedido = null"
+              class="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl">×</button>
             <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">📝 Detalle del pedido</h2>
 
-            <p class="mb-2 text-gray-800 dark:text-gray-200"><strong>Fecha:</strong> {{ formatDate(detallePedido.fecha_pedido) }}</p>
-            <p class="mb-2 text-gray-800 dark:text-gray-200"><strong>Total:</strong> €{{ parseFloat(detallePedido.total).toFixed(2) }}</p>
-            <p class="mb-4 text-gray-800 dark:text-gray-200"><strong>Estado:</strong> {{ traducirEstado(detallePedido.estado) }}</p>
+            <p class="mb-2 text-gray-800 dark:text-gray-200"><strong>Fecha:</strong> {{
+              formatDate(detallePedido.created_at) }}</p>
+            <p class="mb-2 text-gray-800 dark:text-gray-200"><strong>Total:</strong> €{{
+              parseFloat(detallePedido.total).toFixed(2) }}</p>
+            <p class="mb-4 text-gray-800 dark:text-gray-200"><strong>Estado:</strong> {{
+              traducirEstado(detallePedido.estado) }}</p>
 
             <div class="border-t border-gray-300 dark:border-gray-600 pt-4">
               <h3 class="font-semibold text-lg mb-2 text-gray-900 dark:text-white">🛍️ Productos:</h3>
               <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
                 <li v-for="prod in detallePedido.products" :key="prod.id">
-                  - {{ prod.name }} x{{ prod.pivot.cantidad }} (€/u {{ prod.pivot.precio }})
+                  - {{ prod.nombre }} x{{ prod.pivot.cantidad }} (€/u {{ prod.pivot.precio }})
                 </li>
               </ul>
             </div>
@@ -134,6 +132,7 @@ onMounted(fetchOrders)
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

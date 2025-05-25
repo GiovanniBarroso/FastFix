@@ -16,7 +16,7 @@
         Ver productos
       </router-link>
       <template v-if="auth.isAuthenticated()">
-        <router-link :to="auth.isAdmin() ? '/admin' : '/home'" :class="[
+        <router-link :to="auth.isAdmin() ? '/admin' : '/user-panel'" :class="[
           'inline-block text-white text-lg font-semibold px-8 py-4 rounded-full transition-transform transform hover:scale-105 shadow-lg',
           auth.isAdmin()
             ? 'bg-yellow-500 hover:bg-yellow-600'
