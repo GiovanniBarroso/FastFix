@@ -18,14 +18,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'activo' => 'required|boolean',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
-            'image' => 'nullable|image|max:2048', // 📷 imagen opcional
+            'image' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -61,7 +61,7 @@ class ProductController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -72,7 +72,6 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // 🧼 Eliminar imagen anterior si existe
             if ($product->image && file_exists(public_path('images/' . $product->image))) {
                 unlink(public_path('images/' . $product->image));
             }
@@ -96,24 +95,12 @@ class ProductController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        
+        if ($product->image && file_exists(public_path('images/' . $product->image))) {
+            unlink(public_path('images/' . $product->image));
+        }
 
         $product->delete();
 
-        return response()->json(['message' => 'Producto eliminado correctamente']);
-    }
-
-    // ✅ Obtener productos con garantía activa del usuario autenticado
-    public function productosConGarantia()
-    {
-        $userId = auth()->id(); // Primero obtener el ID del usuario autenticado
-        logger('🔍 Usuario autenticado:', ['id' => $userId]); // Luego usarlo en el log
-
-        $productos = \App\Models\Product::whereHas('guarantees', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })->get(['id', 'name']);
-
-        return response()->json($productos);
-        
+        return response()->json(['message' => 'Producto eliminado']);
     }
 }

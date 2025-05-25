@@ -37,8 +37,10 @@
             <button @click="toggleMenu" aria-label="Menú de usuario" aria-haspopup="true"
               class="flex items-center gap-2 font-semibold hover:text-red-400 transition">
               <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center uppercase">
-                {{ user.name[0] }}
+                {{ user?.nombre ? user.nombre[0] : '' }}
               </div>
+
+
               <ChevronDown class="w-4 h-4" />
             </button>
 

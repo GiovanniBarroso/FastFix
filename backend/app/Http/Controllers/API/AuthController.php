@@ -18,7 +18,7 @@ class AuthController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'telefono' => ['required', 'regex:/^\d{9}$/'],
             'apellidos' => ['required', 'regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{2,}$/'],
             'email' => 'required|email|unique:users',
@@ -29,7 +29,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'nombre' => $request->nombre,
             'apellidos' => $request->apellidos,
             'telefono' => $request->telefono,
             'email' => $request->email,
@@ -41,7 +41,7 @@ class AuthController extends Controller
         // ✅ Notificación al registrar usuario
         Notification::create([
             'title' => 'Nuevo registro',
-            'message' => "Se ha registrado un nuevo usuario: \"{$user->name}\".",
+            'message' => "Se ha registrado un nuevo usuario: \"{$user->nombre}\".",
             'type' => 'registro',
             'read' => false,
         ]);
@@ -85,12 +85,12 @@ class AuthController extends Controller
 
         return response()->json([
             'id' => $user->id,
-            'name' => $user->name,
+            'nombre' => $user->nombre,
             'apellidos' => $user->apellidos,
             'telefono' => $user->telefono,
             'email' => $user->email,
             'email_verified_at' => $user->email_verified_at,
-            'is_admin' => $user->email === 'admin@fastfix.com'
+            'role_id' => $user->role_id
         ]);
     }
 }

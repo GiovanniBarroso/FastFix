@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Repair extends Model
 {
@@ -16,6 +17,7 @@ class Repair extends Model
         'problem_description',
         'status',
         'garantia',
+        'fecha_garantia',
         'repair_cost',
         'repair_notes',
         'received_at',
@@ -27,9 +29,19 @@ class Repair extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function guarantees()
+    // Getter para calcular fecha fin de garantía
+    public function getFechaFinGarantiaAttribute()
     {
-        return $this->hasMany(\App\Models\Guarantee::class);
-    }
+        if (!$this->fecha_garantia || $this->garantia === 'sin') {
+            return null;
+        }
 
+        $meses = match ($this->garantia) {
+            '3m' => 3,
+            '6m' => 6,
+            default => 0,
+        };
+
+        return Carbon::parse($this->fecha_garantia)->addMonths($meses);
+    }
 }

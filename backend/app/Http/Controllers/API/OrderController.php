@@ -18,14 +18,10 @@ class OrderController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->role?->name === 'admin') {
-            // Si es admin, mostrar todos los pedidos con relaciones
-            $orders = Order::with(['products', 'user', 'address', 'voucher', 'invoice'])
-                ->latest()
-                ->get();
+        if ($user->role?->nombre === 'admin') {
+            $orders = Order::with(['products', 'user', 'address', 'invoice'])->latest()->get();
         } else {
-            // Usuario normal: solo sus pedidos
-            $orders = Order::with(['products', 'address', 'voucher', 'invoice'])
+            $orders = Order::with(['products', 'address', 'invoice'])
                 ->where('user_id', $user->id)
                 ->latest()
                 ->get();
@@ -71,10 +67,9 @@ class OrderController extends Controller
 
             session()->forget($cartKey);
 
-            // ✅ Crear notificación
             Notification::create([
                 'title' => 'Nuevo pedido realizado',
-                'message' => 'El usuario "' . Auth::user()->name . '" ha realizado un nuevo pedido.',
+                'message' => 'El usuario "' . Auth::user()->nombre . '" ha realizado un nuevo pedido.',
                 'type' => 'pedido',
                 'read' => false,
             ]);
@@ -88,20 +83,15 @@ class OrderController extends Controller
         }
     }
 
-    // ✅ Ver un pedido específico (usuario autenticado)
+    // ✅ Ver un pedido específico
     public function show($id)
     {
         $user = Auth::user();
 
-        $order = Order::with(['products', 'address', 'voucher', 'invoice'])
-            ->where('id', $id)
-            ->when($user->role?->name !== 'admin', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->first();
+        $order = Order::with(['products', 'address', 'invoice'])->find($id);
 
-        if (!$order) {
-            return response()->json(['message' => 'Pedido no encontrado'], 404);
+        if (!$order || ($user->role_id !== 1 && $order->user_id !== $user->id)) {
+            return response()->json(['message' => 'Pedido no autorizado o no encontrado'], 403);
         }
 
         return response()->json($order);

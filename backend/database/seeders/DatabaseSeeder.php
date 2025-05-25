@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,14 +15,19 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             AddressSeeder::class,
-            RepairSeeder::class,
-            CategorySeeder::class,
+
             BrandSeeder::class,
+            CategorySeeder::class,
             ProductSeeder::class,
+            DiscountSeeder::class,
+
+            RepairSeeder::class,
             BudgetSeeder::class,
-            GuaranteeSeeder::class,
+            FavoriteSeeder::class,
+            CartItemsSeeder::class,
+
             OrderSeeder::class,
+            InvoiceSeeder::class,
         ]);
     }
-
 }

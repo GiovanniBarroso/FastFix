@@ -9,12 +9,13 @@ return new class extends Migration {
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description'); // 👈 Usa el nombre correcto en español
-            $table->decimal('price', 8, 2);
+            $table->string('nombre');
+            $table->string('slug')->unique();
+            $table->text('descripcion');
+            $table->decimal('precio', 8, 2);
             $table->integer('stock');
             $table->boolean('activo')->default(true);
-            $table->string('image')->nullable(); // 👈 Campo añadido
+            $table->string('image')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');
             $table->timestamps();

@@ -9,7 +9,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('nombre', 100);
             $table->text('description')->nullable();
             $table->boolean('activo')->default(true); // 👈 Nuevo campo
             $table->timestamps();

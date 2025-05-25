@@ -17,7 +17,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:100',
+            'nombre' => 'sometimes|required|string|max:100',
             'apellidos' => 'sometimes|nullable|string|max:100',
             'telefono' => 'sometimes|nullable|string|max:20',
             'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
@@ -71,7 +71,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'apellidos' => 'nullable|string|max:100',
             'telefono' => 'nullable|string|max:20',
             'email' => 'required|email|unique:users,email',
@@ -96,7 +96,7 @@ class UserController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
             'apellidos' => 'nullable|string|max:100',
             'telefono' => 'nullable|string|max:20',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -114,6 +114,8 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
+    // ✅ Actualización usando Fortify
     public function updateProfileInformation(Request $request, UpdatesUserProfileInformation $updater)
     {
         $user = auth('api')->user();
@@ -126,6 +128,7 @@ class UserController extends Controller
         ]);
     }
 
+    // ✅ Confirmar contraseña del usuario actual
     public function confirmPassword(Request $request)
     {
         $request->validate([
@@ -144,6 +147,4 @@ class UserController extends Controller
             'message' => 'Contraseña confirmada correctamente.'
         ]);
     }
-
-
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class CartItem extends Model
 {
     use HasFactory;
-
+    protected $table = 'cart_items';
     protected $fillable = [
         'user_id',
         'product_id',
@@ -16,9 +16,9 @@ class CartItem extends Model
     ];
 
     // En CartItem.php
-public function product()
-{
-    return $this->belongsTo(Product::class, 'product_id');
-}
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 
 }

@@ -3,15 +3,27 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Brand;
 
 class BrandSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        DB::table('brands')->insert([
-            ['name' => 'Apple', 'description' => 'Tecnología Apple', 'activo' => true],
-            ['name' => 'Samsung', 'description' => 'Dispositivos Samsung', 'activo' => true],
-        ]);
+        $brands = [
+            'Apple',
+            'Samsung',
+            'Huawei',
+            'Xiaomi',
+            'Sony',
+            'HP',
+            'MSI',
+            'Asus',
+            'Dell',
+            'Nintendo'
+        ];
+
+        foreach ($brands as $brand) {
+            Brand::create(['nombre' => $brand]);
+        }
     }
 }

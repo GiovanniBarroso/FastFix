@@ -13,6 +13,9 @@ class Budget extends Model
         'user_id',
         'mensaje',
         'estado',
+        'respuesta_admin',
+        'presupuesto_estimado',
+        'fecha_respuesta',
     ];
 
     public function user()

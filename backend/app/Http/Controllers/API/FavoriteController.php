@@ -19,11 +19,11 @@ class FavoriteController extends Controller
                     'id' => $fav->id,
                     'product' => [
                         'id' => $fav->product->id,
-                        'name' => $fav->product->name,
+                        'nombre' => $fav->product->nombre,
                         'description' => $fav->product->description,
                         'price' => $fav->product->price,
                         'image' => $fav->product->image,
-                        'brand' => optional($fav->product->brand)->name ?? 'Sin marca',
+                        'brand' => optional($fav->product->brand)->nombre ?? 'Sin marca',
                     ]
                 ];
             });

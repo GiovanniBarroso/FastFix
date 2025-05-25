@@ -8,19 +8,21 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Address;
-use App\Models\Voucher;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'fecha_pedido',
-        'estado',
-        'total',
-        'address_id',
         'user_id',
-        'voucher_id'
+        'total',
+        'estado',
+        'metodo_pago',
+        'paypal_payment_id',
+        'paypal_status',
+        'fecha_pago',
+        'notas_cliente',
+        'notas_admin',
     ];
 
     public function products()
@@ -45,8 +47,4 @@ class Order extends Model
         return $this->belongsTo(Address::class);
     }
 
-    public function voucher()
-    {
-        return $this->belongsTo(Voucher::class);
-    }
 }

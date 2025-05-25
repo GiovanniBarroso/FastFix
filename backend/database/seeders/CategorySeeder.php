@@ -3,15 +3,25 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        DB::table('categories')->insert([
-            ['name' => 'Móviles', 'description' => 'Smartphones y accesorios', 'activo' => true],
-            ['name' => 'Ordenadores', 'description' => 'Portátiles, sobremesa y componentes', 'activo' => true],
-        ]);
+        $categories = [
+            'Smartphones',
+            'Tablets',
+            'Portátiles',
+            'Sobremesa',
+            'Consolas',
+            'Accesorios',
+            'Periféricos',
+            'Repuestos'
+        ];
+
+        foreach ($categories as $category) {
+            Category::create(['nombre' => $category]);
+        }
     }
 }

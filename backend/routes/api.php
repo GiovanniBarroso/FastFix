@@ -13,7 +13,6 @@ use App\Http\Controllers\API\{
     DiscountController,
     CategoryController,
     BrandController,
-    VoucherController,
     FavoriteController,
     CartController,
     BudgetController,
@@ -121,12 +120,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/discounts/{id}', [DiscountController::class, 'update']);
     Route::delete('/discounts/{id}', [DiscountController::class, 'destroy']);
 
-    // Vouchers
-    Route::get('/vouchers', [VoucherController::class, 'index']);
-    Route::post('/vouchers', [VoucherController::class, 'store']);
-    Route::put('/vouchers/{id}', [VoucherController::class, 'update']);
-    Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy']);
-    Route::post('/vouchers/validate', [VoucherController::class, 'validateCode']); // uso desde frontend
 
     // Imagen 
     Route::get('/products/{productId}/images', [ImageController::class, 'index']);

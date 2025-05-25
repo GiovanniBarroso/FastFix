@@ -2,27 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 
 class Discount extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'codigo',
-        'descripcion',
-        'tipo',
-        'valor',
-        'fecha_inicio',
-        'fecha_fin',
         'product_id',
-        'activo'
+        'valor',
+        'tipo',
+        'inicio',
+        'fin',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function isActive(): bool
+    {
+        $now = now();
+        return (!$this->inicio || $this->inicio <= $now) &&
+            (!$this->fin || $this->fin >= $now);
+    }
+
+    public function getDescuentoFormateadoAttribute()
+    {
+        return $this->tipo === 'porcentaje' ? "{$this->valor}%" : number_format($this->valor, 2) . "€";
     }
 }

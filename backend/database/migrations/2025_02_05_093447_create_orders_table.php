@@ -5,21 +5,26 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
+    public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('fecha_pedido')->useCurrent();
-            $table->enum('estado', ['pendiente', 'enviado', 'cancelado', 'pagado'])->default('pendiente');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
             $table->decimal('total', 10, 2);
-            $table->foreignId('address_id')->constrained('addresses')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('voucher_id')->nullable()->constrained('vouchers')->nullOnDelete();
+            $table->enum('estado', ['pendiente', 'pagado', 'cancelado'])->default('pendiente');
+            $table->string('metodo_pago')->nullable();
+            $table->string('paypal_payment_id')->nullable();
+            $table->string('paypal_status')->nullable();
+            $table->timestamp('fecha_pago')->nullable();
+            $table->text('notas_cliente')->nullable();
+            $table->text('notas_admin')->nullable();
+
             $table->timestamps();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('orders');
     }

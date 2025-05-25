@@ -30,7 +30,7 @@ class BudgetController extends Controller
         // ✅ Crear notificación para admin
         Notification::create([
             'title' => 'Nueva solicitud de presupuesto',
-            'message' => "El usuario \"{$user->name}\" ha enviado una solicitud de presupuesto.",
+            'message' => "El usuario \"{$user->nombre}\" ha enviado una solicitud de presupuesto.",
             'type' => 'presupuesto',
             'read' => false,
         ]);
@@ -71,7 +71,7 @@ class BudgetController extends Controller
 
         // Enviar correo
         Mail::to($budget->user->email)->send(new BudgetReplyMail(
-            $budget->user->name,
+            $budget->user->nombre,
             $validated['mensaje']
         ));
 

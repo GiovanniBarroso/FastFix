@@ -6,46 +6,49 @@ use Illuminate\Database\Seeder;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
-use App\Models\Address;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class OrderSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::first();
-        $address = Address::first();
-        $products = Product::all();
+        $clientes = User::where('role_id', 2)->get();
+        $productos = Product::all();
 
-        if (!$user || !$address || $products->isEmpty()) {
-            dump('Faltan datos para crear pedidos');
-            return;
-        }
+        foreach ($clientes as $cliente) {
+            for ($i = 0; $i < rand(1, 2); $i++) {
+                $productosSeleccionados = $productos->random(rand(1, 3));
+                $estado = ['pendiente', 'pagado', 'cancelado'][rand(0, 2)];
+                $metodo = ['paypal', 'tarjeta', 'efectivo'][rand(0, 2)];
 
-        foreach (range(1, 5) as $i) {
-            $order = Order::create([
-                'user_id' => $user->id,
-                'address_id' => $address->id,
-                'estado' => ['pendiente', 'enviado', 'pagado', 'cancelado'][rand(0, 3)],
-                'total' => 0,
-                'fecha_pedido' => Carbon::now()->subDays($i),
-            ]);
+                $total = 0;
+                $detalle = [];
 
-            $total = 0;
-            foreach ($products->random(2) as $product) {
-                $cantidad = rand(1, 3);
-                $precio = $product->price;
+                foreach ($productosSeleccionados as $producto) {
+                    $cantidad = rand(1, 2);
+                    $precio = $producto->precio;
+                    $total += $precio * $cantidad;
 
-                $order->products()->attach($product->id, [
-                    'cantidad' => $cantidad,
-                    'precio' => $precio,
+                    $detalle[$producto->id] = [
+                        'cantidad' => $cantidad,
+                        'precio' => $precio,
+                    ];
+                }
+
+                $orden = Order::create([
+                    'user_id' => $cliente->id,
+                    'total' => $total,
+                    'estado' => $estado,
+                    'metodo_pago' => $metodo,
+                    'paypal_payment_id' => $metodo === 'paypal' ? Str::uuid() : null,
+                    'paypal_status' => $metodo === 'paypal' && $estado === 'pagado' ? 'COMPLETED' : null,
+                    'fecha_pago' => $estado === 'pagado' ? now()->subDays(rand(0, 10)) : null,
+                    'notas_cliente' => rand(0, 1) ? 'Gracias, por favor entregar lo antes posible.' : null,
+                    'notas_admin' => rand(0, 1) ? 'Pedido procesado correctamente.' : null,
                 ]);
 
-                $total += $cantidad * $precio;
+                $orden->products()->attach($detalle);
             }
-
-            $order->update(['total' => $total]);
         }
     }
 }

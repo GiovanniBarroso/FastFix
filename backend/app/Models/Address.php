@@ -10,14 +10,18 @@ use App\Models\Order;
 class Address extends Model
 {
     use HasFactory;
+    protected $table = 'addresses';
 
     protected $fillable = [
         'user_id',
-        'calle',
+        'nombre',
+        'direccion',
+        'codigo_postal',
         'ciudad',
         'provincia',
-        'codigo_postal',
-        'pais'
+        'pais',
+        'telefono_envio',
+        'principal',
     ];
 
     public function user()
