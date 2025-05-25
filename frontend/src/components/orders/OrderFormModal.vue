@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-2xl">
       <h2 class="text-2xl font-bold mb-8 flex items-center gap-2 text-gray-800 dark:text-white">
         🧾 <span>Detalle del Pedido <template v-if="order">#{{ order.id }}</template></span>

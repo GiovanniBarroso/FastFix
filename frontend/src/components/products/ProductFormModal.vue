@@ -16,7 +16,7 @@
         <!-- Descripción -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
-          <textarea v-model="form.description" rows="3"
+          <textarea v-model="form.description" rows="3" required
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
         </div>
 
@@ -43,6 +43,7 @@
             <input
               type="file"
               accept="image/*"
+              :required="!isEditing"
               @change="handleFileUpload"
               class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0

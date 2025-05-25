@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-xl">
       <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {{ isEditing ? '✏️ Editar Usuario' : '➕ Añadir Usuario' }}
@@ -23,6 +23,7 @@
           <input
             v-model="form.apellidos"
             type="text"
+            required
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           />
         </div>
@@ -44,6 +45,7 @@
           <input
             v-model="form.telefono"
             type="text"
+            required
             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           />
         </div>

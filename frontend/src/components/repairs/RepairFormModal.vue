@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-2xl">
       <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {{ isEditing ? '✏️ Editar Reparación' : '➕ Añadir Reparación' }}
@@ -38,7 +38,7 @@
         <!-- Problema -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción del problema</label>
-          <textarea v-model="form.problem_description" rows="3" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+          <textarea v-model="form.problem_description" required rows="3" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
         </div>
 
         <!-- Notas -->
@@ -73,17 +73,17 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Costo de reparación (€)</label>
-            <input v-model="form.repair_cost" type="number" step="0.01" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <input v-model="form.repair_cost" required type="number" step="0.01" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de recepción</label>
-            <input v-model="form.received_at" type="date" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <input v-model="form.received_at" required type="date" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de entrega</label>
-          <input v-model="form.delivered_at" type="date" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <input v-model="form.delivered_at" required type="date" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <!-- Botones -->

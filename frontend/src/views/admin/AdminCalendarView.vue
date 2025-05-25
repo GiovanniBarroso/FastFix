@@ -43,11 +43,7 @@ const calendarOptions = ref({
 
 onMounted(async () => {
   try {
-    const [repairsRes, guaranteesRes, ordersRes] = await Promise.all([
-      api.get('/repairs'),
-      api.get('/guarantees'),
-      api.get('/orders')
-    ])
+    const repairsRes = await api.get('/repairs')
 
     const repairEvents = repairsRes.data.map(r => ({
       title: `🛠️ Reparación: ${r.device_type}`,
@@ -56,25 +52,13 @@ onMounted(async () => {
       className: 'fc-event-repair'
     }))
 
-    const guaranteeEvents = guaranteesRes.data.map(g => ({
-      title: `🛡️ Garantía: ${g.product_name}`,
-      start: g.start_date,
-      end: g.end_date,
-      className: 'fc-event-guarantee'
-    }))
-
-    const orderEvents = ordersRes.data.map(o => ({
-      title: `🧾 Pedido: ${o.id}`,
-      start: o.order_date,
-      className: 'fc-event-order'
-    }))
-
-    events.value = [...repairEvents, ...guaranteeEvents, ...orderEvents]
-    calendarOptions.value.events = events.value
+    events.value = repairEvents
+    calendarOptions.value.events = repairEvents
   } catch (error) {
-    console.error('Error al cargar eventos:', error)
+    console.error('Error al cargar reparaciones:', error)
   }
 })
+
 </script>
 
 <style>
