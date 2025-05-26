@@ -43,6 +43,7 @@ class OrderSeeder extends Seeder
                     'paypal_payment_id' => $metodo === 'paypal' ? Str::uuid() : null,
                     'paypal_status' => $metodo === 'paypal' && $estado === 'pagado' ? 'COMPLETED' : null,
                     'fecha_pago' => $estado === 'pagado' ? now()->subDays(rand(0, 10)) : null,
+                    'fecha_pedido' => now()->subDays(rand(1, 20)), // ✅ AÑADIDO
                     'notas_cliente' => rand(0, 1) ? 'Gracias, por favor entregar lo antes posible.' : null,
                     'notas_admin' => rand(0, 1) ? 'Pedido procesado correctamente.' : null,
                 ]);

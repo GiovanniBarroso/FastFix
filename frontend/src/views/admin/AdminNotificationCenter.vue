@@ -23,6 +23,10 @@
           <div class="text-sm text-gray-700 dark:text-gray-200">
             {{ n.message }}
           </div>
+          <small class="block text-xs text-gray-500 dark:text-gray-400 mt-1">
+            {{ new Date(n.created_at).toLocaleString() }}
+          </small>
+
           <div>
             <button
               v-if="!n.read"

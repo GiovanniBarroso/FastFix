@@ -33,12 +33,12 @@
       </div>
 
 
-      <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="flex flex-wrap justify-center gap-10">
         <div
           v-for="panel in adminPanels"
           :key="panel.nombre"
           @click="router.push(panel.ruta)"
-          class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl text-center shadow-md hover:shadow-xl transform transition-all hover:-translate-y-1 hover:scale-[1.02] cursor-pointer"
+          class="w-[300px] bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl text-center shadow-md hover:shadow-xl transform transition-all hover:-translate-y-1 hover:scale-[1.02] cursor-pointer"
         >
           <div class="text-5xl mb-4 text-blue-600 dark:text-blue-400">
             {{ panel.icono }}
@@ -52,6 +52,7 @@
         </div>
       </div>
 
+
       <!-- 📊 Estadísticas del día -->
       <div class="mt-16 px-4 py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
         <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
@@ -64,8 +65,8 @@
             <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ stats.pedidos }}</p>
           </div>
           <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
-            <p class="text-sm text-gray-500 dark:text-gray-300">Presupuestos</p>
-            <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ stats.presupuestos }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-300">Presupuestos pendientes</p>
+            <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ stats.presupuestos_pendientes }}</p>
           </div>
           <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
             <p class="text-sm text-gray-500 dark:text-gray-300">Ventas hoy</p>
@@ -142,12 +143,6 @@ const adminPanels = [
     descripcion: 'Revisa las solicitudes de presupuesto enviadas.',
     ruta: '/admin/budgets',
     icono: '📝'
-  },
-  {
-    nombre: 'Garantías',
-    descripcion: 'Gestiona y valida garantías activas.',
-    ruta: '/admin/guarantees',
-    icono: '🛡️'
   },
   {
     nombre: 'Usuarios',

@@ -21,11 +21,12 @@ class OrderController extends Controller
         if ($user->role?->nombre === 'admin') {
             $orders = Order::with(['products', 'user', 'address', 'invoice'])->latest()->get();
         } else {
-            $orders = Order::with(['products', 'address', 'invoice'])
+            $orders = Order::with(['products', 'user', 'address', 'invoice'])
                 ->where('user_id', $user->id)
                 ->latest()
                 ->get();
         }
+
 
         return response()->json($orders);
     }
@@ -88,7 +89,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
 
-        $order = Order::with(['products', 'address', 'invoice'])->find($id);
+        $order = Order::with(['products', 'user', 'address', 'invoice'])->find($id);
 
         if (!$order || ($user->role_id !== 1 && $order->user_id !== $user->id)) {
             return response()->json(['message' => 'Pedido no autorizado o no encontrado'], 403);

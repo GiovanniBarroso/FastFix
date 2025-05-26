@@ -15,12 +15,14 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'address_id', // 👈 NECESARIO
         'total',
         'estado',
         'metodo_pago',
         'paypal_payment_id',
         'paypal_status',
         'fecha_pago',
+        'fecha_pedido',
         'notas_cliente',
         'notas_admin',
     ];
