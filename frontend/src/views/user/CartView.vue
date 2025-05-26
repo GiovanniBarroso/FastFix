@@ -30,13 +30,13 @@
               class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="getImageUrl(item.product.imagen)" class="w-14 h-14 rounded object-cover" alt="Producto" />
+                <img :src="getImageUrl(item.product.image)" class="w-14 h-14 rounded object-cover" alt="Producto" />
                 <div>
-                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.product.nombre }}</span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.product.brand?.nombre }}</span>
+                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.product.name }}</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.product.brand?.name }}</span>
                 </div>
               </td>
-              <td class="p-4">€{{ parseFloat(item.product.precio).toFixed(2) }}</td>
+              <td class="p-4">€{{ parseFloat(item.product.price).toFixed(2) }}</td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
                   <button @click="cambiarCantidad(item, -1)"
@@ -52,7 +52,7 @@
                 </div>
               </td>
               <td class="p-4 font-semibold text-blue-600 dark:text-blue-400">
-                €{{ (parseFloat(item.product.precio) * item.quantity).toFixed(2) }}
+                €{{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
               </td>
               <td class="p-4 text-center">
                 <button @click="eliminarDelCarrito(item.id)"
@@ -148,7 +148,7 @@ const getImageUrl = (filename) => {
 }
 
 const total = computed(() =>
-  cart.value.reduce((sum, item) => sum + parseFloat(item.product.precio) * item.quantity, 0)
+  cart.value.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0)
 )
 
 onMounted(getCart)

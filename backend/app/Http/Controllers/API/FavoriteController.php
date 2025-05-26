@@ -13,16 +13,16 @@ class FavoriteController extends Controller
         $favorites = Favorite::with('product')
             ->where('user_id', auth()->id())
             ->get()
-            ->filter(fn($fav) => $fav->product) // evitar nulls
+            ->filter(fn($fav) => $fav->product) // evitar productos null
             ->map(function ($fav) {
                 return [
                     'id' => $fav->id,
                     'product' => [
                         'id' => $fav->product->id,
                         'nombre' => $fav->product->nombre,
-                        'description' => $fav->product->description,
-                        'price' => $fav->product->price,
-                        'image' => $fav->product->image,
+                        'descripcion' => $fav->product->descripcion,
+                        'precio' => $fav->product->precio,
+                        'imagen' => $fav->product->imagen,
                         'brand' => optional($fav->product->brand)->nombre ?? 'Sin marca',
                     ]
                 ];

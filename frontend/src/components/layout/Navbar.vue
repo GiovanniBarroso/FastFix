@@ -56,11 +56,11 @@
                   role="menuitem">
                   <Key class="w-4 h-4" /> Cambiar contraseña
                 </router-link>
-                <router-link to="/favorites" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
+                <router-link to="/user/favorites" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
                   role="menuitem">
                   <Heart class="w-4 h-4" /> Favoritos
                 </router-link>
-                <router-link to="/orders" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
+                <router-link to="/user/orders" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
                   role="menuitem">
                   📦 Mis pedidos
                 </router-link>
@@ -110,8 +110,8 @@
           <router-link to="/profile" class="block hover:text-red-400 transition">Editar perfil</router-link>
           <router-link to="/confirm-password" class="block hover:text-red-400 transition">Cambiar
             contraseña</router-link>
-          <router-link to="/favorites" class="block hover:text-red-400 transition">Favoritos</router-link>
-          <router-link to="/orders" class="block hover:text-red-400 transition">Mis pedidos</router-link>
+          <router-link to="/user/favorites" class="block hover:text-red-400 transition">Favoritos</router-link>
+          <router-link to="/user/orders" class="block hover:text-red-400 transition">Mis pedidos</router-link>
           <button @click="logout" class="block w-full text-left text-red-400 hover:text-red-200 transition">Cerrar
             sesión</button>
         </template>

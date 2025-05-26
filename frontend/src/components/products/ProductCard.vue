@@ -77,9 +77,12 @@ const addToCart = async () => {
 
     cart.addItem({
       id: props.product.id,
-      name: props.product.name,
-      price: props.product.price,
-      image: props.product.image,
+      product: {
+        nombre: props.product.name,
+        precio: props.product.price,
+        imagen: props.product.image,
+        brand: props.product.brand || null
+      },
       quantity: 1
     })
 
