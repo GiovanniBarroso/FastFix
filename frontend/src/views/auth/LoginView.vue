@@ -5,12 +5,31 @@
 
       <form @submit.prevent="handleLogin" class="space-y-5">
         <!-- Email -->
-        <FormField v-model="email" label="Correo electrónico" placeholder="tucorreo@fastfix.com" type="email"
-          autocomplete="email" />
+        <FormField
+          v-model="email"
+          label="Correo electrónico"
+          placeholder="tucorreo@fastfix.com"
+          type="email"
+          autocomplete="email"
+        />
 
-        <!-- Contraseña -->
-        <FormField v-model="password" label="Contraseña" placeholder="••••••••" type="password"
-          autocomplete="current-password" />
+        <!-- Contraseña con mostrar/ocultar -->
+        <div class="relative">
+          <FormField
+            :type="showPassword ? 'text' : 'password'"
+            v-model="password"
+            label="Contraseña"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            @click="togglePassword"
+            class="absolute right-2 top-9 text-sm text-blue-500"
+          >
+            {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
 
         <!-- Error -->
         <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
@@ -20,23 +39,14 @@
           Iniciar sesión
         </BaseButton>
 
-
         <div class="flex flex-col items-center space-y-1">
-          <!-- Link recuperar contraseña -->
-          <div class="text-center">
-            <router-link to="/forgot-password" class="text-sm text-blue-600 hover:underline">
-              ¿Has olvidado tu contraseña?
-            </router-link>
-          </div>
-
-          <!-- Link recuperar contraseña -->
-          <div class="text-center">
-            <router-link to="/register" class="text-sm text-blue-600 hover:underline">
-              ¿No estás registrado?
-            </router-link>
-          </div>
+          <router-link to="/forgot-password" class="text-sm text-blue-600 hover:underline">
+            ¿Has olvidado tu contraseña?
+          </router-link>
+          <router-link to="/register" class="text-sm text-blue-600 hover:underline">
+            ¿No estás registrado?
+          </router-link>
         </div>
-
       </form>
     </div>
   </div>
@@ -48,17 +58,21 @@ import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
 
-// 🧩 Importamos nuestros componentes
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
 
 const email = ref('')
 const password = ref('')
+const showPassword = ref(false)
 const errorMessage = ref('')
 const loading = ref(false)
 const router = useRouter()
 const auth = useAuthStore()
+
+const togglePassword = () => {
+  showPassword.value = !showPassword.value
+}
 
 const handleLogin = async () => {
   errorMessage.value = ''
