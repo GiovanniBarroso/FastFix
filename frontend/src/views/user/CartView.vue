@@ -41,10 +41,10 @@
                 <div class="flex items-center gap-2">
                   <button @click="cambiarCantidad(item, -1)"
                     class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-500 active:scale-95 transition-all duration-150"
-                    :disabled="item.quantity <= 1">
+                    :disabled="item.cantidad <= 1">
                     −
                   </button>
-                  <span class="w-6 text-center font-semibold">{{ item.quantity }}</span>
+                  <span class="w-6 text-center font-semibold">{{ item.cantidad }}</span>
                   <button @click="cambiarCantidad(item, 1)"
                     class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-500 active:scale-95 transition-all duration-150">
                     +
@@ -52,7 +52,7 @@
                 </div>
               </td>
               <td class="p-4 font-semibold text-blue-600 dark:text-blue-400">
-                €{{ (parseFloat(item.product.precio) * item.quantity).toFixed(2) }}
+                €{{ (parseFloat(item.product.precio) * item.cantidad).toFixed(2) }}
               </td>
               <td class="p-4 text-center">
                 <button @click="eliminarDelCarrito(item.id)"
@@ -100,11 +100,11 @@ const getCart = async () => {
 }
 
 const cambiarCantidad = async (item, delta) => {
-  const nuevaCantidad = item.quantity + delta
+  const nuevaCantidad = item.cantidad + delta
   if (nuevaCantidad <= 0) return eliminarDelCarrito(item.id)
   try {
-    await api.put(`/cart/${item.id}`, { quantity: nuevaCantidad })
-    item.quantity = nuevaCantidad
+    await api.put(`/cart/${item.id}`, { cantidad: nuevaCantidad })
+    item.cantidad = nuevaCantidad
   } catch (error) {
     console.error('Error al actualizar cantidad', error)
   }
@@ -148,7 +148,7 @@ const getImageUrl = (filename) => {
 }
 
 const total = computed(() =>
-  cart.value.reduce((sum, item) => sum + parseFloat(item.product.precio) * item.quantity, 0)
+  cart.value.reduce((sum, item) => sum + parseFloat(item.product.precio) * item.cantidad, 0)
 )
 
 onMounted(getCart)
