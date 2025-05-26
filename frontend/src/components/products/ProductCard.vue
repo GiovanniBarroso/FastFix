@@ -101,7 +101,7 @@ const addToFavorites = async () => {
     toast.success(`${props.product.name} agregado a favoritos.`)
   } catch (error) {
     console.error(error)
-    toast.error('No fue posible añadir a favoritos.')
+    toast.error('No fue posible añadirlo a favoritos.')
   }
 }
 </script>
