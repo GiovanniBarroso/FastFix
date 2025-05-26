@@ -13,7 +13,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:100'],
+            'nombre' => ['required', 'string', 'max:100'],
             'apellidos' => ['required', 'string', 'max:150'],
             'telefono' => ['required', 'regex:/^\d{9}$/'],
             'email' => [
@@ -29,7 +29,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
-                'name' => $input['name'],
+                'nombre' => $input['nombre'],
                 'apellidos' => $input['apellidos'] ?? null,
                 'telefono' => $input['telefono'] ?? null,
                 'email' => $input['email'],
@@ -40,7 +40,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     protected function updateVerifiedUser(User $user, array $input): void
     {
         $user->forceFill([
-            'name' => $input['name'],
+            'nombre' => $input['nombre'],
             'apellidos' => $input['apellidos'] ?? null,
             'telefono' => $input['telefono'] ?? null,
             'email' => $input['email'],

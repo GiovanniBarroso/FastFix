@@ -34,7 +34,7 @@ class CustomResetPassword extends Notification
 
         return (new MailMessage)
             ->subject('🔐 Recupera el acceso a tu cuenta FastFix')
-            ->greeting('¡Hola, ' . $notifiable->name . ' 👋!')
+            ->greeting('¡Hola, ' . $notifiable->nombre . ' 👋!')
             ->line('Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en **FastFix**.')
             ->line('Si fuiste tú, haz clic en el botón de abajo para continuar:')
             ->action('🔁 Restablecer contraseña', $url)

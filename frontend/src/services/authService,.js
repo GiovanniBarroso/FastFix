@@ -1,4 +1,4 @@
-import api from '@/services/api' // o '../services/api' según tu estructura
+import api from '@/services/api'
 
 export const login = async (email, password) => {
   const response = await api.post('/login', {
@@ -8,9 +8,9 @@ export const login = async (email, password) => {
   return response.data
 }
 
-export const register = async (name, email, password) => {
+export const register = async (nombre, email, password) => {
   const response = await api.post('/register', {
-    name,
+    nombre,
     email,
     password,
   })

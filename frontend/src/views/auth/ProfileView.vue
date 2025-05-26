@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Editar Perfil</h1>
 
       <form @submit.prevent="updateProfile" class="space-y-5">
-        <FormField v-model="name" label="Nombre completo" type="text" />
+        <FormField v-model="nombre" label="Nombre completo" type="text" />
         <FormField v-model="apellidos" label="Apellidos" type="text" />
         <FormField v-model="telefono" label="Teléfono" type="tel" />
         <FormField v-model="email" label="Correo electrónico" type="email" />
@@ -37,7 +37,7 @@ import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
 
-const name = ref('')
+const nombre = ref('')
 const apellidos = ref('')
 const telefono = ref('')
 const email = ref('')
@@ -50,7 +50,7 @@ const errorMessage = ref('')
 onMounted(async () => {
   try {
     const response = await api.get('/me')
-    name.value = response.data.name
+    nombre.value = response.data.nombre
     apellidos.value = response.data.apellidos
     telefono.value = response.data.telefono 
     email.value = response.data.email
@@ -79,7 +79,7 @@ const updateProfile = async () => {
 
   try {
     await api.put('/profile-information', {
-      name: name.value,
+      nombre: nombre.value,
       apellidos: apellidos.value,
       telefono: telefono.value,
       email: email.value

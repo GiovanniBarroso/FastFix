@@ -5,8 +5,8 @@
 
       <form @submit.prevent="handleRegister" class="space-y-5">
         <!-- Nombre -->
-        <FormField v-model="name" label="Nombre" placeholder="Juan" type="text" autocomplete="given-name" />
-        <span v-if="name && name.length < 2" class="text-red-500 text-sm">El nombre debe tener al menos 2
+        <FormField v-model="nombre" label="Nombre" placeholder="Juan" type="text" autocomplete="given-name" />
+        <span v-if="nombre && nombre.length < 2" class="text-red-500 text-sm">El nombre debe tener al menos 2
           caracteres.</span>
 
         <!-- Apellidos -->
@@ -72,7 +72,7 @@ import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
 
-const name = ref('')
+const nombre = ref('')
 const apellidos = ref('')
 const telefono = ref('')
 const email = ref('')
@@ -124,7 +124,7 @@ const handleRegister = async () => {
 
   try {
     await api.post('/register', {
-      name: name.value,
+      nombre: nombre.value,
       apellidos: apellidos.value,
       telefono: telefono.value,
       email: email.value,
@@ -132,7 +132,7 @@ const handleRegister = async () => {
       password_confirmation: password_confirmation.value
     })
 
-    name.value = ''
+    nombre.value = ''
     apellidos.value = ''
     telefono.value = ''
     email.value = ''
