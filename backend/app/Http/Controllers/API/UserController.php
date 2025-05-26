@@ -147,4 +147,22 @@ class UserController extends Controller
             'message' => 'Contraseña confirmada correctamente.'
         ]);
     }
+
+    public function userStats()
+{
+    $user = auth()->user();
+
+    $pedidos = $user->orders()->count();
+    $favoritos = $user->favorites()->count();
+    $reparaciones = $user->repairs()->count();
+    $facturas = $user->invoices()->count();
+
+    return response()->json([
+        'pedidos' => $pedidos,
+        'favoritos' => $favoritos,
+        'reparaciones' => $reparaciones,
+        'facturas' => $facturas
+    ]);
+}
+
 }
