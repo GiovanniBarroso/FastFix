@@ -13,7 +13,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tu nombre</label>
             <input
-              :value="auth.user?.name"
+              :value="auth.user?.nombre"
               disabled
               class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white cursor-not-allowed"
             />
