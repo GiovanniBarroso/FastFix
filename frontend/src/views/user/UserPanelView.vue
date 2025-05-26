@@ -79,9 +79,9 @@ const secciones = [
     enlace: '/user/address'
   },
   {
-    titulo: 'Solicitar presupuesto',
+    titulo: 'Mis presupuestos',
     icono: '🧾',
-    descripcion: 'Solicita un presupuesto y revisa su estado.',
+    descripcion: 'Consulta tus presupuestos y revisa su estado.',
     enlace: '/user/budgets'
   },
   {
