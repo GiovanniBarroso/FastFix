@@ -16,6 +16,7 @@ use App\Http\Controllers\API\{
     InvoiceController,
     BudgetController,
     RepairController,
+    ContactController,
     NotificationController,
     AdminStatsController,
     PaypalController
@@ -53,7 +54,8 @@ Route::get('/roles', [RoleController::class, 'index']);
 // ⚠️ Ruta externa necesaria para redirección PayPal (sin auth)
 Route::get('/paypal/success', [PayPalController::class, 'captureOrder']);
 
-
+//Contact us
+Route::post('/contact', [ContactController::class, 'send']);
 //
 // ───────────────────────────────────────────────
 // 🔐 RUTAS PROTEGIDAS (Requieren JWT)
@@ -141,4 +143,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/paypal/create-payment', [PaypalController::class, 'create']);
     Route::post('/paypal/capture-payment', [PaypalController::class, 'capture']);
     Route::post('/paypal/create-order', [PaypalController::class, 'createOrder']);
+
+
+
 });
