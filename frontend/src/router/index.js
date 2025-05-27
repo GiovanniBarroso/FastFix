@@ -39,6 +39,12 @@ import RepairListView from '@/views/admin/RepairListView.vue'
 import AdminCalendarView from '@/views/admin/AdminCalendarView.vue'
 import AdminNotificationCenter from '@/views/admin/AdminNotificationCenter.vue'
 
+// 💰 Pasarela de pago
+import CheckoutConfirmView from '@/views/checkout/CheckoutConfirm.vue'
+import CheckoutSuccess from '@/views/checkout/CheckoutSuccess.vue'
+import CheckoutError from '@/views/checkout/CheckoutError.vue'
+import CheckoutCancel from '@/views/checkout/CheckoutCancel.vue'
+
 const routes = [
   // Públicas
   { path: '/', name: 'home', component: DashboardView, meta: { requiresAuth: false } },
@@ -112,6 +118,30 @@ const routes = [
     name: 'reset-password',
     component: ResetPasswordView,
     meta: { requiresAuth: false },
+  },
+  {
+    path: '/checkout-confirm',
+    name: 'CheckoutConfirm',
+    component: CheckoutConfirmView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/checkout/success',
+    name: 'CheckoutSuccess',
+    component: CheckoutSuccess,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/checkout/error',
+    name: 'CheckoutError',
+    component: CheckoutError,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/checkout/cancel',
+    name: 'CheckoutCancel',
+    component: CheckoutCancel,
+    meta: { requiresAuth: true },
   },
   {
     path: '/confirm-password',

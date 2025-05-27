@@ -84,12 +84,13 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import BaseButton from '@/views/components/BaseButton.vue'
 
 const cart = ref([])
 const loading = ref(false)
-
+const router = useRouter() 
 const getCart = async () => {
   try {
     const response = await api.get('/cart')
@@ -131,15 +132,16 @@ const vaciarCarrito = async () => {
 const finalizarCompra = async () => {
   loading.value = true
   try {
-    const response = await api.post('/orders')
-    cart.value = []
-    alert('✅ Compra realizada correctamente. Pedido ID: ' + response.data.order.id)
+    const response = await api.post('/orders') // crea pedido pendiente
+    const orderId = response.data.order.id
+    router.push({ name: 'CheckoutConfirm', query: { order_id: orderId } })
   } catch (error) {
     alert('❌ Error al finalizar la compra. Intenta de nuevo.')
   } finally {
     loading.value = false
   }
 }
+
 
 const baseURL = 'http://localhost:8000'
 const getImageUrl = (filename) => {

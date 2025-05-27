@@ -9,6 +9,8 @@ return [
         'register',
         'email/*',
         'sanctum/csrf-cookie',
+        'api/paypal/success',
+        'api/paypal/capture',
     ],
 
     'allowed_methods' => ['*'],
