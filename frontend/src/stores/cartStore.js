@@ -7,9 +7,9 @@ export const useCartStore = defineStore('cart', () => {
   const addItem = (product) => {
     const existing = items.value.find((p) => p.id === product.id)
     if (existing) {
-      existing.quantity += 1
+      existing.cantidad += 1
     } else {
-      items.value.push({ ...product, quantity: 1 })
+      items.value.push({ ...product, cantidad: 1 })
     }
   }
 
@@ -21,7 +21,7 @@ export const useCartStore = defineStore('cart', () => {
     items.value = []
   }
 
-  const totalCount = computed(() => items.value.reduce((sum, p) => sum + p.quantity, 0))
+  const totalCount = computed(() => items.value.reduce((sum, p) => sum + p.cantidad, 0))
 
   const loadCart = () => {
     const saved = localStorage.getItem('cart')

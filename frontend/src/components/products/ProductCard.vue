@@ -14,7 +14,7 @@
       <!-- Título y descripción -->
       <div>
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-          {{ product.name }}
+          {{ product.nombre }}
         </h3>
         <p class="text-sm text-gray-600 dark:text-gray-300 min-h-[44px]">
           {{ product.description }}
@@ -24,7 +24,7 @@
       <!-- Precio y botones -->
       <div class="mt-4 flex justify-between items-center">
         <span class="text-base font-bold text-gray-900 dark:text-white">
-          €{{ parseFloat(product.price).toFixed(2) }}
+          €{{ parseFloat(product.precio).toFixed(2) }}
         </span>
         <div class="flex gap-2">
           <button
@@ -78,15 +78,15 @@ const addToCart = async () => {
     cart.addItem({
       id: props.product.id,
       product: {
-        nombre: props.product.name,
-        precio: props.product.price,
+        nombre: props.product.nombre,
+        precio: props.product.precio,
         imagen: props.product.image,
         brand: props.product.brand || null
       },
-      quantity: 1
+      cantidad: 1
     })
 
-    toast.success(`${props.product.name} agregado al carrito.`)
+    toast.success(`${props.product.nombre} agregado al carrito.`)
   } catch (error) {
     console.error(error)
     toast.error('No fue posible añadir el producto al carrito.')
@@ -98,7 +98,7 @@ const addToFavorites = async () => {
     await api.post('/favorites', {
       product_id: props.product.id
     })
-    toast.success(`${props.product.name} agregado a favoritos.`)
+    toast.success(`${props.product.nombre} agregado a favoritos.`)
   } catch (error) {
     console.error(error)
     toast.error('No fue posible añadirlo a favoritos.')

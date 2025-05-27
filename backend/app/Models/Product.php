@@ -17,16 +17,16 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-    'nombre',
-    'descripcion',
-    'precio',
-    'stock',
-    'activo',
-    'category_id',
-    'brand_id',
-    'slug',     // 👈 ESTE DEBE ESTAR
-    'image'     // 👈 Este también si estás usando imágenes
-];
+        'nombre',
+        'descripcion',
+        'precio',
+        'stock',
+        'activo',
+        'category_id',
+        'brand_id',
+        'slug',     // 👈 ESTE DEBE ESTAR
+        'image'     // 👈 Este también si estás usando imágenes
+    ];
 
 
     public function category()
@@ -44,11 +44,6 @@ class Product extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
-
     public function discounts()
     {
         return $this->hasMany(Discount::class);
@@ -63,8 +58,8 @@ class Product extends Model
 
     public function carts()
     {
-        return $this->belongsToMany(Shoppingcart::class, 'shoppingcart_products')
-            ->withPivot('quantity', 'precio_unitario')
+        return $this->belongsToMany(CartItem::class, 'shoppingcart_products')
+            ->withPivot('cantidad', 'precio_unitario')
             ->withTimestamps();
     }
 
