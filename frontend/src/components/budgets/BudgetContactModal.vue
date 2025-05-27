@@ -39,6 +39,7 @@
             placeholder="Ej: 120.00"
             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           />
+          <p v-if="errorPresupuesto" class="text-sm text-red-600 mt-1">{{ errorPresupuesto }}</p>
         </div>
 
         <!-- Mensaje -->
@@ -64,7 +65,8 @@
           </button>
           <button
             type="submit"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold"
+            :disabled="!!errorPresupuesto"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Enviar
           </button>
@@ -87,11 +89,24 @@ const emit = defineEmits(['close', 'respondido'])
 
 const mensaje = ref('')
 const presupuesto = ref('')
+const errorPresupuesto = ref('')
+const MAX_PRESUPUESTO = 99999999.99
 
+// Reset al abrir
 watch(() => props.show, (visible) => {
   if (visible) {
     mensaje.value = ''
     presupuesto.value = ''
+    errorPresupuesto.value = ''
+  }
+})
+
+// Validación de presupuesto
+watch(presupuesto, (valor) => {
+  if (valor && parseFloat(valor) > MAX_PRESUPUESTO) {
+    errorPresupuesto.value = `Pon un presupuesto más pequeño (máx €${MAX_PRESUPUESTO})`
+  } else {
+    errorPresupuesto.value = ''
   }
 })
 
@@ -100,24 +115,17 @@ const enviarMensaje = async () => {
   const nombre = props.cliente?.user?.nombre
   const email = props.cliente?.user?.email
 
-  if (!id || !mensaje.value) return
+  if (!id || !mensaje.value || errorPresupuesto.value) return
 
   try {
-    // 1. Enviar mensaje por email
-    await api.post(`/budgets/${id}/reply`, {
-      mensaje: mensaje.value
-    })
-
-    // 2. Marcar como respondido y añadir presupuesto estimado
+    await api.post(`/budgets/${id}/reply`, { mensaje: mensaje.value })
     await api.put(`/budgets/${id}`, {
       estado: 'respondido',
       presupuesto_estimado: presupuesto.value || null
     })
 
-    // 3. Emitir eventos
     emit('respondido', id)
     emit('close')
-
     alert(`Mensaje enviado a ${nombre} (${email})`)
   } catch (error) {
     console.error('Error al enviar mensaje:', error)

@@ -19,85 +19,70 @@
       </div>
 
       <!-- Tabla de servicios -->
-      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
-        <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
-          <thead class="bg-purple-500 dark:bg-purple-600 text-white uppercase text-xs tracking-wider">
-            <tr>
-              <th class="p-4 text-left">#</th>
-              <th class="p-4 text-left">Tipo</th>
-              <th class="p-4 text-left">Nombre</th>
-              <th class="p-4 text-left">Problema</th>
-              <th class="p-4 text-left">Precio</th>
-              <th class="p-4 text-left">Garantía</th>
-              <th class="p-4 text-left">Duración</th>
-              <th class="p-4 text-left">Recibido</th>
-              <th class="p-4 text-left">Entregado</th>
-              <th class="p-4 text-left">Estado</th>
-              <th class="p-4 text-left">Cliente</th>
-              <th class="p-4 text-left">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(reparacion, index) in reparaciones"
-              :key="reparacion.id"
-              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <td class="p-4">{{ index + 1 }}</td>
+<div class="w-full overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+  <table class="w-full table-fixed text-xs sm:text-sm text-gray-700 dark:text-gray-200">
+    <thead class="bg-purple-500 dark:bg-purple-600 text-white text-xs uppercase tracking-wider">
+      <tr>
+        <th class="p-3 w-6">#</th>
+        <th class="p-3 w-22">Tipo</th>
+        <th class="p-3 w-36">Nombre</th>
+        <th class="p-3 w-74 truncate">Problema</th>
+        <th class="p-3 w-20">Precio</th>
+        <th class="p-3 w-20">Garantía</th>
+        <th class="p-3 w-24">Recibido</th>
+        <th class="p-3 w-20">Entregado</th>
+        <th class="p-3 w-28">Estado</th>
+        <th class="p-3 w-18">Cliente</th>
+        <th class="p-3 w-24">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="(reparacion, index) in reparaciones"
+        :key="reparacion.id"
+        class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+      >
+        <td class="p-3">{{ index + 1 }}</td>
+        <td class="p-3">{{ reparacion.device_type }}</td>
+        <td class="p-3 font-medium truncate">{{ reparacion.nombre }}</td>
+        <td class="p-3 truncate" :title="reparacion.problem_description">
+          {{ reparacion.problem_description }}
+        </td>
+        <td class="p-3 font-mono">
+          {{ reparacion.repair_cost !== null ? `€${reparacion.repair_cost}` : '—' }}
+        </td>
+        <td class="p-3">{{ traducirGarantia(reparacion.garantia) }}</td>
+        <td class="p-3">{{ formatFecha(reparacion.received_at) }}</td>
+        <td class="p-3">{{ formatFecha(reparacion.delivered_at) }}</td>
+        <td class="p-3">
+          <span
+            class="inline-block text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap"
+            :class="estadoColor(reparacion.status)"
+          >
+            {{ reparacion.status }}
+          </span>
+        </td>
+        <td class="p-3 truncate">{{ reparacion.user?.nombre || '—' }}</td>
+        <td class="p-3 flex flex-col gap-1">
+          <button
+            @click="abrirModal(reparacion)"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold"
+          >
+            Editar
+          </button>
+          <button
+            @click="eliminarReparacion(reparacion.id)"
+            class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-              <td class="p-4">{{ reparacion.device_type }}</td>
-              
-              <td class="p-4 font-medium">{{ reparacion.nombre }}</td>
 
-              <td class="p-4 max-w-sm truncate" :title="reparacion.problem_description">
-                {{ reparacion.problem_description }}
-              </td>
-
-              <td class="p-4 font-mono">
-                {{ reparacion.repair_cost !== null ? `€${reparacion.repair_cost}` : '—' }}
-              </td>
-
-              <td class="p-4">
-                {{ traducirGarantia(reparacion.garantia) }}
-              </td>
-
-              <td class="p-4">
-                {{ formatDuracion(reparacion.received_at, reparacion.delivered_at) }}
-              </td>
-
-              <td class="p-4">{{ formatFecha(reparacion.received_at) }}</td>
-              <td class="p-4">{{ formatFecha(reparacion.delivered_at) }}</td>
-
-              <td class="p-4">
-                <span
-                  class="inline-block text-xs font-semibold px-2 py-1 rounded-full"
-                  :class="estadoColor(reparacion.status)"
-                >
-                  {{ reparacion.status }}
-                </span>
-              </td>
-
-              <td class="p-4">{{ reparacion.user?.nombre || '—' }}</td>
-
-
-              <td class="p-4 flex gap-2">
-                <button
-                  @click="abrirModal(reparacion)"
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold"
-                >
-                  Editar
-                </button>
-                <button
-                  @click="eliminarReparacion(reparacion.id)"
-                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold"
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
     <!-- Modal de edición -->
@@ -148,14 +133,6 @@ const eliminarReparacion = async (id) => {
       console.error('Error al eliminar reparación:', error)
     }
   }
-}
-
-const formatDuracion = (start, end) => {
-  if (!start || !end) return '—'
-  const inicio = new Date(start)
-  const fin = new Date(end)
-  const dias = Math.round((fin - inicio) / (1000 * 60 * 60 * 24))
-  return `${dias} día${dias === 1 ? '' : 's'}`
 }
 
 const traducirGarantia = (valor) => {

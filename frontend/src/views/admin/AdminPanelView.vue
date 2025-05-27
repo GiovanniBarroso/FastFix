@@ -96,7 +96,7 @@ const router = useRouter()
 
 const stats = ref({
   pedidos: 0,
-  presupuestos: 0,
+  presupuestos_pendientes: 0,
   ventas: 0,
   usuarios: 0
 })

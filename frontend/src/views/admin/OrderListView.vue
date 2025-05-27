@@ -15,7 +15,7 @@
       <!-- Filtro por estado -->
       <div class="flex justify-center mb-8 gap-2 flex-wrap">
         <button
-          v-for="estado in ['todos', 'pendiente', 'pagado', 'enviado', 'cancelado']"
+          v-for="estado in ['todos', 'pendiente', 'pagado', 'cancelado']"
           :key="estado"
           @click="filtroEstado = estado"
           :class="[
@@ -113,16 +113,14 @@ const formatDate = (fecha) => {
 }
 
 const traducirEstado = (estado) => ({
-  pendiente: 'En proceso',
-  pagado: 'Entregado',
-  enviado: 'Enviado',
+  pendiente: 'Pendiente',
+  pagado: 'Pagado',
   cancelado: 'Cancelado'
 }[estado] || estado)
 
 const statusClass = (estado) => ({
   pendiente: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-white',
   pagado: 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-white',
-  enviado: 'bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white',
   cancelado: 'bg-red-100 text-red-800 dark:bg-red-700 dark:text-white',
 }[estado] || 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white')
 
