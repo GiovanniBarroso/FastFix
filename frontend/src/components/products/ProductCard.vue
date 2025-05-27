@@ -11,6 +11,14 @@
         class="h-full object-contain transition-transform duration-300 group-hover:scale-105"
         alt="Producto"
       />
+      <!-- Badge de descuento -->
+      <div
+        v-if="product.precio_base > product.precio"
+        class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow"
+      >
+        -{{ calcularPorcentajeDescuento(product.precio_base, product.precio) }}%
+      </div>
+
     </div>
 
     <!-- Contenido -->
@@ -25,9 +33,18 @@
       </div>
 
       <div class="mt-4 flex justify-between items-center">
-        <span class="text-lg font-black text-gray-900 dark:text-white">
-          €{{ parseFloat(product.precio).toFixed(2) }}
-        </span>
+        <div class="flex flex-col items-start">
+          <span class="text-lg font-black text-gray-900 dark:text-white leading-none">
+            €{{ parseFloat(product.precio).toFixed(2) }}
+          </span>
+          <span
+            v-if="product.precio_base > product.precio"
+            class="text-sm text-gray-500 dark:text-gray-400 line-through"
+          >
+            €{{ parseFloat(product.precio_base).toFixed(2) }}
+          </span>
+        </div>
+
         <div class="flex gap-2">
           <button
             @click="addToCart"
@@ -69,6 +86,10 @@ const props = defineProps({
 const getImageUrl = (filename) => {
   if (!filename) return '/images/default.jpg'
   return `/products/${filename}`
+}
+
+const calcularPorcentajeDescuento = (base, actual) => {
+  return Math.round(((base - actual) / base) * 100)
 }
 
 // Añadir al carrito

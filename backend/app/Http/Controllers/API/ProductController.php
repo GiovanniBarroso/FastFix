@@ -5,13 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Support\Str; // 👈 Importar helper de Laravel para generar el slug
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        return Product::with(['category', 'brand'])->get();
+        return Product::with(['category', 'brand', 'discounts'])->get();
     }
 
     public function store(Request $request)
@@ -27,7 +27,6 @@ class ProductController extends Controller
             'image' => 'nullable|image|max:2048',
         ]);
 
-        // 🔥 Generar slug único basado en el nombre
         $validated['slug'] = Str::slug($validated['nombre'] . '-' . uniqid());
 
         if ($request->hasFile('image')) {
@@ -36,14 +35,19 @@ class ProductController extends Controller
             $validated['image'] = $filename;
         }
 
+        $validated['precio_base'] = $validated['precio'];
+
         $product = Product::create($validated);
 
-        return response()->json($product, 201);
+        // Aplica descuentos automáticamente
+        $product->update(['precio' => $product->aplicarDescuentos()]);
+
+        return response()->json($product->fresh(['category', 'brand', 'discounts']), 201);
     }
 
     public function show($id)
     {
-        $product = Product::with(['category', 'brand'])->find($id);
+        $product = Product::with(['category', 'brand', 'discounts'])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Producto no encontrado'], 404);
@@ -71,22 +75,25 @@ class ProductController extends Controller
             'image' => 'nullable|image|max:2048',
         ]);
 
-        // 👇 OPCIONAL: regenerar el slug si cambia el nombre
         $validated['slug'] = Str::slug($validated['nombre'] . '-' . uniqid());
 
         if ($request->hasFile('image')) {
             if ($product->image && file_exists(public_path('images/' . $product->image))) {
                 unlink(public_path('images/' . $product->image));
             }
-
             $filename = time() . '_' . $request->file('image')->getClientOriginalName();
             $request->file('image')->move(public_path('images'), $filename);
             $validated['image'] = $filename;
         }
 
+        $validated['precio_base'] = $validated['precio'];
+
         $product->update($validated);
 
-        return response()->json($product);
+        // Aplica descuentos automáticamente
+        $product->update(['precio' => $product->aplicarDescuentos()]);
+
+        return response()->json($product->fresh(['category', 'brand', 'discounts']));
     }
 
     public function destroy($id)

@@ -9,7 +9,9 @@ return new class extends Migration {
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->string('codigo')->unique();
+            $table->string('descripcion')->nullable();
+            $table->boolean('activo')->default(true);
             $table->decimal('valor', 10, 2);
             $table->enum('tipo', ['porcentaje', 'fijo'])->default('fijo');
             $table->timestamp('inicio')->nullable();

@@ -19,16 +19,17 @@ class Product extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'precio',
+        'precio_base',   // 💡 Precio original sin descuento
+        'precio',        // 💰 Precio final (con descuento aplicado)
         'stock',
         'activo',
         'category_id',
         'brand_id',
-        'slug',     // 👈 ESTE DEBE ESTAR
-        'image'     // 👈 Este también si estás usando imágenes
+        'slug',
+        'image'
     ];
 
-
+    // Relaciones
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -42,11 +43,6 @@ class Product extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
-    }
-
-    public function discounts()
-    {
-        return $this->hasMany(Discount::class);
     }
 
     public function orders()
@@ -63,4 +59,35 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class);
+    }
+
+    // 🔁 Método para aplicar descuentos activos al precio base
+    public function aplicarDescuentos(): float
+    {
+        $precio = $this->precio_base;
+        $ahora = now();
+
+        $descuentosActivos = $this->discounts()
+            ->where('activo', true)
+            ->where(function ($q) use ($ahora) {
+                $q->whereNull('inicio')->orWhere('inicio', '<=', $ahora);
+            })
+            ->where(function ($q) use ($ahora) {
+                $q->whereNull('fin')->orWhere('fin', '>=', $ahora);
+            })
+            ->get();
+
+        foreach ($descuentosActivos as $descuento) {
+            if ($descuento->tipo === 'porcentaje') {
+                $precio *= 1 - ($descuento->valor / 100);
+            } elseif ($descuento->tipo === 'fijo') {
+                $precio -= $descuento->valor;
+            }
+        }
+
+        return max(0, round($precio, 2));
+    }
 }

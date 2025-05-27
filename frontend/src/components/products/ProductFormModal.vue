@@ -10,36 +10,42 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
           <input v-model="form.nombre" type="text" required
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <!-- Descripción -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
           <textarea v-model="form.descripcion" rows="3" required
-            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
         </div>
 
-        <!-- Precio y stock -->
+        <!-- Precio base y final -->
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio (€)</label>
-            <input v-model="form.precio" type="number" step="0.01" required
-              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio base (€)</label>
+            <input v-model="form.precio_base" type="number" step="0.01" required
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock</label>
-            <input v-model="form.stock" type="number" required
-              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio final (€)</label>
+            <input :value="form.precio" type="text" readonly
+              class="w-full border rounded px-3 py-2 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 cursor-not-allowed" />
           </div>
+        </div>
+
+        <!-- Stock -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock</label>
+          <input v-model="form.stock" type="number" required
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
         </div>
 
         <!-- Imagen -->
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
           <input type="file" accept="image/*" :required="!isEditing" @change="handleFileUpload"
-            class="block w-full text-sm text-gray-900 dark:text-gray-300 file:mr-4 file:py-2 file:px-4
-                   file:rounded-full file:border-0 file:text-sm file:font-semibold
+            class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:font-semibold
                    file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100
                    dark:file:bg-gray-700 dark:file:text-white dark:hover:file:bg-gray-600" />
 
@@ -59,7 +65,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categoría</label>
             <select v-model="form.category_id" required
-              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
               <option disabled value="">Selecciona categoría</option>
               <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.nombre }}</option>
             </select>
@@ -67,7 +73,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Marca</label>
             <select v-model="form.brand_id" required
-              class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
               <option disabled value="">Selecciona marca</option>
               <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.nombre }}</option>
             </select>
@@ -103,15 +109,11 @@ const emit = defineEmits(['close', 'saved'])
 
 const baseURL = 'http://localhost:8000'
 
-const getImageUrl = (filename) => {
-  if (!filename) return `${baseURL}/images/default.jpg`
-  return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
-}
-
 const form = ref({
   id: null,
   nombre: '',
   descripcion: '',
+  precio_base: 0,
   precio: 0,
   stock: 0,
   category_id: '',
@@ -124,6 +126,11 @@ const previewUrl = ref(null)
 const isEditing = ref(false)
 const categories = ref([])
 const brands = ref([])
+
+const getImageUrl = (filename) => {
+  return !filename ? `${baseURL}/images/default.jpg`
+    : filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
+}
 
 const fetchCategoriesAndBrands = async () => {
   try {
@@ -151,7 +158,7 @@ const handleSubmit = async () => {
     const data = new FormData()
     data.append('nombre', form.value.nombre)
     data.append('descripcion', form.value.descripcion)
-    data.append('precio', form.value.precio)
+    data.append('precio', form.value.precio_base) // Solo se envía el precio base
     data.append('stock', form.value.stock)
     data.append('category_id', form.value.category_id)
     data.append('brand_id', form.value.brand_id)
@@ -182,6 +189,7 @@ const resetForm = () => {
     id: null,
     nombre: '',
     descripcion: '',
+    precio_base: 0,
     precio: 0,
     stock: 0,
     category_id: '',
@@ -204,6 +212,7 @@ watch(() => props.show, (visible) => {
       id: props.productToEdit.id,
       nombre: props.productToEdit.nombre,
       descripcion: props.productToEdit.descripcion,
+      precio_base: props.productToEdit.precio_base,
       precio: props.productToEdit.precio,
       stock: props.productToEdit.stock,
       category_id: props.productToEdit.category_id,

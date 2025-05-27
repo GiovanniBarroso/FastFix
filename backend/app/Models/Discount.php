@@ -10,27 +10,33 @@ class Discount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id',
+        'codigo',
+        'descripcion',
         'valor',
         'tipo',
         'inicio',
         'fin',
+        'activo',
     ];
 
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class);
     }
+
 
     public function isActive(): bool
     {
         $now = now();
-        return (!$this->inicio || $this->inicio <= $now) &&
+        return $this->activo &&
+            (!$this->inicio || $this->inicio <= $now) &&
             (!$this->fin || $this->fin >= $now);
     }
 
     public function getDescuentoFormateadoAttribute()
     {
-        return $this->tipo === 'porcentaje' ? "{$this->valor}%" : number_format($this->valor, 2) . "€";
+        return $this->tipo === 'porcentaje'
+            ? "{$this->valor}%"
+            : number_format($this->valor, 2) . "€";
     }
 }

@@ -149,6 +149,13 @@ const adminPanels = [
     descripcion: 'Administra las cuentas de los usuarios registrados.',
     ruta: '/admin/users',
     icono: '👥'
+  },
+  {
+    nombre: 'Descuentos',
+    descripcion: 'Crea, edita o elimina cupones y descuentos para productos.',
+    ruta: '/admin/discounts',
+    icono: '🏷️'
   }
 ]
+
 </script>

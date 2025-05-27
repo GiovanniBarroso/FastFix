@@ -1,12 +1,11 @@
-<template> 
+<template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-      
       <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonAdmin />
       </div>
-      
+
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">🛠️ Gestión de productos</h1>
@@ -23,7 +22,8 @@
             <tr>
               <th class="p-4 text-left font-semibold tracking-wide">#</th>
               <th class="p-4 text-left font-semibold tracking-wide">Producto</th>
-              <th class="p-4 text-left font-semibold tracking-wide">Precio</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Precio Base</th>
+              <th class="p-4 text-left font-semibold tracking-wide">Precio con Descuento</th>
               <th class="p-4 text-left font-semibold tracking-wide">Stock</th>
               <th class="p-4 text-left font-semibold tracking-wide">Marca</th>
               <th class="p-4 text-left font-semibold tracking-wide">Categoría</th>
@@ -43,7 +43,12 @@
                 </a>
                 <span class="font-medium">{{ product.nombre }}</span>
               </td>
-              <td class="p-4 font-semibold">€{{ product.precio }}</td>
+              <td class="p-4 font-semibold text-gray-700 dark:text-gray-200">
+                €{{ product.precio_base|| '—' }}
+              </td>
+              <td class="p-4 font-bold text-green-600 dark:text-green-400">
+                €{{ product.precio || '—' }}
+              </td>
               <td class="p-4">{{ product.stock }}</td>
               <td class="p-4">
                 <span
@@ -67,7 +72,6 @@
                   {{ product.activo ? 'Sí' : 'No' }}
                 </span>
               </td>
-
               <td class="p-4 flex gap-2">
                 <button @click="editar(product)"
                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold transition">
@@ -85,8 +89,7 @@
     </div>
 
     <!-- Modal -->
-    <ProductFormModal :show="showModal" :productToEdit="productToEdit" @close="showModal = false"
-      @saved="fetchProducts" />
+    <ProductFormModal :show="showModal" :productToEdit="productToEdit" @close="showModal = false" @saved="fetchProducts" />
   </section>
 </template>
 

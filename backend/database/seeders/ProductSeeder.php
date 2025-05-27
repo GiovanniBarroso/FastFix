@@ -28,11 +28,12 @@ class ProductSeeder extends Seeder
         $brands = Brand::all();
         $categories = Category::all();
 
-        foreach ($productos as [$nombre, $descripcion, $precio, $imagen]) {
+        foreach ($productos as [$nombre, $descripcion, $precioBase, $imagen]) {
             Product::create([
                 'nombre' => $nombre,
                 'descripcion' => $descripcion,
-                'precio' => $precio,
+                'precio_base' => $precioBase,
+                'precio' => $precioBase, // inicialmente sin descuento
                 'stock' => rand(5, 50),
                 'activo' => rand(0, 1),
                 'brand_id' => $brands->random()->id,

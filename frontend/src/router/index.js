@@ -37,6 +37,7 @@ import OrderListView from '@/views/admin/OrderListView.vue'
 import BudgetListView from '@/views/admin/BudgetListView.vue'
 import UserListView from '@/views/admin/UserListView.vue'
 import RepairListView from '@/views/admin/RepairListView.vue'
+import DiscountListView from '@/views/admin/DiscountListView.vue'
 import AdminCalendarView from '@/views/admin/AdminCalendarView.vue'
 import AdminNotificationCenter from '@/views/admin/AdminNotificationCenter.vue'
 
@@ -205,6 +206,12 @@ const routes = [
   path: '/admin/repairs',
   name: 'repair-list',
   component: RepairListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/discounts',
+  name: 'discounts-list',
+  component: DiscountListView,
   meta: { requiresAuth: true, requiresAdmin: true }
 },
 {
