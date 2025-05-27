@@ -106,14 +106,6 @@ const cart = computed(() => cartStore.items)
 const loading = ref(false)
 const router = useRouter()
 
-const getCart = async () => {
-  try {
-    const response = await api.get('/cart')
-    cart.value = response.data.cart
-  } catch (error) {
-    console.error('Error al obtener el carrito:', error)
-  }
-}
 
 const cambiarCantidad = async (item, delta) => {
   const nuevaCantidad = item.cantidad + delta
@@ -166,13 +158,6 @@ const finalizarCompra = async () => {
   }
 }
 
-const baseURL = 'http://localhost:8000'
-const getImageUrl = (filename) =>
-  !filename
-    ? `${baseURL}/images/default.jpg`
-    : filename.startsWith('http')
-      ? filename
-      : `${baseURL}/images/${filename}`
 
 const total = computed(() =>
   cart.value.reduce((sum, item) => sum + parseFloat(item.product.precio) * item.cantidad, 0),
