@@ -30,7 +30,7 @@
                             class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                             <td class="px-6 py-4 font-medium">{{ index + 1 }}</td>
                             <td class="px-6 py-4">{{ formatDate(budget.created_at) }}</td>
-                            <td class="px-6 py-4">{{ budget.descripcion }}</td>
+                            <td class="px-6 py-4">{{ budget.mensaje }}</td>
                             <td class="px-6 py-4">
                                 <span
                                     :class="['px-3 py-1 text-xs font-semibold rounded-full capitalize', estadoColor(budget.estado)]">
