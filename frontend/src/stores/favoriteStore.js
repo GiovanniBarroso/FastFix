@@ -10,7 +10,6 @@ export const useFavoriteStore = defineStore('favorite', {
     async fetchFavorites() {
       const res = await api.get('/favorites')
       this.favorites = res.data.favorites
-      console.log('✅ Favoritos cargados:', this.favorites)
     },
     isFavorite(productId) {
       return this.favorites.some(fav => {

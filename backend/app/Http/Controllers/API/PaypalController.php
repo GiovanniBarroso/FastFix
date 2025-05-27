@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use App\Models\CartItem;
 use App\Models\Order;
 use Carbon\Carbon;
 
@@ -101,6 +102,7 @@ class PayPalController extends Controller
 
         if (isset($data['status']) && $data['status'] === 'COMPLETED') {
             $order = Order::findOrFail($orderId);
+
             $order->update([
                 'estado' => 'pagado',
                 'metodo_pago' => 'paypal',
@@ -108,6 +110,11 @@ class PayPalController extends Controller
                 'paypal_status' => 'COMPLETED',
                 'fecha_pago' => Carbon::now()
             ]);
+
+            // ✅ Vaciar carrito por user_id del pedido
+            if ($order->user_id) {
+                CartItem::where('user_id', $order->user_id)->delete();
+            }
 
             return response()->view('redirect', ['url' => env('FRONTEND_URL') . '/checkout/success']);
         }

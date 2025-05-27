@@ -1,3 +1,4 @@
+// stores/cartStore.js
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 
@@ -13,15 +14,26 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  const removeItem = (productId) => {
-    items.value = items.value.filter((p) => p.id !== productId)
+  const updateItemCantidad = (id, cantidad) => {
+    const item = items.value.find((p) => p.id === id)
+    if (item) item.cantidad = cantidad
+  }
+
+  const removeItem = (id) => {
+    items.value = items.value.filter((p) => p.id !== id)
   }
 
   const clearCart = () => {
     items.value = []
   }
 
-  const totalCount = computed(() => items.value.reduce((sum, p) => sum + p.cantidad, 0))
+  const setCart = (data) => {
+    items.value = data
+  }
+
+  const totalCount = computed(() =>
+    items.value.reduce((sum, p) => sum + p.cantidad, 0)
+  )
 
   const loadCart = () => {
     const saved = localStorage.getItem('cart')
@@ -30,17 +42,23 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  // Guardar automáticamente al cambiar
-  watch(items, (newVal) => {
-    localStorage.setItem('cart', JSON.stringify(newVal))
-  }, { deep: true })
+  // Guarda automáticamente el carrito en localStorage al modificarse
+  watch(
+    items,
+    (newVal) => {
+      localStorage.setItem('cart', JSON.stringify(newVal))
+    },
+    { deep: true }
+  )
 
   return {
     items,
     addItem,
+    updateItemCantidad,
     removeItem,
     clearCart,
+    setCart,
     totalCount,
-    loadCart, // <- importante exportarlo
+    loadCart,
   }
 })

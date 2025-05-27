@@ -147,6 +147,7 @@ const isAuthenticated = computed(() => auth.isAuthenticated())
 const isAdmin = computed(() => auth.isAdmin())
 const cartCount = computed(() => cart.totalCount)
 
+
 const logout = async () => {
   try {
     await api.post('/logout')
