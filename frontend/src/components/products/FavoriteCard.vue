@@ -5,11 +5,15 @@
       class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden hover:shadow-lg transition"
     >
       <!-- Imagen -->
-      <img
-        :src="getImageUrl(favorite.product.imagen)"
-        class="w-full h-48 object-cover"
-        alt="Producto favorito"
-      />
+      <div
+        class="w-full h-48 bg-white flex items-center justify-center overflow-hidden rounded-b-none"
+      >
+        <img
+          :src="getImageUrl(favorite.product.imagen)"
+          class="h-full object-contain"
+          alt="Producto favorito"
+        />
+      </div>
 
       <!-- Contenido -->
       <div class="p-4">
@@ -43,37 +47,40 @@ import { ref, defineProps, defineEmits } from 'vue'
 const props = defineProps({
   favorite: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
-const emit = defineEmits(['removed'])
+const { favorite } = props // ✅ desestructuración
+console.log('Imagen recibida:', favorite.product.imagen) // ✅ sin error
 
+const emit = defineEmits(['removed'])
 const toast = useToast()
 const visible = ref(true)
 
 const removeFromFavorites = async () => {
   try {
-    await api.delete(`/favorites/${props.favorite.id}`)
+    await api.delete(`/favorites/${favorite.id}`)
     toast.success('✅ Producto eliminado de favoritos.')
-    visible.value = false // activa la animación de salida
+    visible.value = false
   } catch (error) {
     toast.error('❌ Error al eliminar favorito.')
     console.error(error)
   }
 }
 
-const baseURL = 'http://localhost:8000'
 const getImageUrl = (filename) => {
-  if (!filename) return `${baseURL}/images/default.jpg`
-  return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
+  if (!filename) return '/images/default.jpg'
+  return `/products/${filename}`
 }
 </script>
 
 <style scoped>
 /* 🎬 Animación suave de desaparición */
 .fade-card-leave-active {
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 .fade-card-leave-to {
   opacity: 0;

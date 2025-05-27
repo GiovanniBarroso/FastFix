@@ -52,6 +52,7 @@ const favorites = ref([])
 const fetchFavorites = async () => {
   try {
     const response = await api.get('/favorites')
+    console.log('Favoritos cargados:', response.data.favorites) // ✅ Aquí sí funciona
     favorites.value = response.data.favorites
   } catch (error) {
     console.error('Error al cargar favoritos:', error)

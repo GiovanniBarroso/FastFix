@@ -22,7 +22,7 @@ class FavoriteController extends Controller
                         'nombre' => $fav->product->nombre,
                         'descripcion' => $fav->product->descripcion,
                         'precio' => $fav->product->precio,
-                        'imagen' => $fav->product->imagen,
+                        'imagen' => $fav->product->image,
                         'brand' => optional($fav->product->brand)->nombre ?? 'Sin marca',
                     ]
                 ];
