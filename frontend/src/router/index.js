@@ -229,33 +229,31 @@ const router = createRouter({
 // 🧠 Middleware global
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token')
-  const role = localStorage.getItem('role')
 
-  // 🔒 Rutas que requieren autenticación
   if (to.meta.requiresAuth && !token) {
     return next({ name: 'login' })
   }
 
-  // 🚫 Si ya está logueado y va a login/register, redirigir
-  if ((to.name === 'login' || to.name === 'register') && token) {
-    return next({ name: role === 'admin' ? 'admin-panel' : 'user-panel' })
-  }
-
-  // 📧 Verificación de email
-  if (token && to.meta.requiresAuth && to.name !== 'verify-email') {
+  // Ya autenticado
+  if (token && to.meta.requiresAuth) {
     try {
       const res = await api.get('/me')
-      const isVerified = res.data.user?.email_verified_at !== null
-      const userRole = res.data.user?.role?.nombre
+      const user = res.data.user
+      const isVerified = user?.email_verified_at !== null
+      const userRole = user?.role?.nombre
 
-      if (!isVerified) {
+      // Redirigir a verificación si no está verificado
+      if (!isVerified && to.name !== 'verify-email') {
         return next({ name: 'verify-email' })
       }
 
-      // ⛔ Protección extra para rutas admin
+      // ❌ Bloquear acceso a /admin si no es admin
       if (to.path.startsWith('/admin') && userRole !== 'admin') {
         return next({ name: 'forbidden' })
       }
+
+      // ✅ Todo OK
+      return next()
     } catch {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
@@ -263,8 +261,16 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
-  next()
+  // Usuario autenticado intenta entrar a login/register → redirigir
+  if ((to.name === 'login' || to.name === 'register') && token) {
+    const res = await api.get('/me')
+    const userRole = res.data.user?.role?.nombre
+    return next({ name: userRole === 'admin' ? 'admin-panel' : 'user-panel' })
+  }
+
+  return next()
 })
+
 
 
 export default router
