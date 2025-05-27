@@ -38,7 +38,6 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        // ✅ Notificación al registrar usuario
         Notification::create([
             'title' => 'Nuevo registro',
             'message' => "Se ha registrado un nuevo usuario: \"{$user->nombre}\".",
@@ -59,7 +58,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
 
-        $user = auth('api')->user();
+        $user = auth('api')->user()->load('role');
 
         if (!$user->hasVerifiedEmail()) {
             auth('api')->logout();
@@ -69,7 +68,7 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token,
             'user' => $user,
-            'role' => $user->role_id === 1 ? 'admin' : 'user'
+            'role' => $user->role?->nombre ?? 'user'
         ]);
     }
 
@@ -81,16 +80,10 @@ class AuthController extends Controller
 
     public function me()
     {
-        $user = auth('api')->user();
+        $user = auth('api')->user()->load('role');
 
         return response()->json([
-            'id' => $user->id,
-            'nombre' => $user->nombre,
-            'apellidos' => $user->apellidos,
-            'telefono' => $user->telefono,
-            'email' => $user->email,
-            'email_verified_at' => $user->email_verified_at,
-            'role_id' => $user->role_id
+            'user' => $user
         ]);
     }
 }

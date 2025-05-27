@@ -24,6 +24,8 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import api from '@/services/api'
 import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
+import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
 
 const events = ref([])
 
@@ -37,7 +39,18 @@ const calendarOptions = ref({
   },
   events: events.value,
   eventClick(info) {
-    alert('📌 ' + info.event.title)
+    // Modal o redirección si quieres
+    alert(`📌 Reparación: ${info.event.title}\nFecha: ${info.event.startStr}`)
+  },
+  eventDidMount(info) {
+    // Tooltips con tippy
+    tippy(info.el, {
+      content: info.event.extendedProps.tooltip,
+      allowHTML: true,
+      placement: 'top',
+      theme: 'light-border',
+      animation: 'fade'
+    })
   }
 })
 
@@ -49,7 +62,14 @@ onMounted(async () => {
       title: `🛠️ Reparación: ${r.device_type}`,
       start: r.received_at,
       end: r.delivered_at,
-      className: 'fc-event-repair'
+      className: 'fc-event-repair',
+      tooltip: `
+        <strong>Cliente:</strong> ${r.user?.nombre || '—'}<br/>
+        <strong>Dispositivo:</strong> ${r.nombre}<br/>
+        <strong>Problema:</strong> ${r.problem_description}<br/>
+        <strong>Estado:</strong> ${r.status}<br/>
+        <strong>Fecha de recepción:</strong> ${r.received_at}
+      `
     }))
 
     events.value = repairEvents
@@ -58,8 +78,8 @@ onMounted(async () => {
     console.error('Error al cargar reparaciones:', error)
   }
 })
-
 </script>
+
 
 <style>
 /* 💡 Corrección visual para FullCalendar en modo claro y oscuro */
@@ -141,6 +161,9 @@ onMounted(async () => {
 }
 .dark .fc .fc-button:hover {
   background: #2563eb;
+}
+.fc-event-time {
+  display: none !important;
 }
 
 </style>

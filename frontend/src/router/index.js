@@ -18,6 +18,7 @@ import ConfirmPasswordView from '@/views/auth/ConfirmPasswordView.vue'
 import VerifyEmailView from '@/views/auth/VerifyEmailView.vue'
 import ProfileView from '@/views/auth/ProfileView.vue'
 import ChangePasswordView from '@/views/auth/ChangePasswordView.vue'
+import ForbiddenView from '@/views/errors/ForbiddenView.vue'
 
 // 👤 Usuario
 import UserPanelView from '@/views/user/UserPanelView.vue'
@@ -162,51 +163,62 @@ const routes = [
     component: ChangePasswordView,
     meta: { requiresAuth: true },
   },
+  {
+  path: '/forbidden',
+  name: 'forbidden',
+  component: ForbiddenView,
+  meta: { requiresAuth: true }
+},
 
-  // Admin
-  { path: '/admin', name: 'admin-panel', component: AdminPanelView, meta: { requiresAuth: true } },
+
   {
-    path: '/admin/products',
-    name: 'product-list',
-    component: ProductListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/orders',
-    name: 'order-list',
-    component: OrderListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/budgets',
-    name: 'budget-list',
-    component: BudgetListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/users',
-    name: 'users-list',
-    component: UserListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/repairs',
-    name: 'repair-list',
-    component: RepairListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/calendar',
-    name: 'admin-calendar',
-    component: AdminCalendarView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/notifications',
-    name: 'admin-notifications',
-    component: AdminNotificationCenter,
-    meta: { requiresAuth: true },
-  },
+  path: '/admin',
+  name: 'admin-panel',
+  component: AdminPanelView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/products',
+  name: 'product-list',
+  component: ProductListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/orders',
+  name: 'order-list',
+  component: OrderListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/budgets',
+  name: 'budget-list',
+  component: BudgetListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/users',
+  name: 'users-list',
+  component: UserListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/repairs',
+  name: 'repair-list',
+  component: RepairListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/calendar',
+  name: 'admin-calendar',
+  component: AdminCalendarView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/notifications',
+  name: 'admin-notifications',
+  component: AdminNotificationCenter,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
 ]
 
 const router = createRouter({
@@ -217,24 +229,31 @@ const router = createRouter({
 // 🧠 Middleware global
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token')
-  const role = localStorage.getItem('role')
 
   if (to.meta.requiresAuth && !token) {
     return next({ name: 'login' })
   }
 
-  if ((to.name === 'login' || to.name === 'register') && token) {
-    return next({ name: role === 'admin' ? 'admin-panel' : 'user-panel' })
-  }
-
-  if (token && to.meta.requiresAuth && to.name !== 'verify-email') {
+  // Ya autenticado
+  if (token && to.meta.requiresAuth) {
     try {
-      const response = await api.get('/me')
-      const isVerified = response.data.user?.email_verified_at !== null
+      const res = await api.get('/me')
+      const user = res.data.user
+      const isVerified = user?.email_verified_at !== null
+      const userRole = user?.role?.nombre
 
-      if (!isVerified) {
+      // Redirigir a verificación si no está verificado
+      if (!isVerified && to.name !== 'verify-email') {
         return next({ name: 'verify-email' })
       }
+
+      // ❌ Bloquear acceso a /admin si no es admin
+      if (to.path.startsWith('/admin') && userRole !== 'admin') {
+        return next({ name: 'forbidden' })
+      }
+
+      // ✅ Todo OK
+      return next()
     } catch {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
@@ -242,7 +261,16 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
-  next()
+  // Usuario autenticado intenta entrar a login/register → redirigir
+  if ((to.name === 'login' || to.name === 'register') && token) {
+    const res = await api.get('/me')
+    const userRole = res.data.user?.role?.nombre
+    return next({ name: userRole === 'admin' ? 'admin-panel' : 'user-panel' })
+  }
+
+  return next()
 })
+
+
 
 export default router
