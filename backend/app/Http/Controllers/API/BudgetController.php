@@ -38,10 +38,20 @@ class BudgetController extends Controller
         return response()->json(['message' => 'Presupuesto enviado correctamente'], 201);
     }
 
-    // Vista admin - listar todos con usuario incluido
+    // Listar presupuestos según rol del usuario
     public function index()
     {
-        return Budget::with('user')->orderByDesc('created_at')->get();
+        $user = auth()->user();
+
+        if ($user->role_id === 1) {
+            // Admin: ver todos
+            return Budget::with('user')->orderByDesc('created_at')->get();
+        }
+
+        // Cliente: solo los suyos
+        return Budget::where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     // Vista admin - ver uno
@@ -106,5 +116,4 @@ class BudgetController extends Controller
 
         return response()->json(['message' => 'Presupuesto actualizado correctamente.']);
     }
-
 }

@@ -1,7 +1,6 @@
 <template>
   <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-
       <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonUser />
@@ -18,12 +17,11 @@
       <!-- Grid -->
       <div v-if="favorites.length" class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <FavoriteCard
-  v-for="fav in favorites"
-  :key="fav.id"
-  :favorite="fav"
-  @eliminado="fetchFavorites"
-/>
-
+          v-for="fav in favorites"
+          :key="fav.id"
+          :favorite="fav"
+          @removed="fetchFavorites"
+        />
       </div>
 
       <div v-else class="text-center text-gray-600 dark:text-gray-400 mt-20 text-lg">
@@ -44,6 +42,7 @@ const favorites = ref([])
 const fetchFavorites = async () => {
   try {
     const response = await api.get('/favorites')
+    console.log('FAVORITOS:', response.data.favorites)
     favorites.value = response.data.favorites
   } catch (error) {
     console.error('Error al cargar favoritos:', error)

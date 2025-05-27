@@ -30,21 +30,21 @@
               class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
-                <img :src="getImageUrl(item.product.imagen)" class="w-14 h-14 rounded object-cover" alt="Producto" />
+                <img :src="getImageUrl(item.product.image)" class="w-14 h-14 rounded object-cover" alt="Producto" />
                 <div>
-                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.product.nombre }}</span>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.product.brand?.nombre }}</span>
+                  <span class="block font-semibold text-gray-800 dark:text-white">{{ item.product.name }}</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">{{ item.product.brand?.name }}</span>
                 </div>
               </td>
-              <td class="p-4">€{{ parseFloat(item.product.precio).toFixed(2) }}</td>
+              <td class="p-4">€{{ parseFloat(item.product.price).toFixed(2) }}</td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
                   <button @click="cambiarCantidad(item, -1)"
                     class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-500 active:scale-95 transition-all duration-150"
-                    :disabled="item.cantidad <= 1">
+                    :disabled="item.quantity <= 1">
                     −
                   </button>
-                  <span class="w-6 text-center font-semibold">{{ item.cantidad }}</span>
+                  <span class="w-6 text-center font-semibold">{{ item.quantity }}</span>
                   <button @click="cambiarCantidad(item, 1)"
                     class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-500 active:scale-95 transition-all duration-150">
                     +
@@ -52,7 +52,7 @@
                 </div>
               </td>
               <td class="p-4 font-semibold text-blue-600 dark:text-blue-400">
-                €{{ (parseFloat(item.product.precio) * item.cantidad).toFixed(2) }}
+                €{{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
               </td>
               <td class="p-4 text-center">
                 <button @click="eliminarDelCarrito(item.id)"
@@ -101,11 +101,11 @@ const getCart = async () => {
 }
 
 const cambiarCantidad = async (item, delta) => {
-  const nuevaCantidad = item.cantidad + delta
+  const nuevaCantidad = item.quantity + delta
   if (nuevaCantidad <= 0) return eliminarDelCarrito(item.id)
   try {
-    await api.put(`/cart/${item.id}`, { cantidad: nuevaCantidad })
-    item.cantidad = nuevaCantidad
+    await api.put(`/cart/${item.id}`, { quantity: nuevaCantidad })
+    item.quantity = nuevaCantidad
   } catch (error) {
     console.error('Error al actualizar cantidad', error)
   }
@@ -150,7 +150,7 @@ const getImageUrl = (filename) => {
 }
 
 const total = computed(() =>
-  cart.value.reduce((sum, item) => sum + parseFloat(item.product.precio) * item.cantidad, 0)
+  cart.value.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0)
 )
 
 onMounted(getCart)
