@@ -26,11 +26,11 @@ class CartController extends Controller
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
-                    'quantity' => $item->quantity,
+                    'cantidad' => $item->cantidad,
                     'product' => [
                         'id' => $item->product->id,
                         'nombre' => $item->product->nombre,
-                        'price' => $item->product->price,
+                        'precio' => $item->product->precio,
                         'image' => $item->product->image,
                         'brand' => optional($item->product->brand)->nombre ?? 'Sin marca'
                     ]
@@ -45,11 +45,11 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'quantity' => 'required|integer|min:1'
+            'cantidad' => 'required|integer|min:1'
         ]);
 
         $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
-        $cartItem->quantity = $request->quantity;
+        $cartItem->cantidad = $request->cantidad;
         $cartItem->save();
 
         return response()->json(['message' => 'Cantidad actualizada']);
@@ -71,13 +71,13 @@ class CartController extends Controller
             ->first();
 
         if ($cartItem) {
-            $cartItem->quantity += $request->cantidad;
+            $cartItem->cantidad += $request->cantidad;
             $cartItem->save();
         } else {
             CartItem::create([
                 'user_id' => $userId,
                 'product_id' => $productId,
-                'quantity' => $request->cantidad,
+                'cantidad' => $request->cantidad,
             ]);
         }
 

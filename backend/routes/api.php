@@ -2,26 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\{
-    GuaranteeController,
-    OrderController,
     AuthController,
-    RepairController,
-    ImageController,
-    InvoiceController,
-    ProductController,
-    AddressController,
-    DiscountController,
-    CategoryController,
-    BrandController,
-    FavoriteController,
-    CartController,
-    BudgetController,
     UserController,
     RoleController,
-    AdminStatsController,
+    AddressController,
+    ProductController,
+    CategoryController,
+    BrandController,
+    DiscountController,
+    FavoriteController,
+    CartController,
+    OrderController,
+    InvoiceController,
+    BudgetController,
+    RepairController,
     NotificationController,
+    AdminStatsController,
+    PaypalController
 };
 
+use App\Http\Controllers\API\Auth\VerifyEmailController;
 use Laravel\Fortify\Http\Controllers\{
     PasswordResetLinkController,
     NewPasswordController,
@@ -30,41 +30,58 @@ use Laravel\Fortify\Http\Controllers\{
     TwoFactorAuthenticatedSessionController
 };
 
-use App\Http\Controllers\API\Auth\VerifyEmailController;
+//
+// ───────────────────────────────────────────────
+// 🔓 RUTAS PÚBLICAS (Sin autenticación)
+// ───────────────────────────────────────────────
+//
 
-
-// 🛡️ Rutas de Fortify
-Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store']);
-Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-    ->middleware('signed')
-    ->name('verification.verify');
-
-// Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'store']);
-Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
-
-// 🔓 Rutas públicas
+// Auth
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
 
-// 🔓 Obtener roles disponibles para formularios (sin auth)
+// Verificación de correo electrónico (Fortify)
+Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store']);
+Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])->middleware('signed')->name('verification.verify');
+Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
+
+// Roles disponibles (sin auth)
 Route::get('/roles', [RoleController::class, 'index']);
 
-// 🔐 Rutas protegidas con JWT
+// ⚠️ Ruta externa necesaria para redirección PayPal (sin auth)
+Route::get('/paypal/success', [PayPalController::class, 'captureOrder']);
+
+
+//
+// ───────────────────────────────────────────────
+// 🔐 RUTAS PROTEGIDAS (Requieren JWT)
+// ───────────────────────────────────────────────
+//
 Route::middleware('auth:api')->group(function () {
 
-    // 🧑 Usuario
-    Route::post('/logout', [AuthController::class, 'logout']);
+    // 🧑 Perfil
     Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/profile', [UserController::class, 'update']);
+    Route::put('/profile-information', [UserController::class, 'updateProfileInformation']);
+    Route::post('/user/confirm-password', [UserController::class, 'confirmPassword']);
 
-    Route::get('/admin/stats', [AdminStatsController::class, 'index']);
+    // 👤 Administración de usuarios
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::post('/users', [UserController::class, 'store']);
+    Route::put('/users/{id}', [UserController::class, 'updateUser']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    // 📦 Recursos API
+    // 📦 Productos y Garantías
     Route::apiResource('/products', ProductController::class)->except(['create', 'edit']);
+    Route::get('/products/user', [ProductController::class, 'productosConGarantia']);
+
+    // 📂 Categorías y Marcas
     Route::apiResource('/categories', CategoryController::class)->except(['show', 'create', 'edit']);
     Route::apiResource('/brands', BrandController::class)->except(['show', 'create', 'edit']);
-    Route::post('/budgets', [BudgetController::class, 'store']);
 
     // ⭐ Favoritos
     Route::get('/favorites', [FavoriteController::class, 'index']);
@@ -74,72 +91,42 @@ Route::middleware('auth:api')->group(function () {
     // 🛒 Carrito
     Route::get('/cart', [CartController::class, 'index']);
     Route::post('/cart', [CartController::class, 'store']);
+    Route::put('/cart/{id}', [CartController::class, 'update']);
     Route::delete('/cart/{id}', [CartController::class, 'destroy']);
-    Route::put('/cart/{id}', [CartController::class, 'update'])->middleware('auth:api');
     Route::post('/cart/clear', [CartController::class, 'clear']);
 
-    // 🛒 Ordenes
+    // 🧾 Órdenes
     Route::get('/orders', [OrderController::class, 'index']);
-    Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::post('/orders', [OrderController::class, 'store']);
 
-    // 🛒 Garantias
-    Route::get('/guarantees', [GuaranteeController::class, 'index']);
-    Route::post('/guarantees', [GuaranteeController::class, 'store']);
-    Route::put('/guarantees/{id}', [GuaranteeController::class, 'update']);
-    Route::delete('/guarantees/{id}', [GuaranteeController::class, 'destroy']);
-    Route::get('/guarantees/by-order/{id}', [GuaranteeController::class, 'searchByOrder']);
-
-    // Productos con garantía del usuario autenticado
-    Route::get('/products/user', [ProductController::class, 'productosConGarantia']);
-
-    // Buscar garantía por producto para el usuario autenticado
-    Route::get('/guarantees/by-product/{productId}', [GuaranteeController::class, 'searchByProduct']);
-
-
-    // Budgets
-    Route::get('/budgets', [BudgetController::class, 'index']); // admin
-    Route::get('/budgets/{id}', [BudgetController::class, 'show']); //admin
-    Route::post('/budgets/{id}/reply', [BudgetController::class, 'reply']); // admin | responder por email
-    Route::put('/budgets/{id}', [BudgetController::class, 'update']); // admin | actualizar estado
-
-
-    // Usuario
-    Route::put('/profile', [UserController::class, 'update']); // usuario
-    Route::put('/profile-information', [UserController::class, 'updateProfileInformation']); // desde SPA (email, nombre)
-    Route::get('/users', [UserController::class, 'index']);    // admin
-    Route::get('/users/{id}', [UserController::class, 'show']); // admin
-    Route::delete('/users/{id}', [UserController::class, 'destroy']); // admin
-    Route::post('/users', [UserController::class, 'store']); // Crear usuario (admin)
-    Route::put('/users/{id}', [UserController::class, 'updateUser']); // Editar usuario (admin)
-
-
-    // Descuentos
-    Route::get('/discounts', [DiscountController::class, 'index']);
-    Route::post('/discounts', [DiscountController::class, 'store']);
-    Route::put('/discounts/{id}', [DiscountController::class, 'update']);
-    Route::delete('/discounts/{id}', [DiscountController::class, 'destroy']);
-
-
-    // Imagen 
-    Route::get('/products/{productId}/images', [ImageController::class, 'index']);
-    Route::post('/images', [ImageController::class, 'store']);
-    Route::delete('/images/{id}', [ImageController::class, 'destroy']);
-
-    // Invoices
+    // 🧾 Invoices
     Route::get('/invoices', [InvoiceController::class, 'index']);
     Route::post('/invoices', [InvoiceController::class, 'store']);
     Route::get('/invoices/{id}', [InvoiceController::class, 'show']);
-    Route::get('/invoices/{id}/download', [InvoiceController::class, 'download']); // futuro
+    Route::get('/invoices/{id}/download', [InvoiceController::class, 'download']);
 
-    // Address
+    // 📍 Dirección
     Route::get('/addresses', [AddressController::class, 'index']);
     Route::post('/addresses', [AddressController::class, 'store']);
     Route::put('/addresses/{id}', [AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
 
-    // Repairs
+    // 🧰 Reparaciones
     Route::apiResource('repairs', RepairController::class);
+
+    // 🧾 Presupuestos
+    Route::post('/budgets', [BudgetController::class, 'store']);
+    Route::get('/budgets', [BudgetController::class, 'index']);
+    Route::get('/budgets/{id}', [BudgetController::class, 'show']);
+    Route::put('/budgets/{id}', [BudgetController::class, 'update']);
+    Route::post('/budgets/{id}/reply', [BudgetController::class, 'reply']);
+
+    // 💸 Descuentos
+    Route::get('/discounts', [DiscountController::class, 'index']);
+    Route::post('/discounts', [DiscountController::class, 'store']);
+    Route::put('/discounts/{id}', [DiscountController::class, 'update']);
+    Route::delete('/discounts/{id}', [DiscountController::class, 'destroy']);
 
     // 🔔 Notificaciones
     Route::get('/notifications', [NotificationController::class, 'index']);
@@ -147,8 +134,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
     Route::post('/notifications/{id}/mark-read', [NotificationController::class, 'markRead']);
 
+    // 📊 Estadísticas de administrador
+    Route::get('/admin/stats', [AdminStatsController::class, 'index']);
 
-    //Fortify
-    Route::post('/user/confirm-password', [UserController::class, 'confirmPassword']);
-
+    // 💰 Pasarela de Pago (PayPal)
+    Route::post('/paypal/create-payment', [PaypalController::class, 'create']);
+    Route::post('/paypal/capture-payment', [PaypalController::class, 'capture']);
+    Route::post('/paypal/create-order', [PaypalController::class, 'createOrder']);
 });

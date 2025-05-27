@@ -86,7 +86,7 @@ const addToCart = async () => {
         imagen: props.product.image,
         brand: props.product.brand || null
       },
-      quantity: 1
+      cantidad: 1
     })
 
     toast.success(`${props.product.nombre} agregado al carrito.`)
@@ -115,6 +115,7 @@ onMounted(async () => {
 // Añadir o quitar de favoritos
 const toggleFavorite = async () => {
   try {
+
     if (isFavorite.value) {
       const fav = favoriteStore.favorites.find(f => {
         const favId = f.product_id ?? f.product?.id
@@ -128,6 +129,7 @@ const toggleFavorite = async () => {
     }
 
     await favoriteStore.fetchFavorites()
+
   } catch (error) {
     console.error(error)
     toast.error('Error al actualizar favoritos')

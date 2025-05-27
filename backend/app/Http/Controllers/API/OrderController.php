@@ -35,7 +35,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $cartKey = 'cart_' . Auth::id();
-        $cart = session()->get($cartKey, []);
+        $cart = $request->input('productos', []);
 
         if (empty($cart)) {
             return response()->json(['error' => 'El carrito está vacío'], 400);
