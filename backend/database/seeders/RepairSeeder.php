@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Repair;
 use App\Models\User;
+use Carbon\Carbon;
 
 class RepairSeeder extends Seeder
 {
@@ -25,7 +26,19 @@ class RepairSeeder extends Seeder
             foreach (array_slice($dispositivos, 0, rand(1, 3)) as [$tipo, $modelo, $problema]) {
                 $estado = ['pendiente', 'en progreso', 'terminado', 'entregado'][rand(0, 3)];
                 $garantia = ['sin', '3m', '6m'][rand(0, 2)];
-                $fechaGarantia = $garantia === 'sin' ? null : now()->subDays(rand(1, 30));
+
+                $mes = rand(4, 6); // Abril, Mayo, Junio
+                $diaRecibido = rand(1, 25);
+                $fechaRecibido = Carbon::create(2025, $mes, $diaRecibido);
+
+                $fechaEntregado = null;
+                if ($estado === 'entregado') {
+                    $fechaEntregado = (clone $fechaRecibido)->addDays(rand(1, 7));
+                }
+
+                $fechaGarantia = $garantia === 'sin'
+                    ? null
+                    : (clone ($fechaEntregado ?? $fechaRecibido))->addMonths(3);
 
                 Repair::create([
                     'user_id' => $cliente->id,
@@ -37,8 +50,8 @@ class RepairSeeder extends Seeder
                     'garantia' => $garantia,
                     'fecha_garantia' => $fechaGarantia,
                     'repair_cost' => rand(50, 250),
-                    'received_at' => now()->subDays(rand(2, 10)),
-                    'delivered_at' => $estado === 'entregado' ? now()->subDays(rand(0, 2)) : null,
+                    'received_at' => $fechaRecibido,
+                    'delivered_at' => $fechaEntregado,
                 ]);
             }
         }
