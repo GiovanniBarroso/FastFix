@@ -11,16 +11,16 @@
         </p>
       </div>
 
-      <!-- Resumen estadístico -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+      <!-- Estadísticas sin botones -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         <div v-for="card in resumen" :key="card.label"
-             class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 transition hover:scale-105 hover:shadow-lg">
+             class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 text-center hover:shadow-lg hover:scale-[1.02] transition">
           <p class="text-sm text-gray-500 dark:text-gray-300">{{ card.label }}</p>
           <p :class="['text-3xl font-bold', card.color]">{{ card.valor }}</p>
         </div>
       </div>
 
-      <!-- Tarjetas de acceso -->
+      <!-- Tarjetas de acceso rápido -->
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <div v-for="card in secciones" :key="card.titulo"
              class="relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 hover:ring-2 hover:ring-blue-500 transition-all duration-300 group overflow-hidden">
@@ -37,8 +37,6 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </router-link>
-
-          <!-- Fondo animado al pasar -->
           <div class="absolute inset-0 opacity-0 group-hover:opacity-10 transition bg-gradient-to-br from-blue-300 to-purple-400 rounded-2xl pointer-events-none"></div>
         </div>
       </div>
@@ -59,10 +57,7 @@ const resumen = ref([
 
 onMounted(async () => {
   try {
-    const res = await api.get('/me')
-    const userId = res.data.id
-
-    const [orders, favorites, repairs, invoices] = await Promise.all([
+    const [orders, favorites, repairs, invoices] = await Promise.allSettled([
       api.get('/orders'),
       api.get('/favorites'),
       api.get('/repairs'),
@@ -70,13 +65,29 @@ onMounted(async () => {
     ])
 
     resumen.value = [
-      { label: 'Pedidos', valor: orders.data.length, color: 'text-blue-600' },
-      { label: 'Favoritos', valor: favorites.data.favorites.length, color: 'text-red-500' },
-      { label: 'Reparaciones', valor: repairs.data.length, color: 'text-yellow-500' },
-      { label: 'Facturas', valor: invoices.data.length, color: 'text-green-500' }
+      {
+        label: 'Pedidos',
+        valor: orders.status === 'fulfilled' ? orders.value.data.length : 0,
+        color: 'text-blue-600'
+      },
+      {
+        label: 'Favoritos',
+        valor: favorites.status === 'fulfilled' ? favorites.value.data.favorites.length : 0,
+        color: 'text-red-500'
+      },
+      {
+        label: 'Reparaciones',
+        valor: repairs.status === 'fulfilled' ? repairs.value.data.length : 0,
+        color: 'text-yellow-500'
+      },
+      {
+        label: 'Facturas',
+        valor: invoices.status === 'fulfilled' ? invoices.value.data.length : 0,
+        color: 'text-green-500'
+      }
     ]
   } catch (error) {
-    console.error('Error al cargar estadísticas del usuario:', error)
+    console.error('❌ Error al cargar estadísticas del usuario:', error)
   }
 })
 
@@ -136,10 +147,6 @@ const secciones = [
   animation: fadeInDown 0.6s ease-out both;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out both;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -147,5 +154,9 @@ const secciones = [
   to {
     opacity: 1;
   }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out both;
 }
 </style>
