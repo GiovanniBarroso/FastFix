@@ -18,6 +18,7 @@ import ConfirmPasswordView from '@/views/auth/ConfirmPasswordView.vue'
 import VerifyEmailView from '@/views/auth/VerifyEmailView.vue'
 import ProfileView from '@/views/auth/ProfileView.vue'
 import ChangePasswordView from '@/views/auth/ChangePasswordView.vue'
+import ForbiddenView from '@/views/errors/ForbiddenView.vue'
 
 // 👤 Usuario
 import UserPanelView from '@/views/user/UserPanelView.vue'
@@ -162,51 +163,62 @@ const routes = [
     component: ChangePasswordView,
     meta: { requiresAuth: true },
   },
+  {
+  path: '/forbidden',
+  name: 'forbidden',
+  component: ForbiddenView,
+  meta: { requiresAuth: true }
+},
 
-  // Admin
-  { path: '/admin', name: 'admin-panel', component: AdminPanelView, meta: { requiresAuth: true } },
+
   {
-    path: '/admin/products',
-    name: 'product-list',
-    component: ProductListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/orders',
-    name: 'order-list',
-    component: OrderListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/budgets',
-    name: 'budget-list',
-    component: BudgetListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/users',
-    name: 'users-list',
-    component: UserListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/repairs',
-    name: 'repair-list',
-    component: RepairListView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/calendar',
-    name: 'admin-calendar',
-    component: AdminCalendarView,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: '/admin/notifications',
-    name: 'admin-notifications',
-    component: AdminNotificationCenter,
-    meta: { requiresAuth: true },
-  },
+  path: '/admin',
+  name: 'admin-panel',
+  component: AdminPanelView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/products',
+  name: 'product-list',
+  component: ProductListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/orders',
+  name: 'order-list',
+  component: OrderListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/budgets',
+  name: 'budget-list',
+  component: BudgetListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/users',
+  name: 'users-list',
+  component: UserListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/repairs',
+  name: 'repair-list',
+  component: RepairListView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/calendar',
+  name: 'admin-calendar',
+  component: AdminCalendarView,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
+{
+  path: '/admin/notifications',
+  name: 'admin-notifications',
+  component: AdminNotificationCenter,
+  meta: { requiresAuth: true, requiresAdmin: true }
+},
 ]
 
 const router = createRouter({
@@ -219,21 +231,30 @@ router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token')
   const role = localStorage.getItem('role')
 
+  // 🔒 Rutas que requieren autenticación
   if (to.meta.requiresAuth && !token) {
     return next({ name: 'login' })
   }
 
+  // 🚫 Si ya está logueado y va a login/register, redirigir
   if ((to.name === 'login' || to.name === 'register') && token) {
     return next({ name: role === 'admin' ? 'admin-panel' : 'user-panel' })
   }
 
+  // 📧 Verificación de email
   if (token && to.meta.requiresAuth && to.name !== 'verify-email') {
     try {
-      const response = await api.get('/me')
-      const isVerified = response.data.user?.email_verified_at !== null
+      const res = await api.get('/me')
+      const isVerified = res.data.user?.email_verified_at !== null
+      const userRole = res.data.user?.role?.nombre
 
       if (!isVerified) {
         return next({ name: 'verify-email' })
+      }
+
+      // ⛔ Protección extra para rutas admin
+      if (to.path.startsWith('/admin') && userRole !== 'admin') {
+        return next({ name: 'forbidden' })
       }
     } catch {
       localStorage.removeItem('token')
@@ -244,5 +265,6 @@ router.beforeEach(async (to, from, next) => {
 
   next()
 })
+
 
 export default router
