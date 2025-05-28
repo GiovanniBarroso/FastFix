@@ -70,7 +70,10 @@
           </div>
           <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
             <p class="text-sm text-gray-500 dark:text-gray-300">Ventas hoy</p>
-            <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">€{{ stats.ventas.toFixed(2) }}</p>
+            <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+              €{{ Number(stats.ventas || 0).toFixed(2) }}
+            </p>
+
           </div>
           <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-5 shadow hover:shadow-md transition">
             <p class="text-sm text-gray-500 dark:text-gray-300">Usuarios</p>

@@ -97,7 +97,15 @@
 
         <!-- Activo -->
         <div class="flex items-center">
-          <input v-model="form.activo" type="checkbox" id="activo" class="mr-2" />
+          <input
+            type="checkbox"
+            id="activo"
+            class="mr-2"
+            v-model="form.activo"
+            :true-value="true"
+            :false-value="false"
+          />
+
           <label for="activo" class="text-sm text-gray-700 dark:text-gray-300">¿Activo?</label>
         </div>
 
@@ -179,7 +187,7 @@ watch(() => props.discount, (nuevo) => {
       valor: nuevo.valor || 0,
       inicio: nuevo.inicio?.substring(0, 10) || '',
       fin: nuevo.fin?.substring(0, 10) || '',
-      activo: nuevo.activo ?? true,
+      activo: Boolean(nuevo.activo), // 👈 forzar a booleano
       product_ids: nuevo.products?.map(p => p.id) || []
     }
   } else {

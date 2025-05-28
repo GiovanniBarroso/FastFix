@@ -27,6 +27,7 @@
             <tr>
               <th class="p-4 text-left">#</th>
               <th class="p-4 text-left">Código</th>
+              <th class="p-4 text-left">Descripción</th>
               <th class="p-4 text-left">Productos</th>
               <th class="p-4 text-left">Valor</th>
               <th class="p-4 text-left">Tipo</th>
@@ -44,6 +45,8 @@
             >
               <td class="p-4">{{ i + 1 }}</td>
               <td class="p-4 font-mono">{{ d.codigo }}</td>
+              <td class="p-4">{{ d.descripcion || '—' }}</td>
+
               <td class="p-4">
                 <template v-if="d.products?.length">
                   <span v-for="p in d.products" :key="p.id" class="block">

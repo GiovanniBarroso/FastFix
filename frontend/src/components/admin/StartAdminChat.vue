@@ -141,7 +141,9 @@ const handleQuery = async () => {
       respuesta = `👥 Actualmente hay ${res.data.usuarios} usuarios registrados.`
     } else if (query.includes('venta')) {
       const res = await api.get('/admin/stats')
-      respuesta = `💰 Las ventas de hoy suman un total de €${res.data.ventas.toFixed(2)}.`
+      const totalVentas = Number(res.data.ventas || 0)
+      respuesta = `💰 Las ventas de hoy suman un total de €${totalVentas.toFixed(2)}.`
+
     }
 
     isTyping.value = false
