@@ -1,9 +1,13 @@
 <template>
-  <section class="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
+  <section
+    class="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8"
+  >
     <div class="max-w-7xl mx-auto">
       <!-- Encabezado -->
-      <div class="text-center mb-10">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white animate-fade-in-down">
+      <div class="text-center mb-12">
+        <h1
+          class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white animate-fade-in-down"
+        >
           👋 Bienvenido de nuevo
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 mt-2 animate-fade-in">
@@ -11,33 +15,52 @@
         </p>
       </div>
 
-      <!-- Estadísticas sin botones -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <div v-for="card in resumen" :key="card.label"
-             class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 text-center hover:shadow-lg hover:scale-[1.02] transition">
+      <!-- Panel de estadísticas con estilo pro -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+        <div
+          v-for="card in resumen"
+          :key="card.label"
+          class="flex flex-col items-center justify-center text-center px-6 py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
+        >
+          <div :class="['text-4xl mb-2', card.color]">
+            {{ card.icono }}
+          </div>
           <p class="text-sm text-gray-500 dark:text-gray-300">{{ card.label }}</p>
-          <p :class="['text-3xl font-bold', card.color]">{{ card.valor }}</p>
+          <p class="text-3xl font-extrabold mt-1" :class="card.color">{{ card.valor }}</p>
         </div>
       </div>
 
-      <!-- Tarjetas de acceso rápido -->
+      <!-- Secciones -->
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        <div v-for="card in secciones" :key="card.titulo"
-             class="relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 hover:ring-2 hover:ring-blue-500 transition-all duration-300 group overflow-hidden">
+        <div
+          v-for="card in secciones"
+          :key="card.titulo"
+          class="relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg dark:shadow-gray-900 border border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group overflow-hidden"
+        >
           <div class="flex items-center gap-3 mb-4">
             <div class="text-3xl">{{ card.icono }}</div>
             <h2 class="text-xl font-bold text-gray-800 dark:text-white">{{ card.titulo }}</h2>
           </div>
           <p class="text-gray-600 dark:text-gray-300 mb-5">{{ card.descripcion }}</p>
-          <router-link :to="card.enlace"
-            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
+          <router-link
+            :to="card.enlace"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition"
+          >
             Ver todos
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor" stroke-width="2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </router-link>
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-10 transition bg-gradient-to-br from-blue-300 to-purple-400 rounded-2xl pointer-events-none"></div>
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-10 transition bg-gradient-to-br from-blue-300 to-purple-400 rounded-2xl pointer-events-none"
+          ></div>
         </div>
       </div>
     </div>
@@ -49,10 +72,10 @@ import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 
 const resumen = ref([
-  { label: 'Pedidos', valor: 0, color: 'text-blue-600' },
-  { label: 'Favoritos', valor: 0, color: 'text-red-500' },
-  { label: 'Reparaciones', valor: 0, color: 'text-yellow-500' },
-  { label: 'Facturas', valor: 0, color: 'text-green-500' }
+  { label: 'Pedidos', valor: 0, color: 'text-amber-400', icono: '📦' },
+  { label: 'Favoritos', valor: 0, color: 'text-amber-400', icono: '❤️' },
+  { label: 'Reparaciones', valor: 0, color: 'text-amber-400', icono: '🔧' },
+  { label: 'Facturas', valor: 0, color: 'text-amber-400', icono: '📄' },
 ])
 
 onMounted(async () => {
@@ -61,30 +84,34 @@ onMounted(async () => {
       api.get('/orders'),
       api.get('/favorites'),
       api.get('/repairs'),
-      api.get('/invoices')
+      api.get('/invoices'),
     ])
 
     resumen.value = [
       {
         label: 'Pedidos',
         valor: orders.status === 'fulfilled' ? orders.value.data.length : 0,
-        color: 'text-blue-600'
+        color: 'text-amber-400',
+        icono: '📦',
       },
       {
         label: 'Favoritos',
         valor: favorites.status === 'fulfilled' ? favorites.value.data.favorites.length : 0,
-        color: 'text-red-500'
+        color: 'text-amber-400',
+        icono: '❤️',
       },
       {
         label: 'Reparaciones',
         valor: repairs.status === 'fulfilled' ? repairs.value.data.length : 0,
-        color: 'text-yellow-500'
+        color: 'text-amber-400',
+        icono: '🔧',
       },
       {
         label: 'Facturas',
         valor: invoices.status === 'fulfilled' ? invoices.value.data.length : 0,
-        color: 'text-green-500'
-      }
+        color: 'text-amber-400',
+        icono: '📄',
+      },
     ]
   } catch (error) {
     console.error('❌ Error al cargar estadísticas del usuario:', error)
@@ -96,38 +123,38 @@ const secciones = [
     titulo: 'Pedidos realizados',
     icono: '📦',
     descripcion: 'Consulta todos tus pedidos, estado y detalles.',
-    enlace: '/user/orders'
+    enlace: '/user/orders',
   },
   {
     titulo: 'Productos favoritos',
     icono: '❤️',
     descripcion: 'Accede rápidamente a tus productos guardados.',
-    enlace: '/user/favorites'
+    enlace: '/user/favorites',
   },
   {
     titulo: 'Reparaciones',
     icono: '🔧',
     descripcion: 'Revisa el estado de tus solicitudes técnicas.',
-    enlace: '/user/repairs'
+    enlace: '/user/repairs',
   },
   {
     titulo: 'Dirección',
     icono: '👤',
     descripcion: 'Modifica tus datos personales de dirección.',
-    enlace: '/user/address'
+    enlace: '/user/address',
   },
   {
     titulo: 'Mis presupuestos',
     icono: '🧾',
     descripcion: 'Consulta tus presupuestos y revisa su estado.',
-    enlace: '/user/budgets'
+    enlace: '/user/budgets',
   },
   {
     titulo: 'Facturas',
     icono: '📄',
     descripcion: 'Consulta y descarga tus facturas generadas.',
-    enlace: '/user/invoices'
-  }
+    enlace: '/user/invoices',
+  },
 ]
 </script>
 
@@ -142,11 +169,6 @@ const secciones = [
     transform: translateY(0);
   }
 }
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.6s ease-out both;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -156,6 +178,9 @@ const secciones = [
   }
 }
 
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s ease-out both;
+}
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out both;
 }

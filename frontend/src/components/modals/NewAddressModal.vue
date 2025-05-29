@@ -7,8 +7,16 @@
       <div
         class="bg-gray-900 text-white rounded-xl shadow-lg w-full max-w-xl p-6 relative max-h-[90vh] overflow-y-auto border border-gray-700"
       >
-        <button @click="closeModal" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-xl">×</button>
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">➕ <span>Nueva dirección</span></h2>
+        <button
+          @click="closeModal"
+          class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-xl"
+        >
+          ×
+        </button>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <span v-if="editing">✏️ Editar dirección</span>
+          <span v-else>➕ Nueva dirección</span>
+        </h2>
 
         <form @submit.prevent="submitAddress" class="grid grid-cols-1 gap-4 text-left">
           <!-- Campo nombre -->
@@ -65,7 +73,7 @@
               type="submit"
               class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded font-semibold transition"
             >
-              Guardar dirección
+              {{ editing ? 'Actualizar dirección' : 'Guardar dirección' }}
             </button>
           </div>
         </form>
@@ -79,7 +87,12 @@ import { ref, defineEmits, defineProps, watch } from 'vue'
 import api from '@/services/api'
 
 const emit = defineEmits(['close', 'refresh'])
-const props = defineProps({ visible: Boolean })
+
+const props = defineProps({
+  visible: Boolean,
+  editing: Boolean,
+  initialData: Object,
+})
 
 const form = ref({
   nombre: '',
@@ -89,12 +102,35 @@ const form = ref({
   ciudad: '',
   provincia: '',
   pais: '',
-  principal: false
+  principal: false,
 })
 
-watch(() => props.visible, (nuevoValor) => {
-  if (nuevoValor) resetForm()
-})
+watch(
+  () => props.visible,
+  (isVisible) => {
+    if (isVisible) {
+      if (props.editing && props.initialData) {
+        const direccion = props.initialData.direccion || ''
+        const partes = direccion.trim().split(' ')
+        const numero = partes.pop()
+        const calle = partes.join(' ')
+
+        form.value = {
+          nombre: props.initialData.nombre || '',
+          calle: calle || '',
+          numero: numero || '',
+          codigo_postal: props.initialData.codigo_postal || '',
+          ciudad: props.initialData.ciudad || '',
+          provincia: props.initialData.provincia || '',
+          pais: props.initialData.pais || '',
+          principal: !!props.initialData.principal,
+        }
+      } else {
+        resetForm()
+      }
+    }
+  },
+)
 
 const closeModal = () => {
   emit('close')
@@ -109,13 +145,27 @@ const resetForm = () => {
     ciudad: '',
     provincia: '',
     pais: '',
-    principal: false
+    principal: false,
   }
 }
-
 const submitAddress = async () => {
   try {
-    await api.post('/addresses', form.value)
+    const payload = {
+      nombre: form.value.nombre,
+      direccion: `${form.value.calle} ${form.value.numero}`.trim(),
+      codigo_postal: form.value.codigo_postal,
+      ciudad: form.value.ciudad,
+      provincia: form.value.provincia,
+      pais: form.value.pais,
+      principal: form.value.principal,
+    }
+
+    if (props.editing && props.initialData?.id) {
+      await api.put(`/addresses/${props.initialData.id}`, payload)
+    } else {
+      await api.post('/addresses', payload)
+    }
+
     emit('refresh')
     closeModal()
   } catch (error) {
@@ -133,7 +183,6 @@ const submitAddress = async () => {
 .fade-leave-active {
   transition: opacity 0.25s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

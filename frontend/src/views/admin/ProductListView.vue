@@ -8,9 +8,13 @@
 
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-10">
-        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">🛠️ Gestión de productos</h1>
-        <button @click="openForCreate"
-          class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition">
+        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">
+          🛠️ Gestión de productos
+        </h1>
+        <button
+          @click="openForCreate"
+          class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
+        >
           + Añadir producto
         </button>
       </div>
@@ -32,19 +36,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(product, index) in products" :key="product.id"
-              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+            <tr
+              v-for="(product, index) in products"
+              :key="product.id"
+              class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
               <td class="p-4">{{ index + 1 }}</td>
               <td class="p-4 flex items-center gap-4">
                 <a :href="getImageUrl(product.image)" target="_blank" title="Ver imagen">
-                  <img :src="getImageUrl(product.image)"
+                  <img
+                    :src="getImageUrl(product.image)"
                     class="w-12 h-12 rounded object-cover border border-gray-300 dark:border-gray-600 hover:scale-105 transition"
-                    alt="Producto" />
+                    alt="Producto"
+                  />
                 </a>
                 <span class="font-medium">{{ product.nombre }}</span>
               </td>
               <td class="p-4 font-semibold text-gray-700 dark:text-gray-200">
-                €{{ product.precio_base|| '—' }}
+                €{{ product.precio_base || '—' }}
               </td>
               <td class="p-4 font-bold text-green-600 dark:text-green-400">
                 €{{ product.precio || '—' }}
@@ -52,33 +61,39 @@
               <td class="p-4">{{ product.stock }}</td>
               <td class="p-4">
                 <span
-                  class="inline-block bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white text-xs font-semibold px-2 py-1 rounded">
+                  class="inline-block bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white text-xs font-semibold px-2 py-1 rounded"
+                >
                   {{ product.brand?.nombre || '—' }}
                 </span>
               </td>
               <td class="p-4">
                 <span
-                  class="inline-block bg-green-100 text-green-800 dark:bg-green-700 dark:text-white text-xs font-semibold px-2 py-1 rounded">
+                  class="inline-block bg-green-100 text-green-800 dark:bg-green-700 dark:text-white text-xs font-semibold px-2 py-1 rounded"
+                >
                   {{ product.category?.nombre || '—' }}
                 </span>
               </td>
               <td class="p-4">
                 <span
-                  :class="product.activo
-                    ? 'bg-green-100 dark:bg-green-700'
-                    : 'bg-red-100 dark:bg-red-700'"
+                  :class="
+                    product.activo ? 'bg-green-100 dark:bg-green-700' : 'bg-red-100 dark:bg-red-700'
+                  "
                   class="inline-block text-xs font-semibold px-2 py-1 rounded"
                 >
                   {{ product.activo ? 'Sí' : 'No' }}
                 </span>
               </td>
               <td class="p-4 flex gap-2">
-                <button @click="editar(product)"
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold transition">
+                <button
+                  @click="editar(product)"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold transition"
+                >
                   Editar
                 </button>
-                <button @click="eliminar(product.id)"
-                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold transition">
+                <button
+                  @click="eliminar(product.id)"
+                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold transition"
+                >
                   Eliminar
                 </button>
               </td>
@@ -89,7 +104,12 @@
     </div>
 
     <!-- Modal -->
-    <ProductFormModal :show="showModal" :productToEdit="productToEdit" @close="showModal = false" @saved="fetchProducts" />
+    <ProductFormModal
+      :show="showModal"
+      :productToEdit="productToEdit"
+      @close="showModal = false"
+      @saved="fetchProducts"
+    />
   </section>
 </template>
 
@@ -133,10 +153,9 @@ const eliminar = async (id) => {
   }
 }
 
-const baseURL = 'http://localhost:8000'
 const getImageUrl = (filename) => {
-  if (!filename) return `${baseURL}/images/default.jpg`
-  return filename.startsWith('http') ? filename : `${baseURL}/images/${filename}`
+  if (!filename) return '/images/default.jpg'
+  return `/products/${filename}`
 }
 
 onMounted(fetchProducts)

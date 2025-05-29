@@ -49,7 +49,7 @@ const errorMessage = ref('')
 
 onMounted(async () => {
   try {
-    const response = await api.get('/me')
+    const response = await api.get('/me?plano=true')
     nombre.value = response.data.nombre
     apellidos.value = response.data.apellidos
     telefono.value = response.data.telefono 

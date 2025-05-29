@@ -78,12 +78,14 @@ class AuthController extends Controller
         return response()->json(['message' => 'Sesión cerrada correctamente']);
     }
 
-    public function me()
+    public function me(Request $request)
     {
         $user = auth('api')->user()->load('role');
 
-        return response()->json([
-            'user' => $user
-        ]);
+        if ($request->boolean('plano')) {
+            return response()->json($user);
+        }
+
+        return response()->json(['user' => $user]);
     }
 }
