@@ -24,7 +24,6 @@
         data-aos="fade-left"
         data-aos-delay="200"
       >
-        <router-link to="/" class="hover:text-red-400 transition">Inicio</router-link>
         <router-link to="/products" class="hover:text-red-400 transition">Productos</router-link>
         <router-link to="/about" class="hover:text-red-400 transition">Sobre nosotros</router-link>
 
@@ -147,18 +146,30 @@
         v-if="mobileMenuOpen"
         class="sm:hidden px-6 pt-4 pb-6 bg-gray-900 text-white space-y-4 border-t border-gray-800"
       >
-        <router-link to="/" class="block hover:text-red-400 transition">Inicio</router-link>
-        <router-link to="/products" class="block hover:text-red-400 transition">Productos</router-link>
-        <router-link to="/about" class="block hover:text-red-400 transition">Sobre nosotros</router-link>
+        <router-link to="/products" class="block hover:text-red-400 transition"
+          >Productos</router-link
+        >
+        <router-link to="/about" class="block hover:text-red-400 transition"
+          >Sobre nosotros</router-link
+        >
         <router-link to="/cart" class="block hover:text-red-400 transition">🛒 Carrito</router-link>
 
         <template v-if="isAuthenticated">
-          <router-link :to="isAdmin ? '/admin' : '/user-panel'" class="block hover:text-red-400 transition">
+          <router-link
+            :to="isAdmin ? '/admin' : '/user-panel'"
+            class="block hover:text-red-400 transition"
+          >
             {{ isAdmin ? 'Admin' : 'Panel de Usuario' }}
           </router-link>
-          <router-link to="/profile" class="block hover:text-red-400 transition">Editar perfil</router-link>
-          <router-link to="/confirm-password" class="block hover:text-red-400 transition">Cambiar contraseña</router-link>
-          <router-link to="/user/favorites" class="block hover:text-red-400 transition">Favoritos</router-link>
+          <router-link to="/profile" class="block hover:text-red-400 transition"
+            >Editar perfil</router-link
+          >
+          <router-link to="/confirm-password" class="block hover:text-red-400 transition"
+            >Cambiar contraseña</router-link
+          >
+          <router-link to="/user/favorites" class="block hover:text-red-400 transition"
+            >Favoritos</router-link
+          >
           <button
             @click="logout"
             class="block w-full text-left text-red-400 hover:text-red-200 transition"
@@ -168,14 +179,17 @@
         </template>
 
         <template v-else>
-          <router-link to="/login" class="block hover:text-red-400 transition">Iniciar sesión</router-link>
-          <router-link to="/register" class="block hover:text-red-400 transition">Registrarse</router-link>
+          <router-link to="/login" class="block hover:text-red-400 transition"
+            >Iniciar sesión</router-link
+          >
+          <router-link to="/register" class="block hover:text-red-400 transition"
+            >Registrarse</router-link
+          >
         </template>
       </div>
     </transition>
   </nav>
 </template>
-
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'

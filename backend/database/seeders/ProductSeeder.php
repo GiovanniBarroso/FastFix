@@ -23,6 +23,8 @@ class ProductSeeder extends Seeder
             ['Apple AirPods Pro', 'Auriculares inalámbricos con cancelación activa de ruido', 279.99, 'airpods.png'],
             ['Nintendo Switch OLED', 'Consola híbrida con nueva pantalla mejorada', 359.00, 'switch.png'],
             ['Dell Ultrasharp Monitor', 'Monitor profesional con alta resolución y colores precisos', 449.00, 'dellultra.png'],
+            ['Logitech MX Master 3S', 'Ratón ergonómico avanzado con seguimiento láser y carga USB-C', 129.99, 'mxmaster3s.png'],
+            ['Lenovo Legion 5 Pro', 'Portátil gaming con Ryzen 7 y pantalla WQXGA de 165Hz', 1399.00, 'legion5pro.png'],
         ];
 
         $brands = Brand::all();
