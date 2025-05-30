@@ -1,14 +1,13 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
-    <div class="max-w-7xl mx-auto px-6">
-
+    <div class="max-w-7xl mx-auto px-6" data-aos="fade-up">
       <!-- Botón volver -->
-      <div class="mb-6">
+      <div class="mb-6" data-aos="fade-right">
         <BackButtonAdmin />
       </div>
 
       <!-- Encabezado -->
-      <div class="flex justify-between items-center mb-10">
+      <div class="flex justify-between items-center mb-10" data-aos="fade-up" data-aos-delay="100">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">
           🏷️ Gestión de Descuentos
         </h1>
@@ -21,9 +20,15 @@
       </div>
 
       <!-- Tabla -->
-      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+      <div
+        class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md"
+        data-aos="zoom-in"
+        data-aos-delay="200"
+      >
         <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
-          <thead class="bg-yellow-400 dark:bg-yellow-500 text-gray-900 uppercase text-xs tracking-wider">
+          <thead
+            class="bg-yellow-400 dark:bg-yellow-500 text-gray-900 uppercase text-xs tracking-wider"
+          >
             <tr>
               <th class="p-4 text-left">#</th>
               <th class="p-4 text-left">Código</th>
@@ -42,6 +47,8 @@
               v-for="(d, i) in descuentos"
               :key="d.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+              :data-aos="'fade-up'"
+              :data-aos-delay="100 + i * 50"
             >
               <td class="p-4">{{ i + 1 }}</td>
               <td class="p-4 font-mono">{{ d.codigo }}</td>
@@ -49,15 +56,12 @@
 
               <td class="p-4">
                 <template v-if="d.products?.length">
-                  <span v-for="p in d.products" :key="p.id" class="block">
-                    • {{ p.nombre }}
-                  </span>
+                  <span v-for="p in d.products" :key="p.id" class="block"> • {{ p.nombre }} </span>
                 </template>
                 <template v-else>
                   <span>—</span>
                 </template>
               </td>
-
 
               <td class="p-4">{{ d.tipo === 'porcentaje' ? d.valor + '%' : '€' + d.valor }}</td>
               <td class="p-4 capitalize">{{ d.tipo }}</td>
@@ -92,6 +96,7 @@
         </table>
       </div>
 
+      <!-- Modal -->
       <DiscountFormModal
         :show="showModal"
         :discount="discountToEdit"
@@ -148,6 +153,3 @@ const formatFecha = (fecha) => {
 
 onMounted(fetchDescuentos)
 </script>
-
-<style scoped>
-</style>

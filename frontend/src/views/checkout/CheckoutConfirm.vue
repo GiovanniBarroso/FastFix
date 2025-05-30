@@ -106,7 +106,7 @@
 
       <div v-if="order?.invoice" class="text-right">
         <a
-          :href="`/storage/facturas/${order.invoice.pdf_url}`"
+          :href="`http://localhost:8000/storage/facturas/${order.invoice.pdf_url}`"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-6 py-2 rounded-lg shadow transition active:scale-95"
@@ -157,8 +157,14 @@ const pagarConPayPal = async () => {
     const response = await api.post('/paypal/create-order', {
       order_id: orderId.value,
     })
+
     const approvalUrl = response.data.links.find((link) => link.rel === 'approve')?.href
+
     if (approvalUrl) {
+      // ✅ Guarda el ID del pedido antes de redirigir
+      localStorage.setItem('lastOrderId', orderId.value)
+
+      // ✅ Redirige a PayPal
       window.location.href = approvalUrl
     } else {
       alert('No se pudo iniciar el pago con PayPal')

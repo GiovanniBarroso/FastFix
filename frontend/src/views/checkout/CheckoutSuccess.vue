@@ -8,22 +8,48 @@
       Gracias por tu compra en <span class="font-bold text-yellow-300">FastFix</span>. Tu pedido ha
       sido confirmado.
     </p>
+
+    <!-- Botón Ver Factura -->
+    <button
+      @click="abrirFactura"
+      class="mt-6 px-6 py-3 bg-white text-green-700 font-semibold text-lg rounded-full shadow-lg hover:bg-green-100 transition"
+    >
+      📄 Ver Factura
+    </button>
+
+    <!-- Volver al inicio -->
     <router-link
       to="/"
-      class="mt-8 px-6 py-3 bg-white text-green-700 font-semibold text-lg rounded-full shadow-lg hover:bg-green-100 transition"
+      class="mt-4 px-6 py-3 bg-white text-green-700 font-semibold text-lg rounded-full shadow-lg hover:bg-green-100 transition"
     >
       Volver al inicio
     </router-link>
   </div>
 </template>
+
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useCartStore } from '@/stores/cartStore'
 
 const cartStore = useCartStore()
+const facturaUrl = ref('')
+
+const abrirFactura = () => {
+  const orderId = localStorage.getItem('lastOrderId')
+  if (orderId) {
+    window.open(`http://localhost:8000/storage/facturas/factura_${orderId}.pdf`, '_blank')
+  }
+}
 
 onMounted(() => {
   cartStore.clearCart()
-  localStorage.removeItem('cart') // Opcional, si quieres forzar limpieza local
+  localStorage.removeItem('cart')
+
+  // Obtener ID del pedido desde localStorage o query param
+  const orderId = localStorage.getItem('lastOrderId') // ⚠️ asegúrate de guardarlo antes del pago
+
+  if (orderId) {
+    facturaUrl.value = `/storage/facturas/factura_${orderId}.pdf`
+  }
 })
 </script>

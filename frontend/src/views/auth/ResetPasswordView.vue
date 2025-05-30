@@ -1,31 +1,52 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-      <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Restablecer contraseña</h1>
+  <div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 md:p-10 animate-fade-up"
+      data-aos="fade-up"
+    >
+      <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Restablecer contraseña</h1>
 
-      <form @submit.prevent="resetPassword" class="space-y-5">
-        <!-- Campos -->
+      <form @submit.prevent="resetPassword" class="space-y-6">
+        <!-- Token oculto -->
         <input type="hidden" v-model="token" />
 
-        <FormField v-model="email" label="Correo electrónico" placeholder="tucorreo@fastfix.com" type="email"
-          autocomplete="email" />
+        <!-- Email -->
+        <FormField
+          v-model="email"
+          label="Correo electrónico"
+          placeholder="tucorreo@fastfix.com"
+          type="email"
+          autocomplete="email"
+        />
 
-        <FormField v-model="password" label="Nueva contraseña" placeholder="••••••••" type="password"
-          autocomplete="new-password" />
+        <!-- Nueva contraseña -->
+        <FormField
+          v-model="password"
+          label="Nueva contraseña"
+          placeholder="••••••••"
+          type="password"
+          autocomplete="new-password"
+        />
 
-        <FormField v-model="password_confirmation" label="Confirmar contraseña" placeholder="••••••••" type="password"
-          autocomplete="new-password" />
+        <!-- Confirmar contraseña -->
+        <FormField
+          v-model="password_confirmation"
+          label="Confirmar contraseña"
+          placeholder="••••••••"
+          type="password"
+          autocomplete="new-password"
+        />
 
-        <!-- Estado / Error -->
+        <!-- Mensaje de éxito o error -->
         <AlertMessage v-if="status" type="success" :message="status" />
         <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
         <!-- Botón -->
-        <BaseButton :loading="loading" fullWidth>
-          Guardar contraseña
-        </BaseButton>
+        <BaseButton :loading="loading" fullWidth> Guardar contraseña </BaseButton>
 
-        <!-- Volver al login -->
+        <!-- Enlace volver -->
         <div class="text-center">
           <router-link to="/login" class="text-sm text-blue-600 hover:underline">
             Volver a iniciar sesión
@@ -71,7 +92,7 @@ const resetPassword = async () => {
       token: token.value,
       email: email.value,
       password: password.value,
-      password_confirmation: password_confirmation.value
+      password_confirmation: password_confirmation.value,
     })
 
     status.value = response.data.message || 'Contraseña actualizada correctamente.'

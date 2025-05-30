@@ -1,30 +1,59 @@
 <template>
-  <div class="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-12">
-    <div class="w-full max-w-xl bg-white rounded-xl shadow-lg p-8">
-      <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Editar Perfil</h1>
+  <div
+    class="min-h-screen bg-gradient-to-b from-gray-100 via-white to-gray-200 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4 py-12"
+  >
+    <div
+      class="w-full max-w-xl bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-10 border border-gray-200 dark:border-gray-700"
+      data-aos="fade-up"
+      data-aos-duration="800"
+    >
+      <h1
+        class="text-3xl font-extrabold text-center mb-8 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 text-transparent bg-clip-text animate-glow"
+      >
+        ✏️ Editar perfil
+      </h1>
 
-      <form @submit.prevent="updateProfile" class="space-y-5">
+      <form @submit.prevent="updateProfile" class="space-y-6">
         <FormField v-model="nombre" label="Nombre completo" type="text" />
         <FormField v-model="apellidos" label="Apellidos" type="text" />
         <FormField v-model="telefono" label="Teléfono" type="tel" />
         <FormField v-model="email" label="Correo electrónico" type="email" />
 
-        <div class="text-sm text-gray-500">
-          Estado del correo:
-          <span v-if="isVerified" class="text-green-600 font-medium">Verificado ✅</span>
-          <span v-else class="text-red-600 font-medium">No verificado ❌</span>
+        <!-- Estado de verificación -->
+        <div class="text-sm">
+          <span class="text-gray-600 dark:text-gray-300">Estado del correo:</span>
+          <span
+            v-if="isVerified"
+            class="ml-2 px-2 py-1 text-xs font-semibold text-green-600 bg-green-100 dark:bg-green-900 dark:text-green-400 rounded-full"
+          >
+            Verificado ✅
+          </span>
+          <span
+            v-else
+            class="ml-2 px-2 py-1 text-xs font-semibold text-red-600 bg-red-100 dark:bg-red-900 dark:text-red-400 rounded-full"
+          >
+            No verificado ❌
+          </span>
         </div>
 
-        <div v-if="!isVerified" class="text-sm">
-          <BaseButton type="button" @click="resendVerification" :loading="sendingVerification">
+        <!-- Botón de reenviar -->
+        <div v-if="!isVerified">
+          <BaseButton
+            type="button"
+            @click="resendVerification"
+            :loading="sendingVerification"
+            class="text-sm"
+          >
             Reenviar enlace de verificación
           </BaseButton>
         </div>
 
+        <!-- Mensajes -->
         <AlertMessage v-if="status" type="success" :message="status" />
         <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
-        <BaseButton :loading="loading" fullWidth>Guardar cambios</BaseButton>
+        <!-- Guardar -->
+        <BaseButton :loading="loading" fullWidth> 💾 Guardar cambios </BaseButton>
       </form>
     </div>
   </div>
@@ -52,7 +81,7 @@ onMounted(async () => {
     const response = await api.get('/me?plano=true')
     nombre.value = response.data.nombre
     apellidos.value = response.data.apellidos
-    telefono.value = response.data.telefono 
+    telefono.value = response.data.telefono
     email.value = response.data.email
     isVerified.value = response.data.email_verified_at !== null
   } catch (error) {
@@ -78,17 +107,21 @@ const updateProfile = async () => {
   }
 
   try {
-    await api.put('/profile-information', {
-      nombre: nombre.value,
-      apellidos: apellidos.value,
-      telefono: telefono.value,
-      email: email.value
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        Accept: 'application/json'
-      }
-    })
+    await api.put(
+      '/profile-information',
+      {
+        nombre: nombre.value,
+        apellidos: apellidos.value,
+        telefono: telefono.value,
+        email: email.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Accept: 'application/json',
+        },
+      },
+    )
     status.value = 'Perfil actualizado correctamente.'
   } catch (error) {
     errorMessage.value = error.response?.data?.message || 'No se pudo actualizar el perfil.'

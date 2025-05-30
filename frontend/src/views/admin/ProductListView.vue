@@ -1,28 +1,42 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6" data-aos="fade-up" data-aos-duration="700">
       <!-- Botón de volver -->
-      <div class="mb-6">
+      <div class="mb-6" data-aos="fade-right" data-aos-delay="100">
         <BackButtonAdmin />
       </div>
 
       <!-- Encabezado -->
-      <div class="flex justify-between items-center mb-10">
-        <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">
+      <div
+        class="flex justify-between items-center mb-10"
+        data-aos="zoom-in-up"
+        data-aos-delay="200"
+      >
+        <h1
+          class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500"
+        >
           🛠️ Gestión de productos
         </h1>
         <button
           @click="openForCreate"
-          class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
+          class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-all"
+          data-aos="fade-left"
+          data-aos-delay="300"
         >
           + Añadir producto
         </button>
       </div>
 
       <!-- Tabla de productos -->
-      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+      <div
+        class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
         <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
-          <thead class="bg-yellow-400 dark:bg-yellow-500 text-gray-900 dark:text-white">
+          <thead
+            class="bg-gradient-to-r from-yellow-300 to-yellow-500 dark:from-yellow-500 dark:to-yellow-600 text-gray-900 dark:text-white"
+          >
             <tr>
               <th class="p-4 text-left font-semibold tracking-wide">#</th>
               <th class="p-4 text-left font-semibold tracking-wide">Producto</th>
@@ -40,61 +54,61 @@
               v-for="(product, index) in products"
               :key="product.id"
               class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+              data-aos="fade-up"
+              data-aos-delay="500"
             >
               <td class="p-4">{{ index + 1 }}</td>
-              <td class="p-4 flex items-center gap-4">
-                <a :href="getImageUrl(product.image)" target="_blank" title="Ver imagen">
-                  <img
-                    :src="getImageUrl(product.image)"
-                    class="w-12 h-12 rounded object-cover border border-gray-300 dark:border-gray-600 hover:scale-105 transition"
-                    alt="Producto"
-                  />
-                </a>
-                <span class="font-medium">{{ product.nombre }}</span>
+              <td class="p-4 font-medium flex items-center gap-3">
+                <img :src="getImageUrl(product.image)" class="w-10 h-10 rounded shadow" />
+                <span class="truncate max-w-[180px]">{{ product.nombre }}</span>
               </td>
-              <td class="p-4 font-semibold text-gray-700 dark:text-gray-200">
-                €{{ product.precio_base || '—' }}
+              <td class="p-4 text-end text-gray-700 dark:text-gray-200 font-semibold">
+                €{{ product.precio_base }}
               </td>
-              <td class="p-4 font-bold text-green-600 dark:text-green-400">
-                €{{ product.precio || '—' }}
+              <td class="p-4 text-end text-green-600 dark:text-green-400 font-bold">
+                €{{ product.precio }}
               </td>
-              <td class="p-4">{{ product.stock }}</td>
+              <td class="p-4 text-end font-semibold text-gray-800 dark:text-gray-100">
+                {{ product.stock }}
+              </td>
               <td class="p-4">
                 <span
-                  class="inline-block bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white text-xs font-semibold px-2 py-1 rounded"
+                  class="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-700 text-blue-800 dark:text-white shadow-sm"
                 >
-                  {{ product.brand?.nombre || '—' }}
+                  {{ product.brand?.nombre }}
                 </span>
               </td>
               <td class="p-4">
                 <span
-                  class="inline-block bg-green-100 text-green-800 dark:bg-green-700 dark:text-white text-xs font-semibold px-2 py-1 rounded"
+                  class="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-700 text-emerald-800 dark:text-white shadow-sm"
                 >
-                  {{ product.category?.nombre || '—' }}
+                  {{ product.category?.nombre }}
                 </span>
               </td>
               <td class="p-4">
                 <span
                   :class="
-                    product.activo ? 'bg-green-100 dark:bg-green-700' : 'bg-red-100 dark:bg-red-700'
+                    product.activo
+                      ? 'bg-green-100 dark:bg-green-700 text-green-800 dark:text-white'
+                      : 'bg-red-100 dark:bg-red-700 text-red-800 dark:text-white'
                   "
-                  class="inline-block text-xs font-semibold px-2 py-1 rounded"
+                  class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full shadow-sm"
                 >
-                  {{ product.activo ? 'Sí' : 'No' }}
+                  {{ product.activo ? '✅ Sí' : '❌ No' }}
                 </span>
               </td>
               <td class="p-4 flex gap-2">
                 <button
                   @click="editar(product)"
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded text-xs font-semibold transition"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-full text-xs font-semibold shadow transition hover:scale-105"
                 >
-                  Editar
+                  ✏️ Editar
                 </button>
                 <button
                   @click="eliminar(product.id)"
-                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-xs font-semibold transition"
+                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-full text-xs font-semibold shadow transition hover:scale-105"
                 >
-                  Eliminar
+                  🗑️ Eliminar
                 </button>
               </td>
             </tr>
@@ -118,6 +132,8 @@ import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import ProductFormModal from '@/components/products/ProductFormModal.vue'
 import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const products = ref([])
 const showModal = ref(false)
@@ -158,5 +174,8 @@ const getImageUrl = (filename) => {
   return `/products/${filename}`
 }
 
-onMounted(fetchProducts)
+onMounted(() => {
+  fetchProducts()
+  AOS.init({ duration: 700, once: true })
+})
 </script>

@@ -1,9 +1,26 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-      <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Iniciar sesión</h1>
+  <div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-900 dark:to-gray-950 px-4"
+  >
+    <div
+      class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
+      data-aos="zoom-in"
+      data-aos-duration="800"
+    >
+      <!-- Título -->
+      <div class="text-center mb-6" data-aos="fade-up" data-aos-delay="100">
+        <h1
+          class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 inline-flex items-center gap-2 justify-center"
+        >
+          🔑 Iniciar sesión
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm">
+          Accede a tu cuenta para continuar
+        </p>
+      </div>
 
-      <form @submit.prevent="handleLogin" class="space-y-5">
+      <!-- Formulario -->
+      <form @submit.prevent="handleLogin" class="space-y-5" data-aos="fade-up" data-aos-delay="200">
         <!-- Email -->
         <FormField
           v-model="email"
@@ -13,7 +30,7 @@
           autocomplete="email"
         />
 
-        <!-- Contraseña con mostrar/ocultar -->
+        <!-- Contraseña -->
         <div class="relative">
           <FormField
             :type="showPassword ? 'text' : 'password'"
@@ -25,7 +42,7 @@
           <button
             type="button"
             @click="togglePassword"
-            class="absolute right-2 top-9 text-sm text-blue-500"
+            class="absolute right-3 top-[45px] text-xs text-blue-600 hover:underline"
           >
             {{ showPassword ? 'Ocultar' : 'Mostrar' }}
           </button>
@@ -34,17 +51,20 @@
         <!-- Error -->
         <AlertMessage v-if="errorMessage" type="error" :message="errorMessage" />
 
-        <!-- Botón iniciar sesión -->
-        <BaseButton :loading="loading" fullWidth>
-          Iniciar sesión
-        </BaseButton>
+        <!-- Botón -->
+        <BaseButton :loading="loading" fullWidth> 🚀 Iniciar sesión </BaseButton>
 
-        <div class="flex flex-col items-center space-y-1">
-          <router-link to="/forgot-password" class="text-sm text-blue-600 hover:underline">
+        <!-- Enlaces -->
+        <div class="text-center text-sm mt-2 space-y-1">
+          <router-link
+            to="/forgot-password"
+            class="text-blue-600 hover:underline dark:text-blue-400"
+          >
             ¿Has olvidado tu contraseña?
           </router-link>
-          <router-link to="/register" class="text-sm text-blue-600 hover:underline">
-            ¿No estás registrado?
+          <br />
+          <router-link to="/register" class="text-blue-600 hover:underline dark:text-blue-400">
+            ¿No tienes cuenta? Regístrate
           </router-link>
         </div>
       </form>
@@ -53,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
@@ -61,6 +81,13 @@ import { useAuthStore } from '@/stores/authStore'
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
+
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+onMounted(() => {
+  AOS.init()
+})
 
 const email = ref('')
 const password = ref('')
@@ -81,7 +108,7 @@ const handleLogin = async () => {
   try {
     const response = await api.post('/login', {
       email: email.value,
-      password: password.value
+      password: password.value,
     })
 
     const token = response.data.token
@@ -92,8 +119,7 @@ const handleLogin = async () => {
 
     router.push(role === 'admin' ? '/admin' : '/')
   } catch (error) {
-    errorMessage.value =
-      error.response?.data?.message || 'Credenciales incorrectas.'
+    errorMessage.value = error.response?.data?.message || 'Credenciales incorrectas.'
   } finally {
     loading.value = false
   }

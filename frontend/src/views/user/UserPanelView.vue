@@ -1,50 +1,54 @@
 <template>
   <section
-    class="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8"
+    class="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 py-20 px-6 text-gray-800 dark:text-gray-100"
   >
     <div class="max-w-7xl mx-auto">
-      <!-- Encabezado -->
-      <div class="text-center mb-12">
+      <!-- Título -->
+      <div class="text-center mb-14" data-aos="fade-up">
         <h1
-          class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white animate-fade-in-down"
+          class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-blue-400 dark:from-orange-300 dark:to-blue-500 animate-glow"
         >
           👋 Bienvenido de nuevo
         </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300 mt-2 animate-fade-in">
+        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
           Accede a toda tu información desde un solo lugar.
         </p>
       </div>
 
-      <!-- Panel de estadísticas con estilo pro -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+      <!-- Resumen -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
         <div
-          v-for="card in resumen"
+          v-for="(card, index) in resumen"
           :key="card.label"
-          class="flex flex-col items-center justify-center text-center px-6 py-8 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
+          class="group bg-white/90 dark:bg-white/5 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-3xl p-8 text-center shadow-2xl hover:shadow-blue-400/20 hover:-translate-y-1 transition-all duration-300"
+          data-aos="zoom-in-up"
+          :data-aos-delay="index * 100"
         >
-          <div :class="['text-4xl mb-2', card.color]">
+          <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
             {{ card.icono }}
           </div>
-          <p class="text-sm text-gray-500 dark:text-gray-300">{{ card.label }}</p>
-          <p class="text-3xl font-extrabold mt-1" :class="card.color">{{ card.valor }}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">{{ card.label }}</p>
+          <p class="text-3xl font-bold mt-1 text-gray-800 dark:text-white">{{ card.valor }}</p>
         </div>
       </div>
 
       <!-- Secciones -->
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <div
-          v-for="card in secciones"
+          v-for="(card, i) in secciones"
           :key="card.titulo"
-          class="relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg dark:shadow-gray-900 border border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group overflow-hidden"
+          class="group bg-white/90 dark:bg-white/5 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-3xl p-8 text-left shadow-2xl hover:shadow-purple-400/20 hover:-translate-y-1 transition-all duration-300"
+          data-aos="fade-up"
+          :data-aos-delay="i * 100"
         >
           <div class="flex items-center gap-3 mb-4">
             <div class="text-3xl">{{ card.icono }}</div>
             <h2 class="text-xl font-bold text-gray-800 dark:text-white">{{ card.titulo }}</h2>
           </div>
-          <p class="text-gray-600 dark:text-gray-300 mb-5">{{ card.descripcion }}</p>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">{{ card.descripcion }}</p>
           <router-link
             :to="card.enlace"
-            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-purple-600 hover:to-blue-600 px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition"
           >
             Ver todos
             <svg
@@ -58,9 +62,6 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </router-link>
-          <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-10 transition bg-gradient-to-br from-blue-300 to-purple-400 rounded-2xl pointer-events-none"
-          ></div>
         </div>
       </div>
     </div>
@@ -72,10 +73,10 @@ import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 
 const resumen = ref([
-  { label: 'Pedidos', valor: 0, color: 'text-amber-400', icono: '📦' },
-  { label: 'Favoritos', valor: 0, color: 'text-amber-400', icono: '❤️' },
-  { label: 'Reparaciones', valor: 0, color: 'text-amber-400', icono: '🔧' },
-  { label: 'Facturas', valor: 0, color: 'text-amber-400', icono: '📄' },
+  { label: 'Pedidos', valor: 0, icono: '📦' },
+  { label: 'Favoritos', valor: 0, icono: '❤️' },
+  { label: 'Reparaciones', valor: 0, icono: '🔧' },
+  { label: 'Facturas', valor: 0, icono: '📄' },
 ])
 
 onMounted(async () => {
@@ -91,25 +92,21 @@ onMounted(async () => {
       {
         label: 'Pedidos',
         valor: orders.status === 'fulfilled' ? orders.value.data.length : 0,
-        color: 'text-amber-400',
         icono: '📦',
       },
       {
         label: 'Favoritos',
         valor: favorites.status === 'fulfilled' ? favorites.value.data.favorites.length : 0,
-        color: 'text-amber-400',
         icono: '❤️',
       },
       {
         label: 'Reparaciones',
         valor: repairs.status === 'fulfilled' ? repairs.value.data.length : 0,
-        color: 'text-amber-400',
         icono: '🔧',
       },
       {
         label: 'Facturas',
         valor: invoices.status === 'fulfilled' ? invoices.value.data.length : 0,
-        color: 'text-amber-400',
         icono: '📄',
       },
     ]
@@ -159,29 +156,19 @@ const secciones = [
 </script>
 
 <style scoped>
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
+@keyframes glow {
+  0% {
+    text-shadow:
+      0 0 5px rgba(124, 58, 237, 0.4),
+      0 0 10px rgba(124, 58, 237, 0.3);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  100% {
+    text-shadow:
+      0 0 12px rgba(139, 92, 246, 0.5),
+      0 0 20px rgba(139, 92, 246, 0.4);
   }
 }
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.6s ease-out both;
-}
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out both;
+.animate-glow {
+  animation: glow 2.2s ease-in-out infinite alternate;
 }
 </style>

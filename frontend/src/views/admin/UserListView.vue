@@ -1,14 +1,14 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6" data-aos="fade-up">
       
       <!-- Botón de volver reutilizable -->
-      <div class="mb-6">
+      <div class="mb-6" data-aos="fade-up">
         <BackButtonAdmin />
       </div>
       
       <!-- Encabezado -->
-      <div class="flex justify-between items-center mb-10">
+      <div class="flex justify-between items-center mb-10" data-aos="fade-up">
         <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">👥 Gestión de usuarios</h1>
         <button
           @click="openForCreate"
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Tabla de usuarios -->
-      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md">
+      <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md" data-aos="fade-up">
         <table class="min-w-full text-sm text-gray-700 dark:text-gray-200">
           <thead class="bg-blue-500 dark:bg-blue-600 text-white uppercase text-xs tracking-wider">
             <tr>
@@ -87,6 +87,8 @@ import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import UserFormModal from '@/components/users/UserFormModal.vue'
 import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const users = ref([])
 const showModal = ref(false)
@@ -104,7 +106,6 @@ const fetchUsers = async () => {
 const formatFecha = (fecha) => {
   return new Date(fecha).toLocaleDateString('es-ES')
 }
-
 
 const openForCreate = () => {
   selectedUser.value = null
@@ -127,5 +128,8 @@ const deleteUser = async (id) => {
   }
 }
 
-onMounted(fetchUsers)
+onMounted(() => {
+  fetchUsers()
+  AOS.init({ duration: 800, once: true })
+})
 </script>

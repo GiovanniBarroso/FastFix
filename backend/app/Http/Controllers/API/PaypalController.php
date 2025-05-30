@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CartItem;
 use App\Models\Order;
 use Carbon\Carbon;
+use App\Models\Invoice;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class PayPalController extends Controller
 {
@@ -115,6 +118,33 @@ class PayPalController extends Controller
             if ($order->user_id) {
                 CartItem::where('user_id', $order->user_id)->delete();
             }
+
+            // ✅ Comprobamos si ya tiene factura
+            if (!$order->invoice) {
+                $numeroFactura = 'INV-' . str_pad($order->id, 4, '0', STR_PAD_LEFT);
+
+                // Crear la factura
+                $invoice = Invoice::create([
+                    'order_id' => $order->id,
+                    'user_id' => $order->user_id, // ⚠️ Añade esto
+                    'fecha_emision' => now(),
+                    'numero_factura' => $numeroFactura,
+                    'pdf_url' => '',
+                ]);
+
+
+                // Generar el PDF
+                $pdf = Pdf::loadView('invoices/pdf', compact('invoice'));
+                $filename = 'factura_' . $order->id . '.pdf';
+                $path = 'facturas/' . $filename;
+                Storage::disk('public')->put($path, $pdf->output());
+                // Guardar URL en la factura
+                $invoice->update(['pdf_url' => $filename]);
+
+                logger()->info('📄 Factura generada y PDF guardado', ['factura' => $filename]);
+            }
+
+
 
             return response()->view('redirect', ['url' => env('FRONTEND_URL') . '/checkout/success']);
         }

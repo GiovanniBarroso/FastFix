@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -52,5 +54,29 @@ class InvoiceController extends Controller
     public function download($id)
     {
         return response()->json(['message' => 'Funcionalidad de PDF aún no implementada'], 501);
+    }
+
+    public function generatePdf($id)
+    {
+        $invoice = Invoice::with('order.products', 'order.user', 'order.address')->findOrFail($id);
+
+        // Renderizamos la vista como PDF
+        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'));
+
+        // Ruta donde guardar el PDF
+        $filename = 'factura_' . $invoice->order_id . '.pdf';
+        $path = 'public/facturas/' . $filename;
+
+        Storage::put($path, $pdf->output());
+
+        // Guardar la URL en la factura (si no se ha guardado)
+        if (!$invoice->pdf_url || $invoice->pdf_url !== $filename) {
+            $invoice->update(['pdf_url' => $filename]);
+        }
+
+        return response()->json([
+            'message' => 'PDF generado',
+            'url' => Storage::url($path)
+        ]);
     }
 }

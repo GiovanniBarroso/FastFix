@@ -1,17 +1,21 @@
 <template>
   <section class="py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-
       <!-- Botón de volver reutilizable -->
-      <div class="mb-6">
+      <div class="mb-6" data-aos="fade-right">
         <BackButtonAdmin />
       </div>
 
-      <h1 class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-10">
-        📅 Agenda de Reparaciones, Garantías y Pedidos
+      <h1
+        class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-10"
+        data-aos="fade-up"
+      >
+        📅 Agenda de Reparaciones
       </h1>
 
-      <FullCalendar :options="calendarOptions" />
+      <div data-aos="zoom-in">
+        <FullCalendar :options="calendarOptions" />
+      </div>
     </div>
   </section>
 </template>
@@ -27,6 +31,10 @@ import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 
+// ✅ AOS
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
 const events = ref([])
 
 const calendarOptions = ref({
@@ -35,30 +43,31 @@ const calendarOptions = ref({
   headerToolbar: {
     left: 'prev,next today',
     center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    right: 'dayGridMonth,timeGridWeek,timeGridDay',
   },
   events: events.value,
   eventClick(info) {
-    // Modal o redirección si quieres
     alert(`📌 Reparación: ${info.event.title}\nFecha: ${info.event.startStr}`)
   },
   eventDidMount(info) {
-    // Tooltips con tippy
     tippy(info.el, {
       content: info.event.extendedProps.tooltip,
       allowHTML: true,
       placement: 'top',
       theme: 'light-border',
-      animation: 'fade'
+      animation: 'fade',
     })
-  }
+  },
 })
 
 onMounted(async () => {
+  // 🔄 Iniciar AOS
+  AOS.init({ duration: 800, once: true })
+
   try {
     const repairsRes = await api.get('/repairs')
 
-    const repairEvents = repairsRes.data.map(r => ({
+    const repairEvents = repairsRes.data.map((r) => ({
       title: `🛠️ Reparación: ${r.device_type}`,
       start: r.received_at,
       end: r.delivered_at,
@@ -69,7 +78,7 @@ onMounted(async () => {
         <strong>Problema:</strong> ${r.problem_description}<br/>
         <strong>Estado:</strong> ${r.status}<br/>
         <strong>Fecha de recepción:</strong> ${r.received_at}
-      `
+      `,
     }))
 
     events.value = repairEvents
@@ -80,14 +89,13 @@ onMounted(async () => {
 })
 </script>
 
-
 <style>
-/* 💡 Corrección visual para FullCalendar en modo claro y oscuro */
+@import 'aos/dist/aos.css';
+
+/* 🎨 FullCalendar */
 .fc {
   background-color: transparent !important;
 }
-
-/* 🔢 Números del calendario (días del mes) */
 .fc .fc-daygrid-day-number {
   color: #1a1a1a;
   font-weight: 500;
@@ -95,8 +103,6 @@ onMounted(async () => {
 .dark .fc .fc-daygrid-day-number {
   color: #f0f0f0 !important;
 }
-
-/* 🗓️ Días de la semana (Sun, Mon...) */
 .fc .fc-col-header-cell {
   background-color: transparent;
 }
@@ -107,43 +113,33 @@ onMounted(async () => {
 .dark .fc .fc-col-header-cell-cushion {
   color: #ffffff !important;
 }
-
-/* 📆 Título del mes */
 .fc .fc-toolbar-title {
   color: #1a1a1a;
 }
 .dark .fc .fc-toolbar-title {
   color: #ffffff !important;
 }
-
-/* 🔲 Bordes de los días */
 .fc .fc-daygrid-day {
   border: 1px solid #ddd;
 }
 .dark .fc .fc-daygrid-day {
   border: 1px solid #444;
 }
-
-/* 🎨 Colores personalizados para eventos */
 .fc-event-repair {
   background-color: #1e90ff !important;
   border: none !important;
   color: white !important;
 }
-
 .fc-event-guarantee {
   background-color: #32cd32 !important;
   border: none !important;
   color: white !important;
 }
-
 .fc-event-order {
   background-color: #ffa500 !important;
   border: none !important;
   color: white !important;
 }
-
-/* 🔘 Botones */
 .fc .fc-button {
   background: #2563eb;
   border: none;
@@ -165,5 +161,4 @@ onMounted(async () => {
 .fc-event-time {
   display: none !important;
 }
-
 </style>

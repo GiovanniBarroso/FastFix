@@ -1,20 +1,22 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-      <h1 class="text-3xl font-bold text-center text-gray-800 mb-4">
+  <div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4 py-12"
+  >
+    <div
+      class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 md:p-10 animate-fade-up"
+      data-aos="fade-up"
+    >
+      <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-4">
         Verifica tu correo electrónico
       </h1>
 
-      <p class="text-sm text-gray-600 text-center mb-6">
-        Gracias por registrarte. Antes de comenzar, por favor verifica tu dirección de correo haciendo clic en el enlace
-        que te enviamos.
+      <p class="text-sm text-gray-600 text-center mb-6 leading-relaxed">
+        Gracias por registrarte. Antes de comenzar, por favor verifica tu dirección de correo
+        haciendo clic en el enlace que te enviamos. Si no lo has recibido, puedes reenviarlo.
       </p>
 
-      <!-- Botón reenviar -->
       <form @submit.prevent="resendVerification">
-        <BaseButton :loading="loading" fullWidth>
-          Reenviar correo de verificación
-        </BaseButton>
+        <BaseButton :loading="loading" fullWidth> Reenviar correo de verificación </BaseButton>
       </form>
     </div>
   </div>
@@ -45,9 +47,6 @@ onMounted(() => {
     ToastService.error('Hubo un error al verificar tu correo. Intenta nuevamente.')
   }
 })
-
-
-
 
 const resendVerification = async () => {
   errorMessage.value = ''

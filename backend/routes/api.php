@@ -107,6 +107,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/invoices', [InvoiceController::class, 'store']);
     Route::get('/invoices/{id}', [InvoiceController::class, 'show']);
     Route::get('/invoices/{id}/download', [InvoiceController::class, 'download']);
+    Route::get('/invoices/{id}/generate-pdf', [InvoiceController::class, 'generatePdf']);
+
 
     // 📍 Dirección
     Route::get('/addresses', [AddressController::class, 'index']);

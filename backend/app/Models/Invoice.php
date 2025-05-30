@@ -13,10 +13,12 @@ class Invoice extends Model
 
     protected $fillable = [
         'order_id',
+        'user_id',
         'fecha_emision',
         'numero_factura',
         'pdf_url',
     ];
+
 
     public function user()
     {
