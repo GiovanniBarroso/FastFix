@@ -1,125 +1,214 @@
+# FastFix 📱 – Plataforma Integral de Reparaciones y Venta Tecnológica
 
-# FastFix - Documentación Inicial del Proyecto
-
-## Introducción
-
-**FastFix** es una plataforma enfocada en la reparación de dispositivos electrónicos y la venta de productos tecnológicos, como accesorios y componentes. La idea principal de esta aplicación web es ofrecer a los usuarios una experiencia sencilla, rápida y segura a la hora de gestionar reparaciones o adquirir productos relacionados con la tecnología.
-
-El usuario podrá solicitar reparaciones para dispositivos como móviles, ordenadores, tablets o consolas, además de comprar accesorios como auriculares, cargadores, fundas o protectores de pantalla. La plataforma no será solo un simple escaparate de productos, sino que contará con funcionalidades pensadas para mejorar la confianza y satisfacción de los usuarios, como el sistema de valoraciones o el seguimiento detallado de reparaciones.
-
-Una de las características principales que queremos destacar es la facilidad de uso tanto para usuarios habituales como para aquellos menos familiarizados con este tipo de plataformas. Además, hemos puesto especial atención en la seguridad, protegiendo los datos personales de los usuarios mediante cifrado SSL y cumpliendo con la normativa vigente de protección de datos.
-
-Desarrollaremos **FastFix** con el framework Express.js para el backend, utilizando MongoDB como base de datos, mientras que para el frontend utilizaremos Vue.js, junto a HTML5, CSS3 y Tailwind CSS para el diseño y la maquetación de la interfaz. Aplicaremos el modelo vista controlador (MVC) adaptado a Express.js para estructurar el proyecto de manera eficiente. El entorno de desarrollo será Visual Studio Code, un editor que integra todas las herramientas necesarias para una programación ágil y organizada.
-
-En cuanto a los recursos, el desarrollo de la plataforma no requiere hardware de altas prestaciones, ya que el enfoque principal es la accesibilidad y la compatibilidad con la mayoría de dispositivos actuales, tanto en ordenadores como en tablets o móviles.
+> Proyecto de Fin de Grado | CFGS Desarrollo Web  
+> Desarrollado por: Giovanni Barroso, Álvaro Rodríguez y Roberto Gómez  
+> Tutora: Olga (olga3emes)
 
 ---
 
-## Objetivos
+## 📌 Introducción
 
-Actualmente existe una creciente demanda de plataformas que ofrezcan servicios de reparación de dispositivos electrónicos y venta de productos tecnológicos de manera cómoda, rápida y segura. Muchos usuarios se enfrentan a procesos complicados o poco claros cuando buscan reparar sus dispositivos o adquirir accesorios fiables. **FastFix** nace para cubrir esta necesidad, ofreciendo una plataforma intuitiva y accesible.
+**FastFix** es una plataforma web desarrollada con el objetivo de ofrecer servicios profesionales de **reparación de dispositivos electrónicos** y **venta de productos tecnológicos**. Está diseñada para proporcionar una **experiencia de usuario moderna, intuitiva y segura**, tanto en dispositivos móviles como de escritorio.
 
-La plataforma está pensada para personas que buscan soluciones rápidas a problemas cotidianos relacionados con sus dispositivos electrónicos, así como para quienes desean adquirir accesorios tecnológicos sin complicaciones.
+La aplicación permite a los usuarios solicitar reparaciones de **móviles, tablets, ordenadores y consolas**, así como adquirir accesorios tecnológicos como **auriculares, fundas, cargadores, altavoces, etc.**
 
-Además, **FastFix** representa una oportunidad de negocio interesante, ya que el sector de la reparación y venta de tecnología sigue en expansión. Nuestra intención es no solo crear una solución funcional, sino también un modelo escalable que pueda ofrecer valor tanto a usuarios particulares como a profesionales del sector tecnológico.
+Algunas características destacadas incluyen:
+
+- Solicitud y seguimiento de reparaciones.
+- Gestión de pedidos, direcciones y facturas.
+- Valoraciones y reseñas de productos y servicios.
+- Carrito de compras con resumen detallado y pago seguro con PayPal.
+- Panel de administración completo con control de usuarios, stock, pedidos y más.
+
+---
+
+## 🎯 Objetivos del Proyecto
 
 ### Objetivo General
 
-Desarrollar una plataforma web intuitiva y eficiente que ofrezca servicios de reparación de dispositivos electrónicos y venta de productos tecnológicos, garantizando una experiencia de usuario segura, sencilla y confiable.
+Desarrollar una plataforma web profesional para gestionar reparaciones tecnológicas y ventas de productos, garantizando usabilidad, seguridad y escalabilidad.
 
 ### Objetivos Específicos
 
-- Ofrecer un sistema de solicitud de reparaciones claro, rápido y accesible.
-- Implementar una tienda online funcional y segura.
-- Facilitar un sistema de seguimiento de reparaciones en tiempo real.
-- Incorporar un sistema de valoraciones para fomentar la confianza.
-- Diseñar una interfaz adaptativa, accesible y simple.
-- Asegurar la protección de datos personales con cifrado y normativa legal.
-- Crear un sistema de soporte ágil y eficaz.
-- Escalar la plataforma con alianzas profesionales del sector.
+- Solicitud rápida de reparaciones.
+- Seguimiento en tiempo real del estado de cada reparación.
+- Catálogo interactivo de productos tecnológicos.
+- Gestión de pedidos y compras seguras.
+- Sistema de valoraciones y favoritos.
+- Autenticación JWT robusta con confirmación de email y 2FA.
+- Administración completa de usuarios, productos y pedidos.
+- Escalabilidad para integrar servicios adicionales.
 
 ---
 
-## Requisitos Funcionales
+## ✅ Requisitos Funcionales
 
-- RF01. Registro de usuarios.
-- RF02. Inicio de sesión y autenticación.
-- RF03. Recuperación de contraseña.
-- RF04. Navegación por los servicios de reparación.
-- RF05. Solicitud de reparación.
-- RF06. Seguimiento del estado de la reparación.
-- RF07. Gestión de productos en la tienda online.
-- RF08. Proceso de compra de productos.
-- RF09. Sistema de valoraciones y reseñas.
-- RF10. Gestión de usuarios por parte del administrador.
-- RF11. Gestión de pedidos y reparaciones por parte del administrador.
-- RF12. Contacto y atención al cliente.
-
-## Requisitos No Funcionales
-
-- RNF01. Usabilidad
-- RNF02. Rendimiento
-- RNF03. Compatibilidad
-- RNF04. Seguridad
-- RNF05. Privacidad
-- RNF06. Escalabilidad
-- RNF07. Mantenibilidad
-- RNF08. Disponibilidad
-- RNF09. Accesibilidad
+| Código | Descripción |
+|--------|-------------|
+| RF01 | Registro y autenticación de usuarios |
+| RF02 | Confirmación de email y recuperación de contraseña |
+| RF03 | Visualización de productos por categoría y marca |
+| RF04 | Carrito de compras y resumen previo al pago |
+| RF05 | Proceso de pago con PayPal |
+| RF06 | Sistema de solicitudes y seguimiento de reparaciones |
+| RF07 | Sistema de valoraciones y favoritos |
+| RF08 | Gestión del perfil del usuario y direcciones |
+| RF09 | Visualización de facturas en PDF tras el pago |
+| RF10 | Administración de productos, usuarios y pedidos |
+| RF11 | Panel de control para seguimiento de métricas y soporte |
 
 ---
 
-## Tecnologías a Usar (Estado del Arte)
+## 🔒 Requisitos No Funcionales
 
-**Backend:** Laravel + MySQL  
-**Frontend:** Vue.js, Bootstrap, HTML5, CSS3, JavaScript  
-**Control de versiones:** Git, GitHub  
-**Herramientas de desarrollo:** Visual Studio Code, Postman, Trello, Draw.io, Canva, Figma  
-**Metodología:** Kanban con Trello + Git Flow
+- **RNF01. Usabilidad**
+- **RNF02. Seguridad**
+- **RNF03. Escalabilidad**
+- **RNF04. Rendimiento**
+- **RNF05. Privacidad**
+- **RNF06. Compatibilidad**
+- **RNF07. Accesibilidad**
+- **RNF08. Mantenibilidad**
+- **RNF09. Disponibilidad**
 
 ---
 
-## Organización y Metodología
+## 🛠️ Tecnologías Utilizadas
 
-El equipo está conformado por:
+### Backend
+- **Laravel 10** (API REST)
+- **JWT Auth (tymon/jwt-auth)**
+- **Laravel Fortify** (verificación email, 2FA)
+- **MySQL 8**
+- **PDF Generator**
+- **Mail API (Gmail SMTP)**
 
-- Giovanni Barroso
-- Álvaro Rodríguez
-- Roberto Gómez
-- Tutora: Olga (olga3emes)
+### Frontend
+- **Vue.js 3 (SPA)**
+- **Vue Router + Pinia**
+- **Tailwind CSS**
+- **AOS (Animate on Scroll)**
+- **Axios + Toasts personalizados**
 
-Con el objetivo de mantener una estructura de trabajo clara, colaborativa y flexible, hemos optado por seguir una metodología de desarrollo ágil, concretamente el modelo **Kanban**, utilizando la herramienta **Trello** para la gestión de tareas. Esta metodología permite una visualización continua del estado de los distintos procesos, una priorización eficiente y una adaptación rápida a los cambios durante el ciclo de vida del desarrollo.
+### DevOps & Gestión
+- **Git + GitHub (Git Flow)**
+- **Postman**
+- **Figma**
+- **Trello (Kanban)**
+- **Draw.io**
+- **Visual Studio Code**
 
-En cuanto al control de versiones y la colaboración entre los miembros del equipo, se emplea la estrategia **Git Flow**, apoyada en la plataforma GitHub, lo que garantiza un control riguroso del código fuente, una organización efectiva de las ramas del repositorio y una integración segura de nuevas funcionalidades.
+---
 
-Asimismo, se ha desarrollado un **diagrama de Gantt** que proporciona una planificación temporal detallada del proyecto, distribuyendo de manera equilibrada las distintas tareas y estableciendo hitos concretos a lo largo del calendario de trabajo. 
+## 🧱 Arquitectura General
 
-Para facilitar la colaboración, el almacenamiento de entregas y el intercambio de material de trabajo, se ha creado una carpeta compartida en Google Drive, donde se centralizan todos los documentos relevantes y se realiza un seguimiento de las versiones de cada archivo.
+- **Frontend desacoplado (SPA)** conectado vía API con Laravel.
+- **Modelo Vista Controlador (MVC)** adaptado en backend.
+- **Autenticación robusta** con JWT y Fortify.
+- **Sistema de pago con PayPal** funcional.
+- **Facturas en PDF automáticas.**
+- **Seeders con datos de prueba realistas.**
+
+---
+
+## 🧩 Estructura de Ramas (Git Flow)
+
+| Rama                     | Propósito                                                |
+|--------------------------|-----------------------------------------------------------|
+| `main`                   | Versión estable y lista para producción                  |
+| `develop`                | Desarrollo activo y pruebas funcionales                  |
+| `feature/auth`           | JWT + Fortify (login, registro, email, 2FA)              |
+| `feature/contacto`       | Formulario de contacto y atención al cliente             |
+| `feature/admin-panel`    | Gestión de usuarios, productos, pedidos, reparaciones    |
+| `feature/pagos`          | Pasarela de pago PayPal y generación de facturas         |
+| `feature/favoritos`      | Añadir y eliminar favoritos                              |
+| `feature/frontend-home`  | Página de inicio con animaciones y diseño moderno        |
+| `feature/cart`           | Carrito funcional con desglose y resumen                 |
+| `feature/orders`         | Histórico de pedidos + detalles completos                |
+| `feature/invoices`       | Listado y descarga de facturas PDF                       |
+| `release/vX.X.X`         | Preparación de versiones estables                        |
+| `hotfix/*`               | Corrección urgente en producción                         |
+
+---
+
+## 👥 Organización del Equipo
+
+| Nombre               | Rol                           |
+|----------------------|--------------------------------|
+| Giovanni Barroso     | Fullstack Developer · Lead Dev · Arquitectura del Repositorio · I+D · Integración final · UX/UI |
+| Álvaro Rodríguez     | FullStack Developer, UX, and User |
+| Roberto Gómez        | FullStack Developer, UX, and Admin |
+| Tutora: Olga         | Supervisión Técnica            |
+
+---
+
+## 📆 Planificación y Metodología
+
+- **Kanban** en Trello para control visual de tareas.
+- **Google Drive** para documentación y versiones.
+- **Diagrama de Gantt** con planificación y entregas.
 
 🔗 [Diagrama de Gantt](https://www.notion.so/1c60faac9c3b80188e0cc02f5e923e80?v=1c60faac9c3b80ea8bc4000c6c3bcc50)
 
 ---
 
-## Git Flow - Estructura de Ramas
+## 📁 Estructura del Proyecto
 
-| Rama                     | Propósito                                                |
-| ------------------------ | -------------------------------------------------------- |
-| `main`                   | Versión estable y lista para producción                  |
-| `develop`                | Rama de desarrollo donde se integran todos los cambios   |
-| `feature/auth`           | Autenticación de usuarios (login, registro, etc.)        |
-| `feature/contacto`       | Sección de contacto y formulario                         |
-| `feature/crud-productos` | Gestión CRUD de productos                                |
-| `feature/frontend-home`  | Desarrollo de la página principal                        |
-| `feature/pagos`          | Integración de pasarela de pagos (PayPal)                |
-| `feature/soporte`        | Módulo de soporte técnico y atención al cliente          |
-| `feature/valoraciones`   | Sistema de reseñas y valoraciones de productos/servicios |
-| `release/vX.X.X`         | Rama para preparar versiones estables                    |
-| `hotfix/*`               | Correcciones urgentes sobre `main`                       |
+### 🌱 Backend (`fastfix-backend/`)
+fastfix-backend/
+├── app/
+│ ├── Http/Controllers/
+│ ├── Models/
+├── database/
+│ ├── migrations/
+│ ├── seeders/
+├── routes/
+│ ├── api.php
+├── config/
+├── .env
+
+### 💻 Frontend (`fastfix-frontend/`)
+fastfix-frontend/
+├── src/
+│ ├── views/
+│ ├── components/
+│ ├── store/
+│ ├── router/
+├── public/
+├── assets/
+├── tailwind.config.js
 
 ---
 
-## Enlace del Repositorio GitHub
+## 🔐 Seguridad
 
-🔗 [Repositorio FastFix en GitHub](https://github.com/GiovanniBarroso/FastFix)
+- JWT + Fortify para autenticación y sesiones.
+- Middleware `auth:api`, `verified`.
+- HTTPS y protección de rutas y datos.
+- Validaciones frontend + backend.
+
+---
+
+## 💳 Pasarela de Pago
+
+- Checkout con desglose del pedido.
+- Redirección a PayPal (sandbox/live).
+- Captura de pago y cambio de estado.
+- Generación de factura en PDF.
+
+---
+
+## 📄 Facturación
+
+- Facturas únicas por pedido.
+- PDF profesional con logo y datos legales.
+- Acceso desde el panel del usuario.
+- Enlace seguro de descarga.
+
+---
+
+## 🌐 Repositorio GitHub
+
+🔗 [https://github.com/GiovanniBarroso/FastFix](https://github.com/GiovanniBarroso/FastFix)
 
 ---
