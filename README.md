@@ -111,25 +111,6 @@ Desarrollar una plataforma web profesional para gestionar reparaciones tecnológ
 
 ---
 
-## 🧩 Estructura de Ramas (Git Flow)
-
-| Rama                     | Propósito                                                |
-|--------------------------|-----------------------------------------------------------|
-| `main`                   | Versión estable y lista para producción                  |
-| `develop`                | Desarrollo activo y pruebas funcionales                  |
-| `feature/auth`           | JWT + Fortify (login, registro, email, 2FA)              |
-| `feature/contacto`       | Formulario de contacto y atención al cliente             |
-| `feature/admin-panel`    | Gestión de usuarios, productos, pedidos, reparaciones    |
-| `feature/pagos`          | Pasarela de pago PayPal y generación de facturas         |
-| `feature/favoritos`      | Añadir y eliminar favoritos                              |
-| `feature/frontend-home`  | Página de inicio con animaciones y diseño moderno        |
-| `feature/cart`           | Carrito funcional con desglose y resumen                 |
-| `feature/orders`         | Histórico de pedidos + detalles completos                |
-| `feature/invoices`       | Listado y descarga de facturas PDF                       |
-| `release/vX.X.X`         | Preparación de versiones estables                        |
-| `hotfix/*`               | Corrección urgente en producción                         |
-
----
 
 ## 👥 Organización del Equipo
 
