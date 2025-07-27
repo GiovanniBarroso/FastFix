@@ -1,43 +1,46 @@
 # FastFix 📱 – Plataforma Integral de Reparaciones y Venta Tecnológica
 
-> Proyecto de Fin de Grado | CFGS Desarrollo Web  
-> Desarrollado por: Giovanni Barroso, Álvaro Rodríguez y Roberto Gómez  
-> Tutora: Olga (olga3emes)
+> **Proyecto de Fin de Grado** – CFGS Desarrollo de Aplicaciones Web  
+> **Desarrollado por:** Giovanni Barroso, Álvaro Rodríguez y Roberto Gómez  
+> **Tutora:** Olga (olga3emes)
 
 ---
 
 ## 📌 Introducción
 
-**FastFix** es una plataforma web desarrollada con el objetivo de ofrecer servicios profesionales de **reparación de dispositivos electrónicos** y **venta de productos tecnológicos**. Está diseñada para proporcionar una **experiencia de usuario moderna, intuitiva y segura**, tanto en dispositivos móviles como de escritorio.
+**FastFix** es una plataforma web creada para ofrecer servicios profesionales de **reparación de dispositivos electrónicos** y **venta de productos tecnológicos**, brindando una experiencia moderna, intuitiva y segura, tanto en dispositivos móviles como en ordenadores.
 
-La aplicación permite a los usuarios solicitar reparaciones de **móviles, tablets, ordenadores y consolas**, así como adquirir accesorios tecnológicos como **auriculares, fundas, cargadores, altavoces, etc.**
+La aplicación permite a los usuarios:
 
-Algunas características destacadas incluyen:
+- Solicitar reparaciones de **móviles, tablets, ordenadores y consolas**.
+- Comprar productos tecnológicos como **auriculares, fundas, cargadores, altavoces**, entre otros.
+
+### 🧩 Funcionalidades principales
 
 - Solicitud y seguimiento de reparaciones.
 - Gestión de pedidos, direcciones y facturas.
 - Valoraciones y reseñas de productos y servicios.
-- Carrito de compras con resumen detallado y pago seguro con PayPal.
-- Panel de administración completo con control de usuarios, stock, pedidos y más.
+- Carrito de compras y pago seguro con PayPal.
+- Panel de administración con control de usuarios, stock, pedidos y métricas.
 
 ---
 
 ## 🎯 Objetivos del Proyecto
 
-### Objetivo General
+### ✅ Objetivo General
 
-Desarrollar una plataforma web profesional para gestionar reparaciones tecnológicas y ventas de productos, garantizando usabilidad, seguridad y escalabilidad.
+Desarrollar una plataforma web profesional para gestionar reparaciones y ventas tecnológicas, garantizando **usabilidad**, **seguridad** y **escalabilidad**.
 
-### Objetivos Específicos
+### 🎯 Objetivos Específicos
 
-- Solicitud rápida de reparaciones.
+- Solicitud ágil de reparaciones.
 - Seguimiento en tiempo real del estado de cada reparación.
 - Catálogo interactivo de productos tecnológicos.
-- Gestión de pedidos y compras seguras.
+- Gestión de pedidos y compras con pago seguro.
 - Sistema de valoraciones y favoritos.
-- Autenticación JWT robusta con confirmación de email y 2FA.
-- Administración completa de usuarios, productos y pedidos.
-- Escalabilidad para integrar servicios adicionales.
+- Autenticación robusta (JWT, verificación de email, 2FA).
+- Administración de usuarios, productos y pedidos.
+- Infraestructura escalable para futuras integraciones.
 
 ---
 
@@ -45,56 +48,56 @@ Desarrollar una plataforma web profesional para gestionar reparaciones tecnológ
 
 | Código | Descripción |
 |--------|-------------|
-| RF01 | Registro y autenticación de usuarios |
-| RF02 | Confirmación de email y recuperación de contraseña |
-| RF03 | Visualización de productos por categoría y marca |
-| RF04 | Carrito de compras y resumen previo al pago |
-| RF05 | Proceso de pago con PayPal |
-| RF06 | Sistema de solicitudes y seguimiento de reparaciones |
-| RF07 | Sistema de valoraciones y favoritos |
-| RF08 | Gestión del perfil del usuario y direcciones |
-| RF09 | Visualización de facturas en PDF tras el pago |
-| RF10 | Administración de productos, usuarios y pedidos |
-| RF11 | Panel de control para seguimiento de métricas y soporte |
+| RF01   | Registro y autenticación de usuarios |
+| RF02   | Confirmación de email y recuperación de contraseña |
+| RF03   | Visualización de productos por categoría y marca |
+| RF04   | Carrito de compras con resumen antes del pago |
+| RF05   | Proceso de pago mediante PayPal |
+| RF06   | Solicitud y seguimiento de reparaciones |
+| RF07   | Sistema de valoraciones y favoritos |
+| RF08   | Gestión del perfil y direcciones del usuario |
+| RF09   | Generación y visualización de facturas en PDF |
+| RF10   | Administración de productos, usuarios y pedidos |
+| RF11   | Panel de control con métricas y soporte técnico |
 
 ---
 
 ## 🔒 Requisitos No Funcionales
 
-- **RNF01. Usabilidad**
-- **RNF02. Seguridad**
-- **RNF03. Escalabilidad**
-- **RNF04. Rendimiento**
-- **RNF05. Privacidad**
-- **RNF06. Compatibilidad**
-- **RNF07. Accesibilidad**
-- **RNF08. Mantenibilidad**
-- **RNF09. Disponibilidad**
+- **RNF01.** Usabilidad  
+- **RNF02.** Seguridad  
+- **RNF03.** Escalabilidad  
+- **RNF04.** Rendimiento  
+- **RNF05.** Privacidad  
+- **RNF06.** Compatibilidad  
+- **RNF07.** Accesibilidad  
+- **RNF08.** Mantenibilidad  
+- **RNF09.** Alta disponibilidad  
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-### Backend
+### 🔙 Backend
 - **Laravel 10** (API REST)
-- **JWT Auth (tymon/jwt-auth)**
-- **Laravel Fortify** (verificación email, 2FA)
+- **JWT Auth** (`tymon/jwt-auth`)
+- **Laravel Fortify** (verificación de email, 2FA)
 - **MySQL 8**
-- **PDF Generator**
-- **Mail API (Gmail SMTP)**
+- **Generación de PDFs**
+- **Mail API** (Gmail SMTP)
 
-### Frontend
+### 🔜 Frontend
 - **Vue.js 3 (SPA)**
-- **Vue Router + Pinia**
+- **Vue Router** + **Pinia**
 - **Tailwind CSS**
-- **AOS (Animate on Scroll)**
-- **Axios + Toasts personalizados**
+- **AOS** (Animate On Scroll)
+- **Axios** + toasts personalizados
 
-### DevOps & Gestión
-- **Git + GitHub (Git Flow)**
+### ⚙️ DevOps y Gestión
+- **Git + GitHub** (Git Flow)
 - **Postman**
 - **Figma**
-- **Trello (Kanban)**
+- **Trello** (Kanban)
 - **Draw.io**
 - **Visual Studio Code**
 
@@ -102,94 +105,91 @@ Desarrollar una plataforma web profesional para gestionar reparaciones tecnológ
 
 ## 🧱 Arquitectura General
 
-- **Frontend desacoplado (SPA)** conectado vía API con Laravel.
-- **Modelo Vista Controlador (MVC)** adaptado en backend.
-- **Autenticación robusta** con JWT y Fortify.
-- **Sistema de pago con PayPal** funcional.
-- **Facturas en PDF automáticas.**
-- **Seeders con datos de prueba realistas.**
+- **Frontend desacoplado (SPA)** conectado por API REST a Laravel.
+- **Arquitectura MVC** adaptada en el backend.
+- **Autenticación avanzada** con JWT y Fortify.
+- **Integración de PayPal** para pagos seguros.
+- **Generación automática de facturas en PDF.**
+- **Seeders realistas** con datos de prueba.
 
 ---
 
-
 ## 👥 Organización del Equipo
 
-| Nombre               | Rol                           |
-|----------------------|--------------------------------|
-| Giovanni Barroso     | Fullstack Developer · Lead Dev · Arquitectura del Repositorio · I+D · Integración final · UX/UI |
-| Álvaro Rodríguez     | FullStack Developer, UX, and User |
-| Roberto Gómez        | FullStack Developer, UX, and Admin |
-| Tutora: Olga         | Supervisión Técnica            |
+| Nombre             | Rol                                                                 |
+|--------------------|----------------------------------------------------------------------|
+| Giovanni Barroso   | Fullstack Developer · Lead Dev · Arquitectura · Integración final · UX/UI |
+| Álvaro Rodríguez   | Fullstack Developer · UX Designer · Funcionalidades de usuario       |
+| Roberto Gómez      | Fullstack Developer · UX Designer · Funcionalidades administrativas  |
+| Olga (Tutora)      | Supervisión Técnica                                                  |
 
 ---
 
 ## 📆 Planificación y Metodología
 
-- **Kanban** en Trello para control visual de tareas.
-- **Google Drive** para documentación y versiones.
-- **Diagrama de Gantt** con planificación y entregas.
+- Metodología **Kanban** mediante **Trello** para el control de tareas.
+- Uso de **Google Drive** para compartir documentación y entregas.
+- **Diagrama de Gantt** para planificación y control de hitos.
 
-🔗 [Diagrama de Gantt](https://www.notion.so/1c60faac9c3b80188e0cc02f5e923e80?v=1c60faac9c3b80ea8bc4000c6c3bcc50)
+🔗 [Ver Diagrama de Gantt](https://www.notion.so/1c60faac9c3b80188e0cc02f5e923e80?v=1c60faac9c3b80ea8bc4000c6c3bcc50)
 
 ---
 
 ## 📁 Estructura del Proyecto
 
-### 🌱 Backend (`fastfix-backend/`)
+### 📦 Backend (`fastfix-backend/`)
+```plaintext
 fastfix-backend/
 ├── app/
-│ ├── Http/Controllers/
-│ ├── Models/
+│   ├── Http/Controllers/
+│   ├── Models/
 ├── database/
-│ ├── migrations/
-│ ├── seeders/
+│   ├── migrations/
+│   ├── seeders/
 ├── routes/
-│ ├── api.php
+│   └── api.php
 ├── config/
 ├── .env
+```
 
 ### 💻 Frontend (`fastfix-frontend/`)
+```plaintext
 fastfix-frontend/
 ├── src/
-│ ├── views/
-│ ├── components/
-│ ├── store/
-│ ├── router/
+│   ├── views/
+│   ├── components/
+│   ├── store/
+│   ├── router/
 ├── public/
 ├── assets/
 ├── tailwind.config.js
+```
 
 ---
 
 ## 🔐 Seguridad
 
-- JWT + Fortify para autenticación y sesiones.
-- Middleware `auth:api`, `verified`.
-- HTTPS y protección de rutas y datos.
-- Validaciones frontend + backend.
+- Autenticación con **JWT** + **Fortify**.
+- Middleware `auth:api` y `verified`.
+- Rutas protegidas y uso de HTTPS.
+- Validación de datos tanto en frontend como backend.
 
 ---
 
 ## 💳 Pasarela de Pago
 
-- Checkout con desglose del pedido.
-- Redirección a PayPal (sandbox/live).
-- Captura de pago y cambio de estado.
-- Generación de factura en PDF.
+- Desglose detallado del pedido antes del pago.
+- Redirección a PayPal (modo sandbox/live).
+- Confirmación del pago y actualización del pedido.
+- Generación automática de factura en PDF.
 
 ---
 
 ## 📄 Facturación
 
-- Facturas únicas por pedido.
-- PDF profesional con logo y datos legales.
-- Acceso desde el panel del usuario.
-- Enlace seguro de descarga.
-
----
-
-## 🌐 Repositorio GitHub
-
-🔗 [https://github.com/GiovanniBarroso/FastFix](https://github.com/GiovanniBarroso/FastFix)
+- Una factura única por cada pedido.
+- PDFs personalizados con logotipo y datos fiscales.
+- Descarga disponible desde el panel del usuario.
+- Enlaces seguros para acceder a las facturas.
 
 ---
