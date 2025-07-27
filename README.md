@@ -1,5 +1,9 @@
 # FastFix 📱 – Plataforma Integral de Reparaciones y Venta Tecnológica
 
+![Laravel](https://img.shields.io/badge/backend-Laravel%2010-red)
+![Vue](https://img.shields.io/badge/frontend-Vue%203-brightgreen)
+![MIT](https://img.shields.io/badge/license-MIT-blue)
+
 > **Proyecto de Fin de Grado** – CFGS Desarrollo de Aplicaciones Web  
 > **Desarrollado por:** Giovanni Barroso, Álvaro Rodríguez y Roberto Gómez  
 > **Tutora:** Olga (olga3emes)
@@ -191,5 +195,41 @@ fastfix-frontend/
 - PDFs personalizados con logotipo y datos fiscales.
 - Descarga disponible desde el panel del usuario.
 - Enlaces seguros para acceder a las facturas.
+
+---
+
+## 🚀 Cómo ejecutar el proyecto localmente
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/GiovanniBarroso/fastfix.git
+cd fastfix
+```
+
+### 2. Backend – Laravel
+```bash
+cd backend
+cp .env
+composer install
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+### 3. Frontend – Vue.js
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+> El backend se ejecuta en `http://localhost:8000`  
+> El frontend se ejecuta en `http://localhost:5173`
+
+---
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la [Licencia MIT](LICENSE).
 
 ---
