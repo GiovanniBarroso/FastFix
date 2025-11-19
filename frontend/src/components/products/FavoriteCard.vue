@@ -51,8 +51,8 @@ const props = defineProps({
   },
 })
 
-const { favorite } = props // ✅ desestructuración
-console.log('Imagen recibida:', favorite.product.imagen) // ✅ sin error
+const { favorite } = props
+console.log('Imagen recibida:', favorite.product.imagen)
 
 const emit = defineEmits(['removed'])
 const toast = useToast()
@@ -76,7 +76,6 @@ const getImageUrl = (filename) => {
 </script>
 
 <style scoped>
-/* 🎬 Animación suave de desaparición */
 .fade-card-leave-active {
   transition:
     opacity 0.4s ease,

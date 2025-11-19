@@ -28,8 +28,8 @@ class AddressSeeder extends Seeder
                 Address::create([
                     'user_id' => $cliente->id,
                     'nombre' => $cliente->nombre . ' ' . $cliente->apellidos,
-                    'direccion' => 'Calle ' . chr(65 + rand(0, 25)) . ' Nº' . rand(1, 100),
-                    'codigo_postal' => rand(10000, 52999),
+                    'direccion' => 'Calle ' . chr(65 + rand(0, 25)) . ' Nº' . rand(1, 100), //Random para prueba
+                    'codigo_postal' => rand(10000, 52999), //Random para prueba
                     'ciudad' => $ciudad,
                     'provincia' => $provincia,
                     'pais' => 'España',

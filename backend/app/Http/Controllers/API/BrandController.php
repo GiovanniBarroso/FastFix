@@ -20,7 +20,6 @@ class BrandController extends Controller
             'description' => 'nullable|string',
             'activo' => 'required|boolean'
         ]);
-
         $brand = Brand::create($validated);
         return response()->json($brand, 201);
     }

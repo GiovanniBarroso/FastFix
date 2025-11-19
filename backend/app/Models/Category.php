@@ -14,6 +14,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'category_id'); // Asegúrate que esta FK sea la correcta
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

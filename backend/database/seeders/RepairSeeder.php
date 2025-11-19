@@ -27,7 +27,7 @@ class RepairSeeder extends Seeder
                 $estado = ['pendiente', 'en progreso', 'terminado', 'entregado'][rand(0, 3)];
                 $garantia = ['sin', '3m', '6m'][rand(0, 2)];
 
-                $mes = rand(4, 6); // Abril, Mayo, Junio
+                $mes = rand(4, 6);
                 $diaRecibido = rand(1, 25);
                 $fechaRecibido = Carbon::create(2025, $mes, $diaRecibido);
 

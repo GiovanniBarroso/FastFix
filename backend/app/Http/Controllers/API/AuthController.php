@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 use App\Models\Notification;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -53,13 +52,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
-
         if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
 
         $user = auth('api')->user()->load('role');
-
         if (!$user->hasVerifiedEmail()) {
             auth('api')->logout();
             return response()->json(['error' => 'Debes verificar tu correo electrónico antes de iniciar sesión.'], 403);
@@ -81,7 +78,6 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         $user = auth('api')->user()->load('role');
-
         if ($request->boolean('plano')) {
             return response()->json($user);
         }

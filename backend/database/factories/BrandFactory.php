@@ -14,7 +14,7 @@ class BrandFactory extends Factory
         return [
             'nombre' => $this->faker->company(),
             'description' => $this->faker->sentence(),
-            'activo' => $this->faker->boolean(90), // 90% activo
+            'activo' => $this->faker->boolean(90),
         ];
     }
 }

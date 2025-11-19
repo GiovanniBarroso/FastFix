@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Product;
 use App\Models\CartItem;
 
 class CartController extends Controller
@@ -14,7 +13,6 @@ class CartController extends Controller
     {
         $userId = Auth::id();
         logger('🛒 GET /cart llamado por el usuario ID: ' . $userId);
-
         $cartItems = CartItem::with('product')
             ->where('user_id', $userId)
             ->get();
@@ -22,7 +20,7 @@ class CartController extends Controller
         logger('📦 Resultado con relaciones cargadas:', $cartItems->toArray());
 
         $formatted = $cartItems
-            ->filter(fn($item) => $item->product) // evita nulls
+            ->filter(fn($item) => $item->product)
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
@@ -36,9 +34,7 @@ class CartController extends Controller
                     ]
                 ];
             })->values();
-
         logger('🧾 Carrito enviado a Vue:', $formatted->toArray());
-
         return response()->json(['cart' => $formatted], 200);
     }
 
@@ -47,11 +43,9 @@ class CartController extends Controller
         $request->validate([
             'cantidad' => 'required|integer|min:1'
         ]);
-
         $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
         $cartItem->cantidad = $request->cantidad;
         $cartItem->save();
-
         return response()->json(['message' => 'Cantidad actualizada']);
     }
 
@@ -89,7 +83,6 @@ class CartController extends Controller
         CartItem::where('user_id', Auth::id())
             ->where('id', $id)
             ->delete();
-
         return response()->json(['message' => 'Producto eliminado del carrito'], 200);
     }
 

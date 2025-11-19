@@ -203,11 +203,9 @@ import { User, Key, Heart, LogOut, ChevronDown } from 'lucide-vue-next'
 const router = useRouter()
 const auth = useAuthStore()
 const cart = useCartStore()
-
 const showMenu = ref(false)
 const mobileMenuOpen = ref(false)
 const dropdownRef = ref(null)
-
 const user = computed(() => auth.user)
 const isAuthenticated = computed(() => auth.isAuthenticated())
 const isAdmin = computed(() => auth.isAdmin())

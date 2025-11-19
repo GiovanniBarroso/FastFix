@@ -1,4 +1,3 @@
-// stores/cartStore.js
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 
@@ -31,9 +30,7 @@ export const useCartStore = defineStore('cart', () => {
     items.value = data
   }
 
-  const totalCount = computed(() =>
-    items.value.reduce((sum, p) => sum + p.cantidad, 0)
-  )
+  const totalCount = computed(() => items.value.reduce((sum, p) => sum + p.cantidad, 0))
 
   const loadCart = () => {
     const saved = localStorage.getItem('cart')
@@ -42,13 +39,12 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  // Guarda automáticamente el carrito en localStorage al modificarse
   watch(
     items,
     (newVal) => {
       localStorage.setItem('cart', JSON.stringify(newVal))
     },
-    { deep: true }
+    { deep: true },
   )
 
   return {

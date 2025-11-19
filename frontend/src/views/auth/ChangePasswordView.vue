@@ -87,13 +87,11 @@ import api from '@/services/api'
 import PasswordInput from '@/views/components/PasswordInput.vue'
 
 const router = useRouter()
-
 const currentPassword = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
 const errorMessage = ref('')
 const successMessage = ref('')
-
 const showCurrent = ref(false)
 const showNew = ref(false)
 const showConfirm = ref(false)

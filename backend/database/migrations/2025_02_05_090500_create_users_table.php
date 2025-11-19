@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('nombre', 100);
             $table->string('apellidos', 100)->nullable();
             $table->string('email', 150)->unique();
-            $table->timestamp('email_verified_at')->nullable(); // 🔹 Agregado para la verificación de correo
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255);
             $table->string('telefono', 15)->nullable();
             $table->timestamp('fecha_registro')->useCurrent();

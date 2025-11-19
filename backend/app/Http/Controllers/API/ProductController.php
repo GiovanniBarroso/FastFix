@@ -36,12 +36,8 @@ class ProductController extends Controller
         }
 
         $validated['precio_base'] = $validated['precio'];
-
         $product = Product::create($validated);
-
-        // Aplica descuentos automáticamente
         $product->update(['precio' => $product->aplicarDescuentos()]);
-
         return response()->json($product->fresh(['category', 'brand', 'discounts']), 201);
     }
 
@@ -87,19 +83,14 @@ class ProductController extends Controller
         }
 
         $validated['precio_base'] = $validated['precio'];
-
         $product->update($validated);
-
-        // Aplica descuentos automáticamente
-        $product->update(['precio' => $product->aplicarDescuentos()]);
-
+        $product->update(['precio' => $product->aplicarDescuentos()]); // Aplica descuentos automáticamente
         return response()->json($product->fresh(['category', 'brand', 'discounts']));
     }
 
     public function destroy($id)
     {
         $product = Product::find($id);
-
         if (!$product) {
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
@@ -109,7 +100,6 @@ class ProductController extends Controller
         }
 
         $product->delete();
-
         return response()->json(['message' => 'Producto eliminado']);
     }
 }

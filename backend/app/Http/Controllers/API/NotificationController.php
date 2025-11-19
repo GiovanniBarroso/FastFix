@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -24,7 +23,6 @@ class NotificationController extends Controller
     public function markAllRead()
     {
         Notification::where('read', false)->update(['read' => true]);
-
         return response()->json(['message' => '✅ Todas las notificaciones han sido marcadas como leídas.']);
     }
 
@@ -33,7 +31,6 @@ class NotificationController extends Controller
     {
         $notification = Notification::findOrFail($id);
         $notification->update(['read' => true]);
-
         return response()->json(['message' => "📩 Notificación #{$id} marcada como leída."]);
     }
 }

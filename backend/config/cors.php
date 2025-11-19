@@ -15,7 +15,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173'], // Solo tu frontend
+    'allowed_origins' => ['http://localhost:5173'],
 
     'allowed_origins_patterns' => [],
 
@@ -25,6 +25,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true, // 🔐 Imprescindible para JWT o cookies
+    'supports_credentials' => true,
 
 ];

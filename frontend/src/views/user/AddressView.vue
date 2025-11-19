@@ -1,7 +1,6 @@
 <template>
   <section class="py-12 bg-[#F8F9FA] dark:bg-[#1E2A38] min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-      <!-- Botón volver -->
       <div class="mb-6">
         <BackButtonUser />
       </div>
@@ -22,10 +21,7 @@
       </div>
 
       <!-- Lista de direcciones -->
-      <div
-        v-if="addresses.length"
-        class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-up"
-      >
+      <div v-if="addresses.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-up">
         <div
           v-for="address in addresses"
           :key="address.id"
@@ -39,9 +35,11 @@
               </h2>
               <span
                 class="text-xs inline-block mt-1 px-2 py-0.5 rounded-full font-medium"
-                :class="address.principal
-                  ? 'bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-200'
-                  : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300'"
+                :class="
+                  address.principal
+                    ? 'bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-200'
+                    : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300'
+                "
               >
                 {{ address.principal ? 'Principal' : 'Secundaria' }}
               </span>
@@ -49,7 +47,9 @@
           </div>
 
           <ul class="text-sm text-[#1E2A38] dark:text-[#F8F9FA] space-y-1 pl-1">
-            <li>📍 <span class="font-medium">{{ address.direccion }}</span></li>
+            <li>
+              📍 <span class="font-medium">{{ address.direccion }}</span>
+            </li>
             <li>📫 {{ address.codigo_postal }} – {{ address.ciudad }}</li>
             <li>🌍 {{ address.provincia }}, {{ address.pais }}</li>
             <li v-if="address.telefono_envio">📞 {{ address.telefono_envio }}</li>

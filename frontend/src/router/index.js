@@ -165,67 +165,66 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-  path: '/forbidden',
-  name: 'forbidden',
-  component: ForbiddenView,
-  meta: { requiresAuth: true }
-},
-
+    path: '/forbidden',
+    name: 'forbidden',
+    component: ForbiddenView,
+    meta: { requiresAuth: true },
+  },
 
   {
-  path: '/admin',
-  name: 'admin-panel',
-  component: AdminPanelView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/products',
-  name: 'product-list',
-  component: ProductListView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/orders',
-  name: 'order-list',
-  component: OrderListView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/budgets',
-  name: 'budget-list',
-  component: BudgetListView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/users',
-  name: 'users-list',
-  component: UserListView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/repairs',
-  name: 'repair-list',
-  component: RepairListView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/discounts',
-  name: 'discounts-list',
-  component: DiscountListView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/calendar',
-  name: 'admin-calendar',
-  component: AdminCalendarView,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
-{
-  path: '/admin/notifications',
-  name: 'admin-notifications',
-  component: AdminNotificationCenter,
-  meta: { requiresAuth: true, requiresAdmin: true }
-},
+    path: '/admin',
+    name: 'admin-panel',
+    component: AdminPanelView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/products',
+    name: 'product-list',
+    component: ProductListView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/orders',
+    name: 'order-list',
+    component: OrderListView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/budgets',
+    name: 'budget-list',
+    component: BudgetListView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/users',
+    name: 'users-list',
+    component: UserListView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/repairs',
+    name: 'repair-list',
+    component: RepairListView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/discounts',
+    name: 'discounts-list',
+    component: DiscountListView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/calendar',
+    name: 'admin-calendar',
+    component: AdminCalendarView,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: '/admin/notifications',
+    name: 'admin-notifications',
+    component: AdminNotificationCenter,
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
 ]
 
 const router = createRouter({
@@ -277,7 +276,5 @@ router.beforeEach(async (to, from, next) => {
 
   return next()
 })
-
-
 
 export default router

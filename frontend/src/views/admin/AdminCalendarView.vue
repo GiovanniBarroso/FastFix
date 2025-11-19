@@ -1,7 +1,6 @@
 <template>
   <section class="py-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-      <!-- Botón de volver reutilizable -->
       <div class="mb-6" data-aos="fade-right">
         <BackButtonAdmin />
       </div>
@@ -30,8 +29,6 @@ import api from '@/services/api'
 import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-
-// ✅ AOS
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -61,7 +58,6 @@ const calendarOptions = ref({
 })
 
 onMounted(async () => {
-  // 🔄 Iniciar AOS
   AOS.init({ duration: 800, once: true })
 
   try {

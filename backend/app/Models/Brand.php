@@ -13,6 +13,6 @@ class Brand extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'brand_id'); // Asegúrate que esta sea la FK real
+        return $this->hasMany(Product::class, 'brand_id');
     }
 }

@@ -11,11 +11,10 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    // ✅ Actualizar perfil del usuario autenticado
+    // Actualizar perfil del usuario autenticado
     public function update(Request $request)
     {
         $user = Auth::user();
-
         $validated = $request->validate([
             'nombre' => 'sometimes|required|string|max:100',
             'apellidos' => 'sometimes|nullable|string|max:100',
@@ -35,39 +34,35 @@ class UserController extends Controller
         return response()->json(['message' => 'Perfil actualizado', 'user' => $user]);
     }
 
-    // ✅ Admin: ver todos los usuarios
+    // Admin: ver todos los usuarios
     public function index()
     {
         return User::with('role')->orderBy('created_at', 'desc')->get();
     }
 
-    // ✅ Admin: ver un usuario específico
+    // Admin: ver un usuario específico
     public function show($id)
     {
         $user = User::with(['role', 'addresses', 'orders'])->find($id);
-
         if (!$user) {
             return response()->json(['message' => 'Usuario no encontrado'], 404);
         }
-
         return response()->json($user);
     }
 
-    // ✅ Admin: eliminar usuario
+    // Admin: eliminar usuario
     public function destroy($id)
     {
         $user = User::find($id);
-
         if (!$user) {
             return response()->json(['message' => 'Usuario no encontrado'], 404);
         }
 
         $user->delete();
-
         return response()->json(['message' => 'Usuario eliminado']);
     }
 
-    // ✅ Admin: crear usuario
+    // Admin: crear usuario
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -80,17 +75,14 @@ class UserController extends Controller
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-
         $user = User::create($validated);
-
         return response()->json($user, 201);
     }
 
-    // ✅ Admin: actualizar usuario por ID
+    // Admin: actualizar usuario por ID
     public function updateUser(Request $request, $id)
     {
         $user = User::find($id);
-
         if (!$user) {
             return response()->json(['message' => 'Usuario no encontrado'], 404);
         }
@@ -115,20 +107,18 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // ✅ Actualización usando Fortify
+    // Actualización usando Fortify
     public function updateProfileInformation(Request $request, UpdatesUserProfileInformation $updater)
     {
         $user = auth('api')->user();
-
         $updater->update($user, $request->all());
-
         return response()->json([
             'message' => 'Perfil actualizado correctamente.',
             'user' => $user,
         ]);
     }
 
-    // ✅ Confirmar contraseña del usuario actual
+    // Confirmar contraseña del usuario actual
     public function confirmPassword(Request $request)
     {
         $request->validate([
@@ -149,20 +139,19 @@ class UserController extends Controller
     }
 
     public function userStats()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
+        $pedidos = $user->orders()->count();
+        $favoritos = $user->favorites()->count();
+        $reparaciones = $user->repairs()->count();
+        $facturas = $user->invoices()->count();
 
-    $pedidos = $user->orders()->count();
-    $favoritos = $user->favorites()->count();
-    $reparaciones = $user->repairs()->count();
-    $facturas = $user->invoices()->count();
-
-    return response()->json([
-        'pedidos' => $pedidos,
-        'favoritos' => $favoritos,
-        'reparaciones' => $reparaciones,
-        'facturas' => $facturas
-    ]);
-}
+        return response()->json([
+            'pedidos' => $pedidos,
+            'favoritos' => $favoritos,
+            'reparaciones' => $reparaciones,
+            'facturas' => $facturas
+        ]);
+    }
 
 }

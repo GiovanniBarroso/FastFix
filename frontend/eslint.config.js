@@ -1,5 +1,4 @@
 import { defineConfig } from 'eslint-define-config'
-// import vue from 'eslint-plugin-vue'
 import globals from 'globals'
 
 export default defineConfig({

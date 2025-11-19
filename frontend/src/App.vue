@@ -5,6 +5,6 @@
 <script>
 import AppLayout from '@/components/layout/AppLayout.vue'
 export default {
-  components: { AppLayout }
+  components: { AppLayout },
 }
 </script>

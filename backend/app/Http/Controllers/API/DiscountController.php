@@ -10,13 +10,13 @@ use Carbon\Carbon;
 
 class DiscountController extends Controller
 {
-    // 🧾 Ver todos los descuentos (admin)
+    // Ver todos los descuentos (admin)
     public function index()
     {
         return Discount::with('products')->orderByDesc('created_at')->get();
     }
 
-    // ➕ Crear un nuevo descuento
+    // Crear un nuevo descuento
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,13 +36,11 @@ class DiscountController extends Controller
         if (!empty($validated['product_ids'])) {
             $discount->products()->attach($validated['product_ids']);
         }
-
         $this->recalcularPreciosProductos($discount);
-
         return response()->json(['message' => 'Descuento creado', 'data' => $discount->load('products')], 201);
     }
 
-    // ✏️ Actualizar un descuento
+    // Actualizar un descuento
     public function update(Request $request, $id)
     {
         $discount = Discount::find($id);
@@ -63,7 +61,6 @@ class DiscountController extends Controller
         ]);
 
         $discount->update($validated);
-
         if (isset($validated['product_ids'])) {
             $discount->products()->sync($validated['product_ids']);
         }
@@ -73,18 +70,15 @@ class DiscountController extends Controller
         return response()->json(['message' => 'Descuento actualizado', 'data' => $discount->load('products')]);
     }
 
-    // 🗑️ Eliminar descuento
+    // Eliminar descuento
     public function destroy($id)
     {
         $discount = Discount::find($id);
         if (!$discount) {
             return response()->json(['message' => 'Descuento no encontrado'], 404);
         }
-
-        // Guardamos productos antes de eliminar relación
-        $productos = $discount->products;
-
-        $discount->products()->detach(); // muy importante
+        $productos = $discount->products; // Guardamos productos antes de eliminar relación
+        $discount->products()->detach();
         $discount->delete();
 
         // Recalcular para productos afectados
@@ -95,7 +89,7 @@ class DiscountController extends Controller
         return response()->json(['message' => 'Descuento eliminado']);
     }
 
-    // 🔁 Recalcula precio para todos los productos afectados por este descuento
+    // Recalcula precio para todos los productos afectados por este descuento
     private function recalcularPreciosProductos($discount)
     {
         foreach ($discount->products as $product) {
@@ -103,12 +97,11 @@ class DiscountController extends Controller
         }
     }
 
-    // 🧮 Lógica individual para un producto
+    // Lógica individual para un producto
     private function recalcularPrecioProducto(Product $product)
     {
         $precio = $product->precio_base;
         $ahora = Carbon::now();
-
         $descuentosActivos = $product->discounts()
             ->where('activo', true)
             ->where(function ($q) use ($ahora) {

@@ -1,7 +1,6 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-      <!-- Botón volver -->
       <div class="mb-6" data-aos="fade-right" data-aos-delay="100">
         <BackButtonAdmin />
       </div>
@@ -48,7 +47,6 @@ import { ref, onMounted, computed } from 'vue'
 import api from '@/services/api'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-
 import BackButtonAdmin from '@/components/ui/BackButtonAdmin.vue'
 import BudgetContactModal from '@/components/budgets/BudgetContactModal.vue'
 import SectionTable from '@/components/budgets/SectionTable.vue'
@@ -56,7 +54,6 @@ import SectionTable from '@/components/budgets/SectionTable.vue'
 const budgets = ref([])
 const showModal = ref(false)
 const selectedCliente = ref(null)
-
 const pendientes = computed(() => budgets.value.filter((b) => b.estado === 'pendiente'))
 const respondidas = computed(() => budgets.value.filter((b) => b.estado === 'respondido'))
 const rechazadas = computed(() => budgets.value.filter((b) => b.estado === 'rechazado'))

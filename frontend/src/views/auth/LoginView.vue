@@ -77,11 +77,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
-
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
-
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 

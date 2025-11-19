@@ -41,7 +41,6 @@
 
         <!-- Formulario -->
         <form @submit.prevent="enviarMensaje" class="space-y-6">
-          <!-- Presupuesto -->
           <div>
             <div class="flex items-center gap-3 mb-1">
               <span class="text-yellow-500 text-xl">💰</span>

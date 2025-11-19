@@ -1,7 +1,6 @@
 <template>
   <section class="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-6" data-aos="fade-up">
-      <!-- Botón volver -->
       <div class="mb-6" data-aos="fade-right">
         <BackButtonAdmin />
       </div>

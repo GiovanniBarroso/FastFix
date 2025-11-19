@@ -1,7 +1,6 @@
 <template>
   <section class="py-20 bg-[#F8F9FA] dark:bg-[#1E2A38] min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-      <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonUser />
       </div>

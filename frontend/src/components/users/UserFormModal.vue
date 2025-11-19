@@ -1,5 +1,8 @@
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
+  <div
+    v-if="show"
+    class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4"
+  >
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-xl">
       <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {{ isEditing ? '✏️ Editar Usuario' : '➕ Añadir Usuario' }}
@@ -8,7 +11,9 @@
       <form @submit.prevent="handleSubmit" class="space-y-5">
         <!-- Nombre -->
         <div>
-          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Nombre</label>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+            >Nombre</label
+          >
           <input
             v-model="form.nombre"
             type="text"
@@ -19,7 +24,9 @@
 
         <!-- Apellidos -->
         <div>
-          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Apellidos</label>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+            >Apellidos</label
+          >
           <input
             v-model="form.apellidos"
             type="text"
@@ -30,7 +37,9 @@
 
         <!-- Email -->
         <div>
-          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Email</label>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+            >Email</label
+          >
           <input
             v-model="form.email"
             type="email"
@@ -41,7 +50,9 @@
 
         <!-- Teléfono -->
         <div>
-          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Teléfono</label>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+            >Teléfono</label
+          >
           <input
             v-model="form.telefono"
             type="text"
@@ -65,7 +76,9 @@
 
         <!-- Contraseña (solo creación) -->
         <div v-if="!isEditing">
-          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Contraseña</label>
+          <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+            >Contraseña</label
+          >
           <input
             v-model="form.password"
             type="password"
@@ -109,7 +122,7 @@ const form = ref({
   email: '',
   telefono: '',
   password: '',
-  role_id: ''
+  role_id: '',
 })
 
 const isEditing = ref(false)
@@ -124,22 +137,25 @@ const fetchRoles = async () => {
   }
 }
 
-watch(() => props.show, (visible) => {
-  if (visible && props.userToEdit) {
-    form.value = {
-      id: props.userToEdit.id,
-      nombre: props.userToEdit.nombre,
-      apellidos: props.userToEdit.apellidos || '',
-      email: props.userToEdit.email,
-      telefono: props.userToEdit.telefono || '',
-      password: '',
-      role_id: props.userToEdit.role_id ?? props.userToEdit.role?.id ?? ''
+watch(
+  () => props.show,
+  (visible) => {
+    if (visible && props.userToEdit) {
+      form.value = {
+        id: props.userToEdit.id,
+        nombre: props.userToEdit.nombre,
+        apellidos: props.userToEdit.apellidos || '',
+        email: props.userToEdit.email,
+        telefono: props.userToEdit.telefono || '',
+        password: '',
+        role_id: props.userToEdit.role_id ?? props.userToEdit.role?.id ?? '',
+      }
+      isEditing.value = true
+    } else if (visible && !props.userToEdit) {
+      resetForm()
     }
-    isEditing.value = true
-  } else if (visible && !props.userToEdit) {
-    resetForm()
-  }
-})
+  },
+)
 
 const handleSubmit = async () => {
   try {
@@ -149,7 +165,7 @@ const handleSubmit = async () => {
       email: form.value.email,
       telefono: form.value.telefono || '',
       password: form.value.password || undefined,
-      role_id: form.value.role_id
+      role_id: form.value.role_id,
     }
 
     if (isEditing.value) {
@@ -173,7 +189,7 @@ const resetForm = () => {
     email: '',
     telefono: '',
     password: '',
-    role_id: ''
+    role_id: '',
   }
   isEditing.value = false
 }

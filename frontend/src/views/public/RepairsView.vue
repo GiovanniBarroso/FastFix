@@ -1,7 +1,8 @@
 <template>
-  <section class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
+  <section
+    class="py-20 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-800 dark:text-gray-100"
+  >
     <div class="max-w-7xl mx-auto px-6">
-      <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonUser />
       </div>
@@ -12,7 +13,8 @@
           🔧 Servicios de reparación
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Reparamos tus dispositivos de forma rápida, segura y garantizada. Consulta tus solicitudes registradas:
+          Reparamos tus dispositivos de forma rápida, segura y garantizada. Consulta tus solicitudes
+          registradas:
         </p>
       </div>
 
@@ -24,17 +26,18 @@
           @click="toggleDetalle(r.id)"
           class="cursor-pointer bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-xl"
           :class="[
-            r.status === 'pendiente' ? 'border-yellow-500' :
-            r.status === 'en progreso' ? 'border-blue-500' :
-            r.status === 'terminado' ? 'border-green-500' :
-            'border-gray-500',
-            detalleVisible === r.id ? 'shadow-xl scale-[1.02]' : 'scale-100'
+            r.status === 'pendiente'
+              ? 'border-yellow-500'
+              : r.status === 'en progreso'
+                ? 'border-blue-500'
+                : r.status === 'terminado'
+                  ? 'border-green-500'
+                  : 'border-gray-500',
+            detalleVisible === r.id ? 'shadow-xl scale-[1.02]' : 'scale-100',
           ]"
         >
           <div class="flex justify-between items-center mb-2">
-            <h2 class="text-lg font-bold">
-              {{ r.device_type }} - {{ r.name }}
-            </h2>
+            <h2 class="text-lg font-bold">{{ r.device_type }} - {{ r.name }}</h2>
             <span
               class="text-xs font-semibold px-2 py-1 rounded-full capitalize"
               :class="estadoColor(r.status)"
@@ -55,7 +58,9 @@
             >
               <p><strong>Notas:</strong> {{ r.repair_notes || '—' }}</p>
               <p><strong>Garantía:</strong> {{ traducirGarantia(r.garantia) }}</p>
-              <p><strong>Precio:</strong> {{ r.repair_cost ? `€${r.repair_cost}` : 'Pendiente' }}</p>
+              <p>
+                <strong>Precio:</strong> {{ r.repair_cost ? `€${r.repair_cost}` : 'Pendiente' }}
+              </p>
               <p><strong>Recibido:</strong> {{ formatDate(r.received_at) }}</p>
               <p><strong>Entregado:</strong> {{ formatDate(r.delivered_at) || '—' }}</p>
               <p class="text-xs italic text-gray-400">Haz clic para ocultar detalles.</p>
@@ -87,18 +92,22 @@ const formatDate = (fecha) => {
 
 const traducirGarantia = (valor) => {
   switch (valor) {
-    case '3m': return '3 meses'
-    case '6m': return '6 meses'
-    default: return 'Sin garantía'
+    case '3m':
+      return '3 meses'
+    case '6m':
+      return '6 meses'
+    default:
+      return 'Sin garantía'
   }
 }
 
-const estadoColor = (estado) => ({
-  pendiente: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-white',
-  'en progreso': 'bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white',
-  terminado: 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white',
-  entregado: 'bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-white',
-}[estado] || 'bg-gray-100 text-gray-800')
+const estadoColor = (estado) =>
+  ({
+    pendiente: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-white',
+    'en progreso': 'bg-blue-100 text-blue-800 dark:bg-blue-600 dark:text-white',
+    terminado: 'bg-green-100 text-green-800 dark:bg-green-600 dark:text-white',
+    entregado: 'bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-white',
+  })[estado] || 'bg-gray-100 text-gray-800'
 
 const toggleDetalle = (id) => {
   detalleVisible.value = detalleVisible.value === id ? null : id

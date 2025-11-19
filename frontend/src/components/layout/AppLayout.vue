@@ -15,6 +15,6 @@ import Footer from '@/components/layout/Footer.vue'
 import ToastContainer from '@/views/components/ToastContainer.vue'
 
 export default {
-  components: { Navbar, Footer, ToastContainer }
+  components: { Navbar, Footer, ToastContainer },
 }
 </script>

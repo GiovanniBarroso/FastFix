@@ -19,8 +19,8 @@ class Product extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'precio_base',   // 💡 Precio original sin descuento
-        'precio',        // 💰 Precio final (con descuento aplicado)
+        'precio_base',
+        'precio',
         'stock',
         'activo',
         'category_id',

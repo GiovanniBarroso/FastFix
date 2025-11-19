@@ -35,11 +35,11 @@ class ProductSeeder extends Seeder
                 'nombre' => $nombre,
                 'descripcion' => $descripcion,
                 'precio_base' => $precioBase,
-                'precio' => $precioBase, // inicialmente sin descuento
-                'stock' => rand(5, 50),
-                'activo' => rand(0, 1),
-                'brand_id' => $brands->random()->id,
-                'category_id' => $categories->random()->id,
+                'precio' => $precioBase,
+                'stock' => rand(5, 50), //Random para prueba
+                'activo' => rand(0, 1), //Random para prueba
+                'brand_id' => $brands->random()->id, //Random para prueba
+                'category_id' => $categories->random()->id, //Random para prueba
                 'slug' => Str::slug($nombre . '-' . uniqid()),
                 'image' => $imagen,
             ]);

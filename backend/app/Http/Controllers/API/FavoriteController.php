@@ -13,7 +13,7 @@ class FavoriteController extends Controller
         $favorites = Favorite::with('product')
             ->where('user_id', auth()->id())
             ->get()
-            ->filter(fn($fav) => $fav->product) // evitar productos null
+            ->filter(fn($fav) => $fav->product)
             ->map(function ($fav) {
                 return [
                     'id' => $fav->id,
@@ -27,7 +27,6 @@ class FavoriteController extends Controller
                     ]
                 ];
             });
-
         return response()->json(['favorites' => $favorites->values()], 200);
     }
 
@@ -49,7 +48,6 @@ class FavoriteController extends Controller
             'user_id' => auth()->id(),
             'product_id' => $validated['product_id']
         ]);
-
         return response()->json($favorite, 201);
     }
 

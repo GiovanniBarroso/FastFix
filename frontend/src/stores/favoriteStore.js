@@ -1,10 +1,9 @@
-// stores/favoriteStore.js
 import { defineStore } from 'pinia'
 import api from '@/services/api'
 
 export const useFavoriteStore = defineStore('favorite', {
   state: () => ({
-    favorites: []
+    favorites: [],
   }),
   actions: {
     async fetchFavorites() {
@@ -12,10 +11,10 @@ export const useFavoriteStore = defineStore('favorite', {
       this.favorites = res.data.favorites
     },
     isFavorite(productId) {
-      return this.favorites.some(fav => {
+      return this.favorites.some((fav) => {
         const id = fav.product_id ?? fav.product?.id
         return id === productId
       })
-    }
-  }
+    },
+  },
 })

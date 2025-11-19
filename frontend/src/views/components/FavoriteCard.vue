@@ -33,9 +33,7 @@
           <template v-if="favorite.product && favorite.product.precio">
             €{{ parseFloat(favorite.product.precio).toFixed(2) }}
           </template>
-          <template v-else>
-            No disponible
-          </template>
+          <template v-else> No disponible </template>
         </span>
 
         <!-- Botón quitar -->
@@ -56,8 +54,8 @@ import { defineProps, defineEmits } from 'vue'
 const props = defineProps({
   favorite: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
 defineEmits(['removed'])

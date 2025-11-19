@@ -1,22 +1,28 @@
 <template>
   <section class="py-12 bg-[#F8F9FA] dark:bg-[#1E2A38] min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
-      <!-- Botón de volver -->
       <div class="mb-6">
         <BackButtonUser />
       </div>
 
       <!-- Encabezado -->
       <div class="flex justify-between items-center mb-10">
-        <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#5E6C77] animate-glow">
+        <h1
+          class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#5E6C77] animate-glow"
+        >
           🧾 Mis facturas
         </h1>
       </div>
 
       <!-- Tabla de facturas -->
-      <div v-if="filteredInvoices.length" class="overflow-x-auto bg-white dark:bg-[#1E2A38] rounded-2xl shadow-xl animate-fade-up">
+      <div
+        v-if="filteredInvoices.length"
+        class="overflow-x-auto bg-white dark:bg-[#1E2A38] rounded-2xl shadow-xl animate-fade-up"
+      >
         <table class="min-w-full text-sm text-[#1E2A38] dark:text-[#F8F9FA]">
-          <thead class="bg-gradient-to-r from-[#FFBF00] to-[#007BFF] text-[#1E2A38] dark:text-white">
+          <thead
+            class="bg-gradient-to-r from-[#FFBF00] to-[#007BFF] text-[#1E2A38] dark:text-white"
+          >
             <tr>
               <th class="p-4 text-left font-semibold tracking-wide">#</th>
               <th class="p-4 text-left font-semibold tracking-wide">Pedido</th>
@@ -29,16 +35,20 @@
             <tr
               v-for="(invoice, index) in filteredInvoices"
               :key="invoice.id"
-              class="border-t border-[#E5E7EB] dark:border-[#5E6C77] hover:bg-[#F8F9FA] dark:hover:bg-[#2C3E50] transition">
+              class="border-t border-[#E5E7EB] dark:border-[#5E6C77] hover:bg-[#F8F9FA] dark:hover:bg-[#2C3E50] transition"
+            >
               <td class="p-4 font-medium">{{ index + 1 }}</td>
               <td class="p-4">#{{ invoice.order_id }}</td>
               <td class="p-4">{{ formatDate(invoice.created_at) }}</td>
-              <td class="p-4 font-bold text-[#007BFF]">€{{ Number(invoice.order?.total).toFixed(2) }}</td>
+              <td class="p-4 font-bold text-[#007BFF]">
+                €{{ Number(invoice.order?.total).toFixed(2) }}
+              </td>
               <td class="p-4 text-center">
                 <a
                   :href="`http://127.0.0.1:8000/storage/facturas/${invoice.pdf_url}`"
                   target="_blank"
-                  class="bg-[#007BFF] hover:bg-[#005BB5] text-white px-4 py-1 rounded-full text-xs font-semibold shadow transition hover:scale-105">
+                  class="bg-[#007BFF] hover:bg-[#005BB5] text-white px-4 py-1 rounded-full text-xs font-semibold shadow transition hover:scale-105"
+                >
                   📄 Descargar PDF
                 </a>
               </td>
@@ -106,10 +116,14 @@ onMounted(fetchInvoices)
 
 @keyframes glow {
   0% {
-    text-shadow: 0 0 5px rgba(0, 123, 255, 0.4), 0 0 10px rgba(0, 123, 255, 0.3);
+    text-shadow:
+      0 0 5px rgba(0, 123, 255, 0.4),
+      0 0 10px rgba(0, 123, 255, 0.3);
   }
   100% {
-    text-shadow: 0 0 12px rgba(255, 191, 0, 0.5), 0 0 20px rgba(255, 191, 0, 0.4);
+    text-shadow:
+      0 0 12px rgba(255, 191, 0, 0.5),
+      0 0 20px rgba(255, 191, 0, 0.4);
   }
 }
 .animate-glow {

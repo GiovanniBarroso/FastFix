@@ -9,13 +9,13 @@ use App\Models\Address;
 
 class AddressController extends Controller
 {
-    // ✅ Ver todas las direcciones del usuario
+    // Ver todas las direcciones del usuario
     public function index()
     {
         return Address::where('user_id', Auth::id())->get();
     }
 
-    // ✅ Crear una nueva dirección
+    // Crear una nueva dirección
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,15 +32,13 @@ class AddressController extends Controller
             ...$validated,
             'user_id' => Auth::id()
         ]);
-
         return response()->json(['message' => 'Dirección añadida', 'data' => $address], 201);
     }
 
-    // ✅ Actualizar dirección
+    // Actalizar dirección
     public function update(Request $request, $id)
     {
         $address = Address::where('id', $id)->where('user_id', Auth::id())->first();
-
         if (!$address) {
             return response()->json(['message' => 'Dirección no encontrada'], 404);
         }
@@ -56,21 +54,18 @@ class AddressController extends Controller
         ]);
 
         $address->update($validated);
-
         return response()->json(['message' => 'Dirección actualizada', 'data' => $address]);
     }
 
-    // ✅ Eliminar dirección
+    // Eliminar dirección
     public function destroy($id)
     {
         $address = Address::where('id', $id)->where('user_id', Auth::id())->first();
-
         if (!$address) {
             return response()->json(['message' => 'Dirección no encontrada'], 404);
         }
 
         $address->delete();
-
         return response()->json(['message' => 'Dirección eliminada']);
     }
 }

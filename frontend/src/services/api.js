@@ -1,4 +1,3 @@
-// src/services/api.js
 import axios from 'axios'
 
 const api = axios.create({
@@ -8,7 +7,7 @@ const api = axios.create({
   },
 })
 
-// 👉 Añadir token a cada request
+// Añadir token a cada request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
@@ -20,7 +19,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-// 👉 Manejar errores globales (como 401)
+// Manejar errores globales (como 401)
 api.interceptors.response.use(
   (response) => response,
   (error) => {

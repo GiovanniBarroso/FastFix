@@ -1,11 +1,15 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 px-4">
+  <div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 px-4"
+  >
     <div
       class="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-8 border border-gray-200 dark:border-gray-700"
       data-aos="fade-up"
       data-aos-duration="700"
     >
-      <h1 class="text-3xl font-extrabold text-center mb-4 bg-gradient-to-r from-red-500 to-yellow-400 text-transparent bg-clip-text animate-glow">
+      <h1
+        class="text-3xl font-extrabold text-center mb-4 bg-gradient-to-r from-red-500 to-yellow-400 text-transparent bg-clip-text animate-glow"
+      >
         🔒 Confirmar contraseña
       </h1>
 
@@ -53,7 +57,7 @@ const confirmPassword = async () => {
 
   try {
     await api.post('/user/confirm-password', {
-      password: password.value
+      password: password.value,
     })
 
     localStorage.setItem('passwordConfirmed', 'true')
@@ -65,12 +69,17 @@ const confirmPassword = async () => {
   }
 }
 </script>
-<style>@keyframes glow {
+<style>
+@keyframes glow {
   0% {
-    text-shadow: 0 0 5px rgba(255, 99, 71, 0.4), 0 0 10px rgba(255, 165, 0, 0.3);
+    text-shadow:
+      0 0 5px rgba(255, 99, 71, 0.4),
+      0 0 10px rgba(255, 165, 0, 0.3);
   }
   100% {
-    text-shadow: 0 0 15px rgba(255, 99, 71, 0.6), 0 0 30px rgba(255, 165, 0, 0.4);
+    text-shadow:
+      0 0 15px rgba(255, 99, 71, 0.6),
+      0 0 30px rgba(255, 165, 0, 0.4);
   }
 }
 .animate-glow {

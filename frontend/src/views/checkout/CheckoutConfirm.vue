@@ -161,10 +161,7 @@ const pagarConPayPal = async () => {
     const approvalUrl = response.data.links.find((link) => link.rel === 'approve')?.href
 
     if (approvalUrl) {
-      // ✅ Guarda el ID del pedido antes de redirigir
       localStorage.setItem('lastOrderId', orderId.value)
-
-      // ✅ Redirige a PayPal
       window.location.href = approvalUrl
     } else {
       alert('No se pudo iniciar el pago con PayPal')

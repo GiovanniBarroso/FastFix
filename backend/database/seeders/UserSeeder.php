@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
                 'email' => strtolower($nombre) . '.' . strtolower($apellido) . '@fastfix.com',
                 'telefono' => '61111' . str_pad($i + 1, 3, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password'),
-                'role_id' => 2, // Cliente
+                'role_id' => 2,
                 'email_verified_at' => now(),
                 'fecha_registro' => now()->subDays(rand(1, 90)),
             ]);

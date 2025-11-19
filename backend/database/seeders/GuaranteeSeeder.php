@@ -21,11 +21,11 @@ class GuaranteeSeeder extends Seeder
 
         foreach ($repairs as $i => $repair) {
             $startDate = Carbon::now()->subMonths($i);
-            $endDate = $startDate->copy()->addMonths(6); // Garantía de 6 meses
+            $endDate = $startDate->copy()->addMonths(6);
 
             Guarantee::create([
                 'user_id' => $user->id,
-                'repair_id' => $repair->id, // ✅ ya no se usa product_id
+                'repair_id' => $repair->id,
                 'fecha_inicio' => $startDate->toDateString(),
                 'fecha_fin' => $endDate->toDateString(),
             ]);

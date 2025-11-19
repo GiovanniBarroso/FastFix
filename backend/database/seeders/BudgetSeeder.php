@@ -30,7 +30,7 @@ class BudgetSeeder extends Seeder
                     'mensaje' => $mensaje,
                     'estado' => $estado,
                     'respuesta_admin' => $estado === 'respondido' ? 'Claro, el coste estimado sería entre 80€ y 120€, dependiendo del diagnóstico final.' : null,
-                    'presupuesto_estimado' => $estado === 'respondido' ? rand(60, 150) : null,
+                    'presupuesto_estimado' => $estado === 'respondido' ? rand(60, 150) : null, 
                     'fecha_respuesta' => $estado === 'respondido' ? now()->subDays(rand(0, 5)) : null,
                 ]);
             }

@@ -1,6 +1,11 @@
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md flex items-center justify-center px-4">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 w-full max-w-lg overflow-y-auto max-h-[95vh]">
+  <div
+    v-if="show"
+    class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md flex items-center justify-center px-4"
+  >
+    <div
+      class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 w-full max-w-lg overflow-y-auto max-h-[95vh]"
+    >
       <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white flex items-center gap-2">
         {{ isEditing ? '✏️ Editar Descuento' : '➕ Crear Descuento' }}
       </h2>
@@ -8,7 +13,9 @@
       <form @submit.prevent="guardar" class="space-y-5">
         <!-- Código -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Código</label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Código</label
+          >
           <input
             v-model="form.codigo"
             type="text"
@@ -19,7 +26,9 @@
 
         <!-- Descripción -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Descripción</label
+          >
           <input
             v-model="form.descripcion"
             type="text"
@@ -29,7 +38,9 @@
 
         <!-- Tipo -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo</label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Tipo</label
+          >
           <select
             v-model="form.tipo"
             required
@@ -42,7 +53,9 @@
 
         <!-- Valor -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Valor</label>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Valor</label
+          >
           <input
             v-model="form.valor"
             type="number"
@@ -56,7 +69,9 @@
         <!-- Fechas -->
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Inicio</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Inicio</label
+            >
             <input
               v-model="form.inicio"
               type="date"
@@ -65,7 +80,9 @@
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fin</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Fin</label
+            >
             <input
               v-model="form.fin"
               type="date"
@@ -77,8 +94,12 @@
 
         <!-- Productos -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Productos</label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto border rounded p-2 bg-white dark:bg-gray-700">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >Productos</label
+          >
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto border rounded p-2 bg-white dark:bg-gray-700"
+          >
             <label
               v-for="p in productos"
               :key="p.id"
@@ -136,7 +157,7 @@ import api from '@/services/api'
 
 const props = defineProps({
   show: Boolean,
-  discount: Object
+  discount: Object,
 })
 
 const emit = defineEmits(['close', 'refresh', 'saved'])
@@ -153,7 +174,7 @@ const form = ref({
   inicio: '',
   fin: '',
   activo: true,
-  product_ids: []
+  product_ids: [],
 })
 
 const resetForm = () => {
@@ -165,7 +186,7 @@ const resetForm = () => {
     inicio: '',
     fin: '',
     activo: true,
-    product_ids: []
+    product_ids: [],
   }
 }
 
@@ -178,22 +199,26 @@ const cargarProductos = async () => {
   }
 }
 
-watch(() => props.discount, (nuevo) => {
-  if (nuevo) {
-    form.value = {
-      codigo: nuevo.codigo || '',
-      descripcion: nuevo.descripcion || '',
-      tipo: nuevo.tipo || 'porcentaje',
-      valor: nuevo.valor || 0,
-      inicio: nuevo.inicio?.substring(0, 10) || '',
-      fin: nuevo.fin?.substring(0, 10) || '',
-      activo: Boolean(nuevo.activo), // 👈 forzar a booleano
-      product_ids: nuevo.products?.map(p => p.id) || []
+watch(
+  () => props.discount,
+  (nuevo) => {
+    if (nuevo) {
+      form.value = {
+        codigo: nuevo.codigo || '',
+        descripcion: nuevo.descripcion || '',
+        tipo: nuevo.tipo || 'porcentaje',
+        valor: nuevo.valor || 0,
+        inicio: nuevo.inicio?.substring(0, 10) || '',
+        fin: nuevo.fin?.substring(0, 10) || '',
+        activo: Boolean(nuevo.activo),
+        product_ids: nuevo.products?.map((p) => p.id) || [],
+      }
+    } else {
+      resetForm()
     }
-  } else {
-    resetForm()
-  }
-}, { immediate: true })
+  },
+  { immediate: true },
+)
 
 const guardar = async () => {
   try {

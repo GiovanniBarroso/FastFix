@@ -56,6 +56,8 @@ Route::get('/paypal/success', [PayPalController::class, 'captureOrder']);
 
 //Contact us
 Route::post('/contact', [ContactController::class, 'send']);
+
+
 //
 // ───────────────────────────────────────────────
 // 🔐 RUTAS PROTEGIDAS (Requieren JWT)
@@ -109,7 +111,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/invoices/{id}/download', [InvoiceController::class, 'download']);
     Route::get('/invoices/{id}/generate-pdf', [InvoiceController::class, 'generatePdf']);
 
-
     // 📍 Dirección
     Route::get('/addresses', [AddressController::class, 'index']);
     Route::post('/addresses', [AddressController::class, 'store']);
@@ -145,7 +146,4 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/paypal/create-payment', [PaypalController::class, 'create']);
     Route::post('/paypal/capture-payment', [PaypalController::class, 'capture']);
     Route::post('/paypal/create-order', [PaypalController::class, 'createOrder']);
-
-
-
 });

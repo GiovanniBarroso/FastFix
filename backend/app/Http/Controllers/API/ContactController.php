@@ -23,9 +23,9 @@ class ContactController extends Controller
         }
 
         try {
-           Mail::to('soporte.fastfix1@gmail.com')->send(new ContactFormMail($request->all()));
-
+            Mail::to('soporte.fastfix1@gmail.com')->send(new ContactFormMail($request->all()));
             return response()->json(['message' => 'Mensaje enviado correctamente.']);
+
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error al enviar el correo.', 'error' => $e->getMessage()], 500);
         }

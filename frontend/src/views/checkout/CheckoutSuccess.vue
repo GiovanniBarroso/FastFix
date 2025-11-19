@@ -44,9 +44,7 @@ const abrirFactura = () => {
 onMounted(() => {
   cartStore.clearCart()
   localStorage.removeItem('cart')
-
-  // Obtener ID del pedido desde localStorage o query param
-  const orderId = localStorage.getItem('lastOrderId') // ⚠️ asegúrate de guardarlo antes del pago
+  const orderId = localStorage.getItem('lastOrderId')
 
   if (orderId) {
     facturaUrl.value = `/storage/facturas/factura_${orderId}.pdf`

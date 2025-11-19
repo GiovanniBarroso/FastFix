@@ -13,11 +13,10 @@ use Carbon\Carbon;
 
 class OrderController extends Controller
 {
-    // ✅ Obtener pedidos del usuario o todos si es admin
+    // Obtener pedidos del usuario o todos si es admin
     public function index()
     {
         $user = Auth::user();
-
         if ($user->role?->nombre === 'admin') {
             $orders = Order::with(['products', 'user', 'address', 'invoice'])->latest()->get();
         } else {
@@ -26,26 +25,21 @@ class OrderController extends Controller
                 ->latest()
                 ->get();
         }
-
-
         return response()->json($orders);
     }
 
-    // ✅ Crear pedido desde el carrito de sesión
+    // Crear pedido desde el carrito de sesión
     public function store(Request $request)
     {
         $cartKey = 'cart_' . Auth::id();
         $cart = $request->input('productos', []);
-
         if (empty($cart)) {
             return response()->json(['error' => 'El carrito está vacío'], 400);
         }
-
         DB::beginTransaction();
 
         try {
             $total = array_sum(array_map(fn($item) => $item['precio'] * $item['cantidad'], $cart));
-
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'estado' => 'pendiente',
@@ -84,17 +78,14 @@ class OrderController extends Controller
         }
     }
 
-    // ✅ Ver un pedido específico
+    // Ver un pedido específico
     public function show($id)
     {
         $user = Auth::user();
-
         $order = Order::with(['products', 'user', 'address', 'invoice'])->find($id);
-
         if (!$order || ($user->role_id !== 1 && $order->user_id !== $user->id)) {
             return response()->json(['message' => 'Pedido no autorizado o no encontrado'], 403);
         }
-
         return response()->json($order);
     }
 }

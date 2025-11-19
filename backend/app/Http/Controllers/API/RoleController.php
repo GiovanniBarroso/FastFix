@@ -8,9 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
 {
-    /**
-     * Devuelve todos los roles disponibles.
-     */
     public function index(): JsonResponse
     {
         $roles = Role::all();

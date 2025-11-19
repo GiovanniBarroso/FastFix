@@ -39,7 +39,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed', // Solo si usas Laravel 10+
+            'password' => 'hashed',
         ];
     }
 
@@ -70,11 +70,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(Favorite::class);
     }
 
-    public function cart()
-    {
-        return $this->hasOne(Shoppingcart::class);
-    }
-
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -96,8 +91,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     public function budgets()
-    {   
-    return $this->hasMany(Budget::class);
+    {
+        return $this->hasMany(Budget::class);
     }
 
 

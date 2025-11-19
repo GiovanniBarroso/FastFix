@@ -1,4 +1,3 @@
-// src/stores/authStore.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 

@@ -34,7 +34,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth:api' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class, // 👈 Este es clave
+        'auth:api' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
     ];

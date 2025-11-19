@@ -12,11 +12,11 @@
 defineProps({
   to: {
     type: String,
-    default: '/admin'
+    default: '/admin',
   },
   label: {
     type: String,
-    default: 'Volver al panel'
-  }
+    default: 'Volver al panel',
+  },
 })
 </script>

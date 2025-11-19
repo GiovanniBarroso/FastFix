@@ -1,11 +1,17 @@
 <template>
-  <footer class="bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 pt-14 pb-10">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 border-b border-gray-800 pb-10">
+  <footer
+    class="bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 pt-14 pb-10"
+  >
+    <div
+      class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 border-b border-gray-800 pb-10"
+    >
       <!-- Marca y descripción -->
       <div class="space-y-3" data-aos="fade-up">
         <div class="flex items-center gap-3">
           <img src="/logoFastFix.png" alt="FastFix logo" class="w-10 h-10 rounded-full shadow-lg" />
-          <h2 class="text-3xl font-black bg-gradient-to-r from-red-500 to-yellow-400 text-transparent bg-clip-text tracking-tight">
+          <h2
+            class="text-3xl font-black bg-gradient-to-r from-red-500 to-yellow-400 text-transparent bg-clip-text tracking-tight"
+          >
             FastFix
           </h2>
         </div>
@@ -19,10 +25,24 @@
       <div class="space-y-3" data-aos="fade-up" data-aos-delay="100">
         <h3 class="text-lg font-semibold text-white">Navegación</h3>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><router-link to="/about" class="hover:text-red-400 transition">Sobre nosotros</router-link></li>
-          <li><router-link to="/contact" class="hover:text-red-400 transition">Contacto</router-link></li>
-          <li><button @click="showTermsModal = true" class="hover:text-red-400 transition">Términos y condiciones</button></li>
-          <li><button @click="showPrivacyModal = true" class="hover:text-red-400 transition">Política de privacidad</button></li>
+          <li>
+            <router-link to="/about" class="hover:text-red-400 transition"
+              >Sobre nosotros</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/contact" class="hover:text-red-400 transition">Contacto</router-link>
+          </li>
+          <li>
+            <button @click="showTermsModal = true" class="hover:text-red-400 transition">
+              Términos y condiciones
+            </button>
+          </li>
+          <li>
+            <button @click="showPrivacyModal = true" class="hover:text-red-400 transition">
+              Política de privacidad
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -71,7 +91,9 @@
     </div>
 
     <!-- Footer inferior -->
-    <div class="text-center text-xs text-gray-500 pt-6 border-t border-gray-800 mt-10 animate-fade-in">
+    <div
+      class="text-center text-xs text-gray-500 pt-6 border-t border-gray-800 mt-10 animate-fade-in"
+    >
       © {{ currentYear }} FastFix. Todos los derechos reservados.
     </div>
 

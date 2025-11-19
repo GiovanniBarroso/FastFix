@@ -9,9 +9,7 @@ return new class extends Migration {
     {
         Schema::create('repairs', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-
             $table->enum('device_type', ['Móvil', 'Ordenador', 'Tablet', 'Consola']);
             $table->string('nombre');
             $table->text('problem_description');
@@ -22,7 +20,6 @@ return new class extends Migration {
             $table->decimal('repair_cost', 10, 2)->nullable();
             $table->dateTime('received_at')->nullable();
             $table->dateTime('delivered_at')->nullable();
-
             $table->timestamps();
         });
     }

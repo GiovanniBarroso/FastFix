@@ -129,8 +129,6 @@ import api from '@/services/api'
 import FormField from '@/views/components/FormField.vue'
 import BaseButton from '@/views/components/BaseButton.vue'
 import AlertMessage from '@/views/components/AlertMessage.vue'
-
-// Animación AOS
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 onMounted(() => {

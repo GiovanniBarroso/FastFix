@@ -1,5 +1,8 @@
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4">
+  <div
+    v-if="show"
+    class="fixed inset-0 z-50 bg-black/30 backdrop-blur-md backdrop-saturate-150 flex items-center justify-center px-4"
+  >
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-2xl">
       <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
         {{ isEditing ? '✏️ Editar Reparación' : '➕ Añadir Reparación' }}
@@ -8,8 +11,14 @@
       <form @submit.prevent="handleSubmit" class="space-y-5">
         <!-- Cliente -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cliente</label>
-          <select v-model="form.user_id" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Cliente</label
+          >
+          <select
+            v-model="form.user_id"
+            required
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          >
             <option disabled value="">Selecciona un cliente</option>
             <option v-for="usuario in users" :key="usuario.id" :value="usuario.id">
               {{ usuario.nombre }} ({{ usuario.email }})
@@ -19,8 +28,14 @@
 
         <!-- Tipo de dispositivo -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de dispositivo</label>
-          <select v-model="form.device_type" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Tipo de dispositivo</label
+          >
+          <select
+            v-model="form.device_type"
+            required
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          >
             <option disabled value="">Selecciona tipo</option>
             <option value="Móvil">Móvil</option>
             <option value="Ordenador">Ordenador</option>
@@ -31,27 +46,54 @@
 
         <!-- Nombre del dispositivo -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del dispositivo</label>
-          <input v-model="form.nombre" type="text" required placeholder="Ej: iPhone 11, Galaxy Tab S6..." class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Nombre del dispositivo</label
+          >
+          <input
+            v-model="form.nombre"
+            type="text"
+            required
+            placeholder="Ej: iPhone 11, Galaxy Tab S6..."
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
         </div>
 
         <!-- Problema -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción del problema</label>
-          <textarea v-model="form.problem_description" required rows="3" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Descripción del problema</label
+          >
+          <textarea
+            v-model="form.problem_description"
+            required
+            rows="3"
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          ></textarea>
         </div>
 
         <!-- Notas -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notas internas (opcional)</label>
-          <textarea v-model="form.repair_notes" rows="2" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Notas internas (opcional)</label
+          >
+          <textarea
+            v-model="form.repair_notes"
+            rows="2"
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          ></textarea>
         </div>
 
         <!-- Estado y Garantía -->
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Estado</label>
-            <select v-model="form.status" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Estado</label
+            >
+            <select
+              v-model="form.status"
+              required
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            >
               <option value="pendiente">Pendiente</option>
               <option value="en progreso">En progreso</option>
               <option value="terminado">Terminado</option>
@@ -60,8 +102,14 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Garantía</label>
-            <select v-model="form.garantia" required class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Garantía</label
+            >
+            <select
+              v-model="form.garantia"
+              required
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            >
               <option value="sin">Sin garantía</option>
               <option value="3m">3 meses</option>
               <option value="6m">6 meses</option>
@@ -72,26 +120,55 @@
         <!-- Coste y fechas -->
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Costo de reparación (€)</label>
-            <input v-model="form.repair_cost" required type="number" step="0.01" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Costo de reparación (€)</label
+            >
+            <input
+              v-model="form.repair_cost"
+              required
+              type="number"
+              step="0.01"
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de recepción</label>
-            <input v-model="form.received_at" required type="date" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              >Fecha de recepción</label
+            >
+            <input
+              v-model="form.received_at"
+              required
+              type="date"
+              class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            />
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de entrega</label>
-          <input v-model="form.delivered_at" required type="date" class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Fecha de entrega</label
+          >
+          <input
+            v-model="form.delivered_at"
+            required
+            type="date"
+            class="w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          />
         </div>
 
         <!-- Botones -->
         <div class="flex justify-end gap-4 pt-6">
-          <button type="button" @click="close" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold">
+          <button
+            type="button"
+            @click="close"
+            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-semibold"
+          >
             Cancelar
           </button>
-          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold">
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold"
+          >
             {{ isEditing ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>
@@ -118,7 +195,7 @@ const form = ref({
   garantia: 'sin',
   repair_cost: null,
   received_at: '',
-  delivered_at: ''
+  delivered_at: '',
 })
 
 const users = ref([])
@@ -147,16 +224,14 @@ watch(
       form.value = {
         ...props.repairToEdit,
         received_at: formatFecha(props.repairToEdit.received_at),
-        delivered_at: formatFecha(props.repairToEdit.delivered_at)
+        delivered_at: formatFecha(props.repairToEdit.delivered_at),
       }
       isEditing.value = true
     } else if (visible) {
       resetForm()
     }
-  }
+  },
 )
-
-
 
 const handleSubmit = async () => {
   try {
@@ -188,7 +263,7 @@ const resetForm = () => {
     garantia: 'sin',
     repair_cost: null,
     received_at: '',
-    delivered_at: ''
+    delivered_at: '',
   }
   isEditing.value = false
 }

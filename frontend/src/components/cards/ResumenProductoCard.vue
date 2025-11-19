@@ -18,7 +18,9 @@
         </h3>
         <p v-if="!compacto" class="text-sm text-gray-600 dark:text-gray-300">
           Precio unitario:
-          <span class="font-semibold text-gray-900 dark:text-white">€{{ formatPrice(precio) }}</span>
+          <span class="font-semibold text-gray-900 dark:text-white"
+            >€{{ formatPrice(precio) }}</span
+          >
         </p>
       </div>
     </div>

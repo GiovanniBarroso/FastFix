@@ -11,7 +11,6 @@ class RepairController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         if ($user->role_id === 1) {
             return Repair::with('user')->get();
         }
@@ -35,7 +34,6 @@ class RepairController extends Controller
             'received_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
         ]);
-
         return Repair::create($data);
     }
 
@@ -60,7 +58,6 @@ class RepairController extends Controller
         ]);
 
         $repair->update($data);
-
         return $repair;
     }
 

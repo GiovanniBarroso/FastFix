@@ -115,7 +115,7 @@ const enviarPresupuesto = async () => {
       mensaje: form.value.mensaje,
     })
 
-    await notificationStore.fetchNotifications() // 🔔 Actualiza la campana
+    await notificationStore.fetchNotifications()
 
     mensajeEnviado.value = true
     form.value.mensaje = ''

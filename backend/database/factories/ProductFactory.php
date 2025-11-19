@@ -22,8 +22,8 @@ class ProductFactory extends Factory
             'precio' => $this->faker->randomFloat(2, 10, 300),
             'stock' => $this->faker->numberBetween(0, 100),
             'activo' => $this->faker->boolean(90),
-            'slug' => Str::slug($nombre . '-' . uniqid()), // 🔥 relacionado con el nombre y único
-            'image' => null, // o genera una imagen de prueba si quieres
+            'slug' => Str::slug($nombre . '-' . uniqid()),
+            'image' => null,
             'brand_id' => Brand::factory(),
             'category_id' => Category::factory(),
         ];

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
 use App\Models\CartItem;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -44,9 +43,7 @@ class PayPalController extends Controller
     public function createOrder(Request $request)
     {
         $order = Order::findOrFail($request->order_id);
-
         $accessToken = $this->getAccessToken();
-
         $payload = [
             'intent' => 'CAPTURE',
             'purchase_units' => [
@@ -67,7 +64,6 @@ class PayPalController extends Controller
         $response = Http::withToken($accessToken)
             ->post("{$this->baseUrl}/v2/checkout/orders", $payload);
 
-        // 🚨 Agrega esto para ver todo
         logger()->error('📤 Payload enviado a PayPal:', $payload);
         logger()->error('📥 Respuesta de PayPal:', $response->json());
 
@@ -78,7 +74,6 @@ class PayPalController extends Controller
                 'paypal_response' => $response->json()
             ], $response->status());
         }
-
         return response()->json($response->json());
     }
 
@@ -87,20 +82,15 @@ class PayPalController extends Controller
     {
         $orderId = $request->query('order_id');
         $paypalOrderId = $request->query('token');
-
         $accessToken = $this->getAccessToken();
-
         logger()->info('🔁 Capturando orden PayPal', [
             'order_id' => $orderId,
             'paypal_order_id' => $paypalOrderId,
         ]);
-
         $response = Http::withToken($accessToken)
-            ->withBody('', 'application/json') // ✅ No enviar body vacío
+            ->withBody('', 'application/json')
             ->post("{$this->baseUrl}/v2/checkout/orders/{$paypalOrderId}/capture");
-
         $data = $response->json();
-
         logger()->info('📥 Resultado de captura', $data);
 
         if (isset($data['status']) && $data['status'] === 'COMPLETED') {
@@ -114,41 +104,35 @@ class PayPalController extends Controller
                 'fecha_pago' => Carbon::now()
             ]);
 
-            // ✅ Vaciar carrito por user_id del pedido
+            // Vaciar carrito por user_id del pedido
             if ($order->user_id) {
                 CartItem::where('user_id', $order->user_id)->delete();
             }
 
-            // ✅ Comprobamos si ya tiene factura
+            // Comprobamos si ya tiene factura
             if (!$order->invoice) {
                 $numeroFactura = 'INV-' . str_pad($order->id, 4, '0', STR_PAD_LEFT);
 
                 // Crear la factura
                 $invoice = Invoice::create([
                     'order_id' => $order->id,
-                    'user_id' => $order->user_id, // ⚠️ Añade esto
+                    'user_id' => $order->user_id,
                     'fecha_emision' => now(),
                     'numero_factura' => $numeroFactura,
                     'pdf_url' => '',
                 ]);
-
 
                 // Generar el PDF
                 $pdf = Pdf::loadView('invoices/pdf', compact('invoice'));
                 $filename = 'factura_' . $order->id . '.pdf';
                 $path = 'facturas/' . $filename;
                 Storage::disk('public')->put($path, $pdf->output());
-                // Guardar URL en la factura
-                $invoice->update(['pdf_url' => $filename]);
-
+                $invoice->update(['pdf_url' => $filename]);// Guardar URL en la factura
                 logger()->info('📄 Factura generada y PDF guardado', ['factura' => $filename]);
             }
 
-
-
             return response()->view('redirect', ['url' => env('FRONTEND_URL') . '/checkout/success']);
         }
-
         return response()->view('redirect', ['url' => env('FRONTEND_URL') . '/checkout/error']);
     }
 }

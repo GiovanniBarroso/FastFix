@@ -11,10 +11,10 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre', 100);
             $table->text('description')->nullable();
-            $table->boolean('activo')->default(true); // 👈 añadido
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
-        
+
     }
 
     public function down()

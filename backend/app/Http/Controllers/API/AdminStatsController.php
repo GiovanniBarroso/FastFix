@@ -13,7 +13,6 @@ class AdminStatsController extends Controller
     public function index()
     {
         $hoy = Carbon::today();
-
         $pedidosHoy = Order::whereDate('fecha_pedido', $hoy)->count();
         $ventasHoy = Order::whereDate('fecha_pedido', $hoy)->sum('total');
         $presupuestosPendientes = Budget::where('estado', 'pendiente')->count();

@@ -12,11 +12,8 @@ return new class extends Migration {
             $table->string('nombre');
             $table->string('slug')->unique();
             $table->text('descripcion')->nullable();
-
-            // 🔁 Precios
-            $table->decimal('precio_base', 8, 2); // Precio original
-            $table->decimal('precio', 8, 2);      // Precio final (con descuento aplicado)
-
+            $table->decimal('precio_base', 8, 2);
+            $table->decimal('precio', 8, 2);
             $table->integer('stock');
             $table->boolean('activo')->default(true);
             $table->string('image')->nullable();

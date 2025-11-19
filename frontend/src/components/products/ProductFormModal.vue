@@ -218,7 +218,7 @@ const handleSubmit = async () => {
     const data = new FormData()
     data.append('nombre', form.value.nombre)
     data.append('descripcion', form.value.descripcion)
-    data.append('precio', form.value.precio_base) // Solo se envía el precio base
+    data.append('precio', form.value.precio_base)
     data.append('stock', form.value.stock)
     data.append('category_id', form.value.category_id)
     data.append('brand_id', form.value.brand_id)

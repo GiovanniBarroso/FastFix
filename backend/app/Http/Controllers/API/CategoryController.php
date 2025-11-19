@@ -20,7 +20,6 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
             'activo' => 'required|boolean'
         ]);
-
         $category = Category::create($validated);
         return response()->json($category, 201);
     }

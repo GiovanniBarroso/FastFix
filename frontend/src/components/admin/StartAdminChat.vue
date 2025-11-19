@@ -1,16 +1,14 @@
 <template>
   <div class="fixed bottom-6 right-6 z-50">
-
     <!-- Botón para abrir el chat -->
     <button
-    v-if="!visible"
-    @click="visible = true"
-    class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg text-xl cursor-pointer"
-    aria-label="Abrir chat"
+      v-if="!visible"
+      @click="visible = true"
+      class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg text-xl cursor-pointer"
+      aria-label="Abrir chat"
     >
-    🤖
+      🤖
     </button>
-
 
     <!-- Chat flotante -->
     <div
@@ -18,28 +16,29 @@
       class="w-80 bg-white dark:bg-gray-900 shadow-xl rounded-xl overflow-hidden flex flex-col border border-gray-200 dark:border-gray-700"
     >
       <!-- Cabecera con botón cerrar -->
-      <div class="p-4 bg-blue-600 text-white font-semibold text-sm flex justify-between items-center">
+      <div
+        class="p-4 bg-blue-600 text-white font-semibold text-sm flex justify-between items-center"
+      >
         🤖 Pregúntale al sistema
-        <button @click="visible = false" class="text-white text-lg cursor-pointer">
-            ⬇️
-        </button>
+        <button @click="visible = false" class="text-white text-lg cursor-pointer">⬇️</button>
       </div>
-
 
       <!-- Chat -->
       <div
         ref="chatBox"
         class="flex-1 px-4 py-3 space-y-3 overflow-y-auto text-sm bg-white dark:bg-gray-900"
-        style="max-height: 300px;"
+        style="max-height: 300px"
       >
         <div
           v-for="(msg, i) in messages"
           :key="i"
           class="animate-chat"
-          :class="msg.tipo === 'usuario'
-            ? 'self-end bg-blue-600 text-white rounded-tl-2xl rounded-bl-2xl ml-auto'
-            : 'self-start bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-tr-2xl rounded-br-2xl mr-auto'"
-          style="max-width: 75%; padding: 0.6rem 1rem;"
+          :class="
+            msg.tipo === 'usuario'
+              ? 'self-end bg-blue-600 text-white rounded-tl-2xl rounded-bl-2xl ml-auto'
+              : 'self-start bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-tr-2xl rounded-br-2xl mr-auto'
+          "
+          style="max-width: 75%; padding: 0.6rem 1rem"
         >
           {{ msg.texto }}
         </div>
@@ -49,7 +48,9 @@
       </div>
 
       <!-- Sugerencias -->
-      <div class="px-3 py-2 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-wrap gap-2 text-xs">
+      <div
+        class="px-3 py-2 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-wrap gap-2 text-xs"
+      >
         <button
           v-for="sugerencia in sugerencias"
           :key="sugerencia"
@@ -87,10 +88,9 @@ const sugerencias = [
   'Pedidos de hoy',
   'Presupuestos pendientes',
   'Usuarios registrados',
-  'Ventas de hoy'
+  'Ventas de hoy',
 ]
 
-// Cargar historial si existe
 onMounted(() => {
   const guardados = localStorage.getItem('chat_historial_admin')
   if (guardados) messages.value = JSON.parse(guardados)
@@ -123,18 +123,19 @@ const handleQuery = async () => {
   scrollToBottom()
 
   isTyping.value = true
-  await new Promise(resolve => setTimeout(resolve, 500)) // Simula escribiendo...
+  await new Promise((resolve) => setTimeout(resolve, 500))
 
   try {
     const query = q.toLowerCase()
-    let respuesta = '🤖 No entendí. Prueba con: "Pedidos de hoy", "Presupuestos pendientes", "Usuarios registrados"...'
+    let respuesta =
+      '🤖 No entendí. Prueba con: "Pedidos de hoy", "Presupuestos pendientes", "Usuarios registrados"...'
 
     if (query.includes('pedido')) {
       const res = await api.get('/admin/stats')
       respuesta = `📦 Hoy se han registrado ${res.data.pedidos} pedidos.`
     } else if (query.includes('presupuesto')) {
       const res = await api.get('/budgets')
-      const pendientes = res.data.filter(b => b.estado === 'pendiente').length
+      const pendientes = res.data.filter((b) => b.estado === 'pendiente').length
       respuesta = `📝 Hay ${pendientes} presupuestos pendientes.`
     } else if (query.includes('usuario')) {
       const res = await api.get('/admin/stats')
@@ -143,7 +144,6 @@ const handleQuery = async () => {
       const res = await api.get('/admin/stats')
       const totalVentas = Number(res.data.ventas || 0)
       respuesta = `💰 Las ventas de hoy suman un total de €${totalVentas.toFixed(2)}.`
-
     }
 
     isTyping.value = false

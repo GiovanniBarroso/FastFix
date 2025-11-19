@@ -20,14 +20,13 @@ class BudgetController extends Controller
         ]);
 
         $user = auth()->user();
-
         $budget = Budget::create([
             'user_id' => $user->id,
             'mensaje' => $validated['mensaje'],
             'estado' => $validated['estado'] ?? 'pendiente'
         ]);
 
-        // ✅ Crear notificación para admin
+        // Crear notificación para admin
         Notification::create([
             'title' => 'Nueva solicitud de presupuesto',
             'message' => "El usuario \"{$user->nombre}\" ha enviado una solicitud de presupuesto.",
@@ -42,7 +41,6 @@ class BudgetController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         if ($user->role_id === 1) {
             // Admin: ver todos
             return Budget::with('user')->orderByDesc('created_at')->get();
@@ -54,23 +52,20 @@ class BudgetController extends Controller
             ->get();
     }
 
-    // Vista admin - ver uno
+    // Vista admin
     public function show($id)
     {
         $budget = Budget::with('user')->find($id);
-
         if (!$budget) {
             return response()->json(['message' => 'Presupuesto no encontrado'], 404);
         }
-
         return response()->json($budget);
     }
 
-    // ✅ Responder al cliente por email y actualizar campos
+    // Responder al cliente por email y actualizar campos
     public function reply(Request $request, $id)
     {
         $budget = Budget::with('user')->find($id);
-
         if (!$budget || !$budget->user) {
             return response()->json(['message' => 'Presupuesto o usuario no encontrado'], 404);
         }
@@ -93,15 +88,13 @@ class BudgetController extends Controller
             'estado' => 'respondido',
             'fecha_respuesta' => now(),
         ]);
-
         return response()->json(['message' => 'Respuesta enviada y guardada correctamente.']);
     }
 
-    // ✅ Actualizar estado
+    // Actualizar estado
     public function update(Request $request, $id)
     {
         $budget = Budget::find($id);
-
         if (!$budget) {
             return response()->json(['message' => 'Presupuesto no encontrado'], 404);
         }
@@ -113,7 +106,6 @@ class BudgetController extends Controller
         ]);
 
         $budget->update($validated);
-
         return response()->json(['message' => 'Presupuesto actualizado correctamente.']);
     }
 }

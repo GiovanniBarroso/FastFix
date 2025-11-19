@@ -130,6 +130,7 @@ import api from '@/services/api'
 import StartAdminChat from '@/components/admin/StartAdminChat.vue'
 
 const router = useRouter()
+const unreadCount = ref(0)
 
 const stats = ref({
   pedidos: 0,
@@ -137,8 +138,6 @@ const stats = ref({
   ventas: 0,
   usuarios: 0,
 })
-
-const unreadCount = ref(0)
 
 onMounted(async () => {
   try {
